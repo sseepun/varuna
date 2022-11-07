@@ -1,0 +1,13 @@
+
+sequelize init
+
+
+### Sequelize Migration ###
+sequelize db:migrate
+sequelize db:migrate:undo:all
+
+
+### Sequelize Seeder ###
+sequelize seed:generate --name init-data
+sequelize db:seed:all
+sequelize db:seed:undo:all
