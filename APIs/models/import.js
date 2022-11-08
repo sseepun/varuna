@@ -3,6 +3,8 @@ const { sequelize } = require('../connection');
 
 
 // Models
+const Setting = require('./setting.model')(sequelize, DataTypes);
+
 const UserRole = require('./user-role.model')(sequelize, DataTypes);
 const User = require('./user.model')(sequelize, DataTypes);
 const UserTemp = require('./user-temp.model')(sequelize, DataTypes);
@@ -28,6 +30,7 @@ MapLayerMapping.belongsTo(MapData);
 
 
 module.exports = {
+  Setting: Setting,
   UserRole: UserRole,
   User: User,
   UserTemp: UserTemp,

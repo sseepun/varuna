@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 // Routes
+require('./routes/app.routes')(app);
 require('./routes/frontend.routes')(app);
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);

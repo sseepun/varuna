@@ -48,106 +48,109 @@ function Header(props) {
     }
   }, [location.pathname]);
 
-	useEffect(async () => {
-    let temp = [];
-    let u = new UserModel(props.user);
-    if(u.isSignedIn()){
-      let permissions = await props.userPermission();
-      if(u.isAdmin()){
-        temp = [
-          {
-            title: 'Admin',
-            activeIndexes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-            children: [
-              { title: 'Dashboard', to: '/admin', activeIndex: 1, icon: 'fa-solid fa-chart-simple' },
-              { title: 'Admins', to: '/admin/admins', activeIndex: 2, icon: 'fa-solid fa-users' },
-              { title: 'Sales Managers', to: '/admin/sales-managers', activeIndex: 3, icon: 'fa-solid fa-people-group' },
-              { title: 'Shipping Statuses', to: '/admin/shipping-statuses', activeIndex: 4, icon: 'fa-solid fa-truck-ramp-box' },
-            ]
-          }, {
-            title: 'Partner',
-            activeIndexes: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
-            children: [
-              { title: 'Partners', to: '/admin/partners', activeIndex: 21, icon: 'fa-solid fa-users' },
-              { title: 'Partner Shops', to: '/admin/partner-shops', activeIndex: 22, icon: 'fa-solid fa-shop' },
-              { title: 'Product Categories', to: '/admin/partner-product-categories', activeIndex: 23, icon: 'fa-solid fa-box' },
-              { title: 'Product Brands', to: '/admin/partner-product-brands', activeIndex: 24, icon: 'fa-solid fa-star' },
-              { title: 'Products', to: '/admin/partner-products', activeIndex: 25, icon: 'fa-solid fa-basket-shopping' },
-              { title: 'Product Coupons', to: '/admin/partner-product-coupons', activeIndex: 26, icon: 'fa-solid fa-tags' },
-              { title: 'Shipping Methods', to: '/admin/partner-shippings', activeIndex: 27, icon: 'fa-solid fa-truck-ramp-box' },
-              { title: 'Shipping Coupons', to: '/admin/partner-shipping-coupons', activeIndex: 28, icon: 'fa-solid fa-tags' },
-            ]
-          }, {
-            title: 'Customer',
-            activeIndexes: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
-            children: [
-              { title: 'Customer Tiers', to: '/admin/customer-tiers', activeIndex: 41, icon: 'fa-solid fa-crown' },
-              { title: 'Customers', to: '/admin/customers', activeIndex: 42, icon: 'fa-solid fa-users' },
-              { title: 'Guest Accounts', to: '/admin/customer-guests', activeIndex: 46, icon: 'fa-solid fa-users' },
-              { title: 'Orders', to: '/admin/customer-orders', activeIndex: 43, icon: 'fa-solid fa-credit-card' },
-              { title: 'Messages', to: '/admin/customer-messages', activeIndex: 44, icon: 'fa-solid fa-message' },
-              { title: 'Notifications', to: '/admin/customer-notifications', activeIndex: 45, icon: 'fa-solid fa-bullhorn' }
-            ]
-          }, {
-            title: 'Seller',
-            activeIndexes: [61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80],
-            children: [
-              { title: 'Seller Shop Types', to: '/admin/seller-shop-types', activeIndex: 61, icon: 'fa-solid fa-crown' },
-              { title: 'Seller Shops', to: '/admin/seller-shops', activeIndex: 63, icon: 'fa-solid fa-shop' },
-            ]
-          }, {
-            title: 'Business Report',
-            activeIndexes: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110],
-            children: []
-          }, {
-            title: 'Content Management',
-            activeIndexes: [111, 112, 113, 114, 115, 116, 117, 118, 119, 120],
-            children: [
-              { title: 'Content Categories', to: '/admin/cms-content-categories', activeIndex: 111, icon: 'fa-solid fa-layer-group' },
-              { title: 'Contents', to: '/admin/cms-contents', activeIndex: 112, icon: 'fa-solid fa-book-open' },
-              { title: 'Banners', to: '/admin/cms-banners', activeIndex: 113, icon: 'fa-solid fa-star' },
-              { title: 'Popups', to: '/admin/cms-popups', activeIndex: 114, icon: 'fa-solid fa-clipboard' },
-            ]
+	useEffect(() => {
+    async function onFetch() {
+      let temp = [];
+      let u = new UserModel(props.user);
+      if(u.isSignedIn()){
+        let permissions = await props.userPermission();
+        if(u.isAdmin()){
+          temp = [
+            {
+              title: 'Admin',
+              activeIndexes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+              children: [
+                { title: 'Dashboard', to: '/admin', activeIndex: 1, icon: 'fa-solid fa-chart-simple' },
+                { title: 'Admins', to: '/admin/admins', activeIndex: 2, icon: 'fa-solid fa-users' },
+                { title: 'Sales Managers', to: '/admin/sales-managers', activeIndex: 3, icon: 'fa-solid fa-people-group' },
+                { title: 'Shipping Statuses', to: '/admin/shipping-statuses', activeIndex: 4, icon: 'fa-solid fa-truck-ramp-box' },
+              ]
+            }, {
+              title: 'Partner',
+              activeIndexes: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
+              children: [
+                { title: 'Partners', to: '/admin/partners', activeIndex: 21, icon: 'fa-solid fa-users' },
+                { title: 'Partner Shops', to: '/admin/partner-shops', activeIndex: 22, icon: 'fa-solid fa-shop' },
+                { title: 'Product Categories', to: '/admin/partner-product-categories', activeIndex: 23, icon: 'fa-solid fa-box' },
+                { title: 'Product Brands', to: '/admin/partner-product-brands', activeIndex: 24, icon: 'fa-solid fa-star' },
+                { title: 'Products', to: '/admin/partner-products', activeIndex: 25, icon: 'fa-solid fa-basket-shopping' },
+                { title: 'Product Coupons', to: '/admin/partner-product-coupons', activeIndex: 26, icon: 'fa-solid fa-tags' },
+                { title: 'Shipping Methods', to: '/admin/partner-shippings', activeIndex: 27, icon: 'fa-solid fa-truck-ramp-box' },
+                { title: 'Shipping Coupons', to: '/admin/partner-shipping-coupons', activeIndex: 28, icon: 'fa-solid fa-tags' },
+              ]
+            }, {
+              title: 'Customer',
+              activeIndexes: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
+              children: [
+                { title: 'Customer Tiers', to: '/admin/customer-tiers', activeIndex: 41, icon: 'fa-solid fa-crown' },
+                { title: 'Customers', to: '/admin/customers', activeIndex: 42, icon: 'fa-solid fa-users' },
+                { title: 'Guest Accounts', to: '/admin/customer-guests', activeIndex: 46, icon: 'fa-solid fa-users' },
+                { title: 'Orders', to: '/admin/customer-orders', activeIndex: 43, icon: 'fa-solid fa-credit-card' },
+                { title: 'Messages', to: '/admin/customer-messages', activeIndex: 44, icon: 'fa-solid fa-message' },
+                { title: 'Notifications', to: '/admin/customer-notifications', activeIndex: 45, icon: 'fa-solid fa-bullhorn' }
+              ]
+            }, {
+              title: 'Seller',
+              activeIndexes: [61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80],
+              children: [
+                { title: 'Seller Shop Types', to: '/admin/seller-shop-types', activeIndex: 61, icon: 'fa-solid fa-crown' },
+                { title: 'Seller Shops', to: '/admin/seller-shops', activeIndex: 63, icon: 'fa-solid fa-shop' },
+              ]
+            }, {
+              title: 'Business Report',
+              activeIndexes: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110],
+              children: []
+            }, {
+              title: 'Content Management',
+              activeIndexes: [111, 112, 113, 114, 115, 116, 117, 118, 119, 120],
+              children: [
+                { title: 'Content Categories', to: '/admin/cms-content-categories', activeIndex: 111, icon: 'fa-solid fa-layer-group' },
+                { title: 'Contents', to: '/admin/cms-contents', activeIndex: 112, icon: 'fa-solid fa-book-open' },
+                { title: 'Banners', to: '/admin/cms-banners', activeIndex: 113, icon: 'fa-solid fa-star' },
+                { title: 'Popups', to: '/admin/cms-popups', activeIndex: 114, icon: 'fa-solid fa-clipboard' },
+              ]
+            }
+          ];
+          if(u.isSuperAdmin()){
+            temp[0]['children'].push({ title: 'Settings', to: '/admin/settings', activeIndex: 5, icon: 'fa-solid fa-gear' });
+            temp[1]['children'].push({ title: 'Settings', to: '/admin/partner-settings', activeIndex: 29, icon: 'fa-solid fa-gear' });
+            temp[5]['children'].push({ title: 'Settings', to: '/admin/cms-settings', activeIndex: 115, icon: 'fa-solid fa-gear' });
           }
-        ];
-        if(u.isSuperAdmin()){
-          temp[0]['children'].push({ title: 'Settings', to: '/admin/settings', activeIndex: 5, icon: 'fa-solid fa-gear' });
-          temp[1]['children'].push({ title: 'Settings', to: '/admin/partner-settings', activeIndex: 29, icon: 'fa-solid fa-gear' });
-          temp[5]['children'].push({ title: 'Settings', to: '/admin/cms-settings', activeIndex: 115, icon: 'fa-solid fa-gear' });
+          [{
+            title: 'Partner Shops', to: '/admin/report-partner-shops',
+            activeIndex: 101, icon: 'fa-solid fa-chart-column',
+            value: 'report_partner_shops'
+          }, {
+            title: 'Partner Commissions', to: '/admin/report-partner-commissions',
+            activeIndex: 102, icon: 'fa-solid fa-chart-column',
+            value: 'report_partner_commissions'
+          }, {
+            title: 'Partner Coupons', to: '/admin/report-partner-coupons',
+            activeIndex: 103, icon: 'fa-solid fa-chart-column',
+            value: 'report_partner_coupons'
+          }, {
+            title: 'Customer Orders', to: '/admin/report-customer-orders',
+            activeIndex: 104, icon: 'fa-solid fa-chart-column',
+            value: 'report_customer_orders'
+          }, {
+            title: 'Customer Settlements', to: '/admin/report-customer-settlements',
+            activeIndex: 105, icon: 'fa-solid fa-chart-column',
+            value: 'report_customer_settlements'
+          }].forEach(d => {
+            if(u.isSuperAdmin()) temp[4]['children'].push(d);
+            else{
+              let t = permissions.filter(k => k.read === 1 && k.type === 'C2U' && k.value === d.value);
+              if(t.length) temp[4]['children'].push(d);
+            }
+          });
+        }else if(u.isUser()){
+          
         }
-        [{
-          title: 'Partner Shops', to: '/admin/report-partner-shops',
-          activeIndex: 101, icon: 'fa-solid fa-chart-column',
-          value: 'report_partner_shops'
-        }, {
-          title: 'Partner Commissions', to: '/admin/report-partner-commissions',
-          activeIndex: 102, icon: 'fa-solid fa-chart-column',
-          value: 'report_partner_commissions'
-        }, {
-          title: 'Partner Coupons', to: '/admin/report-partner-coupons',
-          activeIndex: 103, icon: 'fa-solid fa-chart-column',
-          value: 'report_partner_coupons'
-        }, {
-          title: 'Customer Orders', to: '/admin/report-customer-orders',
-          activeIndex: 104, icon: 'fa-solid fa-chart-column',
-          value: 'report_customer_orders'
-        }, {
-          title: 'Customer Settlements', to: '/admin/report-customer-settlements',
-          activeIndex: 105, icon: 'fa-solid fa-chart-column',
-          value: 'report_customer_settlements'
-        }].forEach(d => {
-          if(u.isSuperAdmin()) temp[4]['children'].push(d);
-          else{
-            let t = permissions.filter(k => k.read === 1 && k.type === 'C2U' && k.value === d.value);
-            if(t.length) temp[4]['children'].push(d);
-          }
-        });
-      }else if(u.isUser()){
-        
       }
-    }
-    setMenu(temp);
-    setMenuToggle(temp.map(() => false));
+      setMenu(temp);
+      setMenuToggle(temp.map(() => false));
+    };
+    onFetch();
   }, [props.user]);
   /* eslint-enable */
 
