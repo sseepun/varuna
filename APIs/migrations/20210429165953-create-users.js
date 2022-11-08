@@ -17,11 +17,6 @@ module.exports = {
         type: Sequelize.INTEGER
       },
 
-      refId: {
-        allowNull: true,
-        type: Sequelize.STRING,
-        defaultValue: ''
-      },
       userRoleId: {
         allowNull: true,
         type: Sequelize.INTEGER,
@@ -30,6 +25,15 @@ module.exports = {
         onDelete: 'SET NULL'
       },
 
+      username: {
+        type: Sequelize.STRING(127),
+        allowNull: false,
+        unique: true,
+        validate: {
+          notEmpty: { msg: 'Username is required.' },
+          unique: { msg: 'Username must be unique.' }
+        }
+      },
       email: {
         type: Sequelize.STRING(127),
         allowNull: false,
@@ -47,21 +51,6 @@ module.exports = {
         }
       },
 
-      telephone: {
-        allowNull: true,
-        type: Sequelize.STRING(63),
-        defaultValue: ''
-      },
-      username: {
-        allowNull: true,
-        type: Sequelize.STRING(127),
-        defaultValue: ''
-      },
-      avatar: {
-        allowNull: true,
-        type: Sequelize.TEXT,
-      },
-
       firstname: {
         allowNull: true,
         type: Sequelize.STRING(63),
@@ -71,6 +60,16 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING(63),
         defaultValue: ''
+      },
+      telephone: {
+        allowNull: true,
+        type: Sequelize.STRING(63),
+        defaultValue: ''
+      },
+      
+      avatar: {
+        allowNull: true,
+        type: Sequelize.TEXT,
       },
 
       fcmToken: {

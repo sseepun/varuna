@@ -8,7 +8,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('robot_feature_mappings', {
+    await queryInterface.createTable('map_layer_mappings', {
       _id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,19 +16,25 @@ module.exports = {
         type: Sequelize.INTEGER
       },
 
-      robotId: {
+      mapLayerId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'robots', key: '_id' },
+        references: { model: 'map_layers', key: '_id' },
         onUpdate: 'NO ACTION',
         onDelete: 'CASCADE'
       },
-      robotFeatureId: {
+      mapDataId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'robot_features', key: '_id' },
+        references: { model: 'map_datas', key: '_id' },
         onUpdate: 'NO ACTION',
         onDelete: 'CASCADE'
+      },
+      
+      data: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: ''
       },
 
       status: {
@@ -46,6 +52,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('robot_feature_mappings');
+    await queryInterface.dropTable('map_layer_mappings');
   }
 };

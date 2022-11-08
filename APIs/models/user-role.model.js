@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     _id: { type: DataTypes.INTEGER, primaryKey: true },
     name: { type: DataTypes.STRING, allowNull: false },
     level: { type: DataTypes.INTEGER, allowNull: false },
+    isDefault: { type: DataTypes.INTEGER, allowNull: false },
   }, {
     sequelize,
     modelName: 'user_roles',

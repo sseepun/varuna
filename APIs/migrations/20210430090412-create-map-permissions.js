@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('robot_contacts', {
+    await queryInterface.createTable('map_permissions', {
       _id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,10 +9,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
 
-      robotId: {
+      mapDataId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'robots', key: '_id' },
+        references: { model: 'map_datas', key: '_id' },
         onUpdate: 'NO ACTION',
         onDelete: 'CASCADE'
       },
@@ -22,6 +22,23 @@ module.exports = {
         references: { model: 'users', key: '_id' },
         onUpdate: 'NO ACTION',
         onDelete: 'CASCADE'
+      },
+      
+      create: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
+      read: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
+      update: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
+      delete: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
 
       createdAt: {
@@ -35,6 +52,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('robot_contacts');
+    await queryInterface.dropTable('map_permissions');
   }
 };

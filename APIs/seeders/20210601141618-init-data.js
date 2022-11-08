@@ -9,10 +9,11 @@ module.exports = {
     let salt = await bcrypt.genSalt(10);
     let bcryptPassword = await bcrypt.hash('aaaa1!', salt);
     await queryInterface
-      .bulkInsert('user_roles', [{ name: 'User', level: 1 }], { returning: ['_id'] })
+      .bulkInsert('user_roles', [{ name: 'User', level: 1, isDefault: 1 }], { returning: ['_id'] })
       .then((roleId) => {
         queryInterface.bulkInsert('users', [{
           userRoleId: roleId,
+          username: 'User',
           email: 'user@gmail.com',
           password: bcryptPassword,
           firstname: 'General',
@@ -21,10 +22,11 @@ module.exports = {
         }]);
       });
     await queryInterface
-      .bulkInsert('user_roles', [{ name: 'Admin', level: 98 }], { returning: ['_id'] })
+      .bulkInsert('user_roles', [{ name: 'Admin', level: 98, isDefault: 0 }], { returning: ['_id'] })
       .then((roleId) => {
         queryInterface.bulkInsert('users', [{
           userRoleId: roleId,
+          username: 'Admin',
           email: 'admin@gmail.com',
           password: bcryptPassword,
           firstname: 'General',
@@ -33,10 +35,11 @@ module.exports = {
         }]);
       });
     await queryInterface
-      .bulkInsert('user_roles', [{ name: 'SuperAdmin', level: 99 }], { returning: ['_id'] })
+      .bulkInsert('user_roles', [{ name: 'SuperAdmin', level: 99, isDefault: 0 }], { returning: ['_id'] })
       .then((roleId) => {
         queryInterface.bulkInsert('users', [{
           userRoleId: roleId,
+          username: 'SuperAdmin',
           email: 'sadmin@gmail.com',
           password: bcryptPassword,
           firstname: 'Super',
@@ -45,37 +48,14 @@ module.exports = {
         }]);
         queryInterface.bulkInsert('users', [{
           userRoleId: roleId,
+          username: 'sseepun',
           email: 'sseepun@gmail.com',
           password: bcryptPassword,
           firstname: 'Sarun',
           lastname: 'Seepun',
           status: 1
         }]);
-        queryInterface.bulkInsert('users', [{
-          userRoleId: roleId,
-          email: 'ball@gmail.com',
-          password: bcryptPassword,
-          firstname: 'Ball',
-          lastname: 'Tawat',
-          status: 1
-        }]);
       });
-
-    // Robot Room Type
-
-    // Robot Feature
-    await queryInterface.bulkInsert('robot_features', [{
-      code: '1',
-      name: 'Temperature',
-    }], { returning: ['_id'] });
-    await queryInterface.bulkInsert('robot_features', [{
-      code: '2',
-      name: 'Moisture',
-    }], { returning: ['_id'] });
-    await queryInterface.bulkInsert('robot_features', [{
-      code: '3',
-      name: 'Light Intensity',
-    }], { returning: ['_id'] });
 
   },
 

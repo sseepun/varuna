@@ -2,23 +2,23 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Robot extends Model {
+  class MapLayer extends Model {
 
   };
-  Robot.init({
+  MapLayer.init({
     _id: { type: DataTypes.INTEGER, primaryKey: true },
-    
-    refId: { type: DataTypes.STRING },
-    model: { type: DataTypes.STRING },
-    secretId: { type: DataTypes.STRING },
-    serialNumber: { type: DataTypes.STRING },
 
     name: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.STRING },
+    
+    image: { type: DataTypes.STRING },
+    icon: { type: DataTypes.STRING },
+    
+    status: { type: DataTypes.INTEGER, allowNull: false },
   }, {
     sequelize,
-    modelName: 'users',
+    modelName: 'map_layers',
     underscored: false,
   });
-  return Robot;
+  return MapLayer;
 };

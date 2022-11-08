@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('robots', {
+    await queryInterface.createTable('map_locations', {
       _id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,52 +9,29 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       
-      refId: {
-        allowNull: true,
-        type: Sequelize.STRING,
-        defaultValue: ''
-      },
-      model: {
-        allowNull: true,
-        type: Sequelize.STRING,
-        defaultValue: ''
-      },
-      secretId: {
-        allowNull: true,
-        type: Sequelize.STRING,
-        defaultValue: ''
-      },
-      serialNumber: {
-        allowNull: true,
-        type: Sequelize.STRING,
-        defaultValue: ''
-      },
-
-      robotRoomTypeId: {
-        allowNull: true,
-        type: Sequelize.INTEGER,
-        references: { model: 'robot_room_types', key: '_id' },
-        onUpdate: 'NO ACTION',
-        onDelete: 'SET NULL'
-      },
-      ownerId: {
-        allowNull: true,
-        type: Sequelize.INTEGER,
-        references: { model: 'users', key: '_id' },
-        onUpdate: 'NO ACTION',
-        onDelete: 'SET NULL'
-      },
-      
-      name: {
-        type: Sequelize.STRING(127),
-        allowNull: false,
-        validate: {
-          notEmpty: { msg: 'Name is required.' },
-        }
-      },
-      description: {
+      address: {
         allowNull: true,
         type: Sequelize.TEXT,
+        defaultValue: ''
+      },
+      subdistrict: {
+        allowNull: true,
+        type: Sequelize.STRING,
+        defaultValue: ''
+      },
+      district: {
+        allowNull: true,
+        type: Sequelize.STRING,
+        defaultValue: ''
+      },
+      zipcode: {
+        allowNull: true,
+        type: Sequelize.STRING,
+        defaultValue: ''
+      },
+      country: {
+        allowNull: true,
+        type: Sequelize.STRING,
         defaultValue: ''
       },
 
@@ -69,6 +46,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('robots');
+    await queryInterface.dropTable('map_locations');
   }
 };

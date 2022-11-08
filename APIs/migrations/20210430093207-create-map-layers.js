@@ -1,22 +1,17 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('robot_room_types', {
+    await queryInterface.createTable('map_layers', {
       _id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      
+
       name: {
-        type: Sequelize.STRING(127),
+        type: Sequelize.STRING(255),
         allowNull: false,
-        unique: true,
-        validate: {
-          notEmpty: { msg: 'Name is required.' },
-          unique: { msg: 'Name must be unique.' }
-        }
       },
       description: {
         allowNull: true,
@@ -33,6 +28,10 @@ module.exports = {
         type: Sequelize.TEXT
       },
 
+      status: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
       createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
@@ -44,6 +43,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('robot_room_types');
+    await queryInterface.dropTable('map_layers');
   }
 };
