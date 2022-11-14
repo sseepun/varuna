@@ -18,9 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     
     data: { type: DataTypes.STRING },
     
-    startAt: { type: DataTypes.DATE },
-    endAt: { type: DataTypes.DATE },
-    
     status: { type: DataTypes.INTEGER, allowNull: false },
   }, {
     sequelize,

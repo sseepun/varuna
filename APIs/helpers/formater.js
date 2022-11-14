@@ -13,6 +13,9 @@ const formater = {
   cleanTelephone: (val) => {
     return val.replaceAll('-', '').replaceAll(' ', '');
   },
+  cleanKeyword: (val) => {
+    return `${val}`.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  },
 
   cleanFile: (val) => {
     if(!val) return null;

@@ -17,7 +17,7 @@ function AdminsPage(props) {
 
   const tableRef = useRef(null);
 
-  const [dataFilter, setDataFilter] = useState({ keywords: '', status: '', onlyAdmin: 1 });
+  const [dataFilter, setDataFilter] = useState({ keywords: '', status: '', levels: [98, 99] });
   const onChangeDataFilter = (key, val, isNumber=false) => {
     if(isNumber) val = val || val===0? Number(val): '';
     setDataFilter({ ...dataFilter, [key]: val });

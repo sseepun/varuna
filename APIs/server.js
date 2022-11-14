@@ -34,7 +34,7 @@ require('./routes/app.routes')(app);
 require('./routes/frontend.routes')(app);
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
-// require('./routes/admin.routes')(app);
+require('./routes/admin.routes')(app);
 
 
 // Set port listening for requests

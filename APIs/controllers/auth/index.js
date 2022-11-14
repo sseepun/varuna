@@ -1,5 +1,6 @@
 const config = require('../../config');
 const db = require('../../models/import');
+const { Op } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { resProcess, formater } = require('../../helpers');
@@ -90,13 +91,16 @@ module.exports = {
   signin : async (req, res) => {
     try {
       var error = {};
-      const { email, password } = req.body;
+      const { username, password } = req.body;
 
-      if(!email) error['email'] = 'email is required.';
+      if(!username) error['username'] = 'username is required.';
       if(!password) error['password'] = 'password is required.';
       if(Object.keys(error).length) return resProcess['checkError'](res, error);
 
-      const user = await db.User.findOne({ where: { email: email }, include: [ db.UserRole ] });
+      const user = await db.User.findOne({
+        where: { [Op.or]: [{ username: username }, { email: username }] },
+        include: [ db.UserRole ]
+      });
       if(!user){
         error['username'] = 'Account associated with your credential is not found.';
         return resProcess['checkError'](res, error);
@@ -130,15 +134,14 @@ module.exports = {
         refreshToken: refreshToken,
         user: {
           _id: user._id,
-          refId: user.refId,
-          email: user.email,
+          role: user.user_role,
           username: user.username,
-          telephone: user.telephone,
-          avatar: formater.cleanFile(user.avatar),
+          email: user.email,
           firstname: user.firstname,
           lastname: user.lastname,
+          telephone: user.telephone,
+          avatar: formater.cleanFile(user.avatar),
           status: user.status,
-          role: user.user_role,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
         }
@@ -187,15 +190,14 @@ module.exports = {
           refreshToken: newRefreshToken,
           user: {
             _id: user._id,
-            refId: user.refId,
-            email: user.email,
+            role: user.user_role,
             username: user.username,
-            telephone: user.telephone,
-            avatar: formater.cleanFile(user.avatar),
+            email: user.email,
             firstname: user.firstname,
             lastname: user.lastname,
+            telephone: user.telephone,
+            avatar: formater.cleanFile(user.avatar),
             status: user.status,
-            role: user.user_role,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
           }
@@ -209,24 +211,15 @@ module.exports = {
   checkDuplicate : async (req, res) => {
     try {
       var error = {};
-      const { email, refId } = req.body;
+      const { email } = req.body;
       
-      if(!email && !refId) error['email'] = 'email or refId is required.';
+      if(!email) error['email'] = 'email is required.';
       if(Object.keys(error).length) return resProcess['checkError'](res, error);
 
-      if(email){
-        const duplicateEmail = await db.User
-          .findOne({ where: { email: email }, attributes: [ '_id' ] });
-        if(duplicateEmail){
-          return resProcess['200'](res, true, 'email is already in use.');
-        }
-      }
-      if(refId){
-        const duplicateRefId = await db.User
-          .findOne({ where: { refId: refId }, attributes: [ '_id' ] });
-        if(duplicateRefId){
-          return resProcess['200'](res, true, 'refId is already in use.');
-        }
+      const duplicateEmail = await db.User
+        .findOne({ where: { email: email }, attributes: [ '_id' ] });
+      if(duplicateEmail){
+        return resProcess['200'](res, true, 'email is already in use.');
       }
 
       return resProcess['200'](res, false, 'No duplicate.');

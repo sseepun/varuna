@@ -36,6 +36,15 @@ module.exports = {
         type: Sequelize.TEXT,
         defaultValue: ''
       },
+      
+      startAt: {
+        type: Sequelize.DATE,
+        defaultValue: null,
+      },
+      endAt: {
+        type: Sequelize.DATE,
+        defaultValue: null,
+      },
 
       status: {
         type: Sequelize.INTEGER,
