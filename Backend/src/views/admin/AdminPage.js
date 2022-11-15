@@ -6,14 +6,13 @@ import Breadcrumb from '../../components/Breadcrumb';
 import Footer from '../../components/Footer';
 import AvatarUploader from '../../components/AvatarUploader';
 import PasswordValidator from '../../components/PasswordValidator';
-import Select from 'react-select';
 
 import { connect } from 'react-redux';
 import { setSidenavActiveIndex } from '../../actions/app.actions';
 import {
   processClear, processCreate, processRead, processUpdate
 } from '../../actions/admin.actions';
-import { UserModel, AddressModel } from '../../models';
+import { UserModel } from '../../models';
 
 
 function AdminPage(props) {
@@ -32,26 +31,6 @@ function AdminPage(props) {
     onChangeInput(key, val);
   };
 
-  const [address, setAddress] = useState(new AddressModel({}));
-  const onChangeInputAddress = (key, val, selector=false) => {
-    if(selector && val) val = val.value;
-    if(key === 'province'){
-      setAddress(new AddressModel({
-        ...address, province: val, district: null, subdistrict: null, zipcode: null
-      }));
-    }else if(key === 'district'){
-      setAddress(new AddressModel({
-        ...address, district: val, subdistrict: null, zipcode: null
-      }));
-    }else if(key === 'subdistrict'){
-      setAddress(new AddressModel({
-        ...address, subdistrict: val, zipcode: null
-      }));
-    }else{
-      setAddress(new AddressModel({ ...address, [key]: val }));
-    }
-  };
-
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -59,12 +38,12 @@ function AdminPage(props) {
     e.preventDefault();
     if(process === 'create'){
       let res = await props.processCreate('user',  {
-        ...values, address: address, roleLevel: 98,
+        ...values, roleLevel: 98,
         password: password, confirmPassword: confirmPassword
       }, true);
       if(res) history(`/admin/admins`);
     }else if(process === 'update'){
-      let updateInput = { ...values, address: address };
+      let updateInput = { ...values };
       if(password) updateInput['password'] = password;
       if(confirmPassword) updateInput['confirmPassword'] = confirmPassword;
       await props.processUpdate('user', updateInput, true).then(() => {
@@ -83,7 +62,6 @@ function AdminPage(props) {
       if(['view', 'update'].indexOf(process) > -1){
         props.processRead('user', { _id: dataId, isAdmin: 1 }, true).then(d => {
           setValues(d);
-          setAddress(d.address);
         }).catch(() => history('/admin/admins'));
       }
     }
@@ -150,6 +128,16 @@ function AdminPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
+                  <label>เบอร์โทรศัพท์</label>
+                  <input
+                    type="text" disabled={process==='view'} 
+                    value={values.telephone? values.telephone: ''} 
+                    onChange={e => onChangeInput('telephone', e.target.value)} 
+                  />
+                </div>
+              </div>
+              <div className="grid sm-50 md-50 lg-40 xl-1-3">
+                <div className="form-control">
                   <label>สถานะ <span className="color-danger">*</span></label>
                   <select 
                     disabled={process==='view'} required={true} 
@@ -208,95 +196,6 @@ function AdminPage(props) {
               </div>
             </div>
           ): (<></>)}
-          <div className="app-card-block">
-            <p className="lg fw-800">ข้อมูลติดต่อ</p>
-            <div className="ss-sep-01 mt-3"></div>
-            <div className="grids">
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>เบอร์โทรศัพท์</label>
-                  <input
-                    type="text" disabled={process==='view'} 
-                    value={address.telephone? address.telephone: ''} 
-                    onChange={e => onChangeInputAddress('telephone', e.target.value)} 
-                  />
-                </div>
-              </div>
-              <div className="sep"></div>
-              <div className="grid sm-100 md-100 lg-80 xl-2-3">
-                <div className="form-control">
-                  <label>ที่อยู่</label>
-                  <textarea
-                    type="text" disabled={process==='view'} rows={2} 
-                    value={address.address? address.address: ''} 
-                    onChange={e => onChangeInputAddress('address', e.target.value)} 
-                  ></textarea>
-                </div>
-              </div>
-              <div className="sep"></div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>จังหวัด</label>
-                  <Select 
-                    className={`select-multi ${process === 'view'? 'disabled': ''}`} 
-                    isMulti={false} placeholder="" 
-                    isDisabled={process === 'view'} isClearable={true} 
-                    options={address.provinces().map(d => {
-                      return { value: d.nameTH, label: d.nameTH };
-                    })} 
-                    value={address.province? { value: address.province, label: address.province }: ''} 
-                    onChange={val => onChangeInputAddress('province', val, true)} 
-                  />
-                </div>
-              </div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>{address.prefixDistrict()}</label>
-                  <Select 
-                    className={`select-multi ${process === 'view'? 'disabled': ''}`} 
-                    isMulti={false} placeholder="" 
-                    isDisabled={process === 'view'} isClearable={true} 
-                    options={address.districts().map(d => {
-                      return { value: d.nameTH, label: d.nameTH };
-                    })} 
-                    value={address.district? { value: address.district, label: address.district }: ''} 
-                    onChange={val => onChangeInputAddress('district', val, true)} 
-                  />
-                </div>
-              </div>
-              <div className="sep"></div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>{address.prefixSubdistrict()}</label>
-                  <Select 
-                    className={`select-multi ${process === 'view'? 'disabled': ''}`} 
-                    isMulti={false} placeholder="" 
-                    isDisabled={process === 'view'} isClearable={true} 
-                    options={address.subdistricts().map(d => {
-                      return { value: d.nameTH, label: d.nameTH };
-                    })} 
-                    value={address.subdistrict? { value: address.subdistrict, label: address.subdistrict }: ''} 
-                    onChange={val => onChangeInputAddress('subdistrict', val, true)} 
-                  />
-                </div>
-              </div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>รหัสไปรษณีย์</label>
-                  <Select 
-                    className={`select-multi ${process === 'view'? 'disabled': ''}`} 
-                    isMulti={false} placeholder="" 
-                    isDisabled={process === 'view'} isClearable={true} 
-                    options={address.zipcodes().map(d => {
-                      return { value: d.zipcode, label: d.zipcode };
-                    })} 
-                    value={address.zipcode? { value: address.zipcode, label: address.zipcode }: ''} 
-                    onChange={val => onChangeInputAddress('zipcode', val, true)} 
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
           <div className="app-card-block border-top-1 bcolor-fgray pt-0">
             <div className="btns">
               {['create', 'update'].indexOf(process) > -1? (

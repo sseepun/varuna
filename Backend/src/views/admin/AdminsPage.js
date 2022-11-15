@@ -13,6 +13,7 @@ import { UserModel, PaginateModel } from '../../models';
 
 
 function AdminsPage(props) {
+  
   const user = new UserModel(props.user);
 
   const tableRef = useRef(null);
