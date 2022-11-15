@@ -1,4 +1,4 @@
-import { UserRoleModel, FileModel, AddressModel } from '.';
+import { UserRoleModel, FileModel } from '.';
 import { unescape } from 'html-escaper';
 
 export class UserModel {
@@ -11,11 +11,10 @@ export class UserModel {
     this.lastname = data.lastname? unescape(data.lastname): null;
     this.username = data.username? data.username: null;
     this.email = data.email? data.email: null;
+    this.telephone = data.telephone? data.telephone: null;
     this.avatar = new FileModel(
       data.avatar? data.avatar: { path: '/assets/img/default/avatar.jpg' }
     );
-
-    this.address = new AddressModel(data.address? data.address: {});
 
     this.fcmToken = data.fcmToken? data.fcmToken: null;
     
@@ -47,7 +46,6 @@ export class UserModel {
   isAdmin() { return this.role.isValid() && this.role.level >= 98? true: false; }
   isUser() { return this.role.isValid() && this.role.level === 1? true: false; }
   
-  isInPartnerShops(shopId) { return this.partnerShopIds.indexOf(shopId) > -1; }
 
   path() {
     if(this.isSignedIn()){

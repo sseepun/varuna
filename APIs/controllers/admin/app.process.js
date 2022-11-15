@@ -102,36 +102,24 @@ module.exports = {
   userRead : async (req, res) => {
     try {
       var error = {};
-      const { _id, isAdmin, isSalesManager, isPartner } = req.query;
+      const { _id, isAdmin } = req.query;
       
       if(!_id) error['_id'] = '_id is required.';
       if(Object.keys(error).length) return resProcess['checkError'](res, error);
 
-      let condition = { _id: sanitize(_id) };
+      let condition = { _id: { [Op.eq]: _id } };
       if(isAdmin){
-        let roles = await db.UserRole.find({ level: { $gt: 97 } }).select('_id');
-        if(roles) condition['role'] = roles;
-        else{
-          error['_id'] = 'role is invalid.';
+        let roles = await db.UserRole.findOne({ where: { level: { [Op.gt] : 97 } }, attributes: [ '_id' ] });
+        if(!roles) {
+          error['role'] = 'role is invalid.';
           return resProcess['checkError'](res, error);
         }
-      }else if(isSalesManager){
-        let roles = await db.UserRole.find({ level: 2 }).select('_id');
-        if(roles) condition['role'] = roles;
-        else{
-          error['_id'] = 'role is invalid.';
-          return resProcess['checkError'](res, error);
-        }
-      }else if(isPartner){
-        let roles = await db.UserRole.find({ level: 10 }).select('_id');
-        if(roles) condition['role'] = roles;
       }
 
-      var user = await db.User.findOne(condition)
-        .select('-password -fcmToken -refreshToken')
-        .populate({ path: 'role' })
-        .populate({ path: 'partnerShops' })
-        .populate({ path: 'address' });
+      const user = await db.User.findOne({ 
+        where: condition,
+        include: [db.UserRole]
+      });
       if(!user){
         error['_id'] = '_id is invalid.';
         return resProcess['checkError'](res, error);
@@ -148,7 +136,7 @@ module.exports = {
     try {
       var error = {};
       const { 
-        roleLevel, partnerShopIds, address, firstname, lastname, username, email,
+        roleLevel, firstname, lastname, username, email, telephone,
         password, confirmPassword, avatar, status
       } = req.body;
 
@@ -170,53 +158,50 @@ module.exports = {
         return resProcess['checkError'](res, error);
       }
       
-      const role = await db.UserRole.findOne({ level: roleLevel }).select('_id');
+      const role = await db.UserRole.findOne({ 
+        where: { level: roleLevel }, 
+        attributes: [ 'level' ] 
+      });
+      console.log(role);
       if(!role){
         error['roleLevel'] = 'roleLevel is invalid.';
         return resProcess['checkError'](res, error);
-      }else if(role.level >= req.user.role.level){
+      }else if(role.level >= req.role.level){
         error['roleLevel'] = 'No permission.';
         return resProcess['checkError'](res, error);
       }
 
-      const duplicateUsername = await db.User.findOne({ username: username });
+      const duplicateUsername = await db.User.findOne({
+        where: { username: username }, attributes: [ '_id' ]  
+      });
       if(duplicateUsername){
         error['username'] = 'username is already in use.';
         return resProcess['checkError'](res, error);
       }
-      const duplicateEmail = await db.User.findOne({ email: email });
+      const duplicateEmail = await db.User.findOne({ 
+        where: { email: email }, attributes: [ '_id' ] 
+      });
       if(duplicateEmail){
         error['email'] = 'email is already in use.';
         return resProcess['checkError'](res, error);
       }
 
-      const userAddress = await db.UserAddress(formater.address(address)).save();
-
       const salt = await bcrypt.genSalt(10);
       const bcryptPassword = await bcrypt.hash(password, salt);
       let updateInput = {
         role: role,
-        partnerShops: [],
-        address: userAddress,
         username: username,
         email: email,
         password: bcryptPassword,
         status: status
       };
+      if(telephone!==undefined) updateInput['telephone'] = telephone;
       if(firstname!==undefined) updateInput['firstname'] = firstname;
       if(lastname!==undefined) updateInput['lastname'] = lastname;
-      if(avatar!==undefined) updateInput['avatar'] = avatar;
-      const user = await db.User(updateInput).save();
+  
 
-      if(role.level==2 && partnerShopIds!==undefined){
-        const partnerShops = await db.PartnerShop.find({
-          _id: partnerShopIds.map(d => sanitize(d))
-        }).select('_id');
-        await user.updateOne({
-          partnerShops: partnerShops && partnerShops.length? partnerShops: []
-        }, []);
-      }
-      
+      await db.User.create(updateInput);
+
       return resProcess['200'](res);
     } catch(err) {
       return resProcess['500'](res, err);
@@ -226,7 +211,7 @@ module.exports = {
     try {
       var error = {};
       const {
-        _id, partnerShopIds, address, firstname, lastname, username, email,
+        _id, firstname, lastname, username, email, telephone,
         password, confirmPassword, avatar, status
       } = req.body;
       
@@ -275,6 +260,7 @@ module.exports = {
         email: email,
         status: status
       };
+      if(telephone!==undefined) updateInput['telephone'] = telephone;
       if(firstname!==undefined) updateInput['firstname'] = firstname;
       if(lastname!==undefined) updateInput['lastname'] = lastname;
       if(avatar!==undefined) updateInput['avatar'] = avatar;
@@ -285,15 +271,6 @@ module.exports = {
       }
       await user.updateOne(updateInput, []);
       await user.address.updateOne(formater.address(address), []);
-
-      if(user.role.level==2 && partnerShopIds!==undefined){
-        const partnerShops = await db.PartnerShop.find({
-          _id: partnerShopIds.map(d => sanitize(d))
-        }).select('_id');
-        await user.updateOne({
-          partnerShops: partnerShops && partnerShops.length? partnerShops: []
-        }, []);
-      }
 
       return resProcess['200'](res);
     } catch(err) {
