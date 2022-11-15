@@ -149,6 +149,7 @@ function AdminPage(props) {
                   </select>
                 </div>
               </div>
+              <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <AvatarUploader
                   process={process} avatar={values.avatar} 

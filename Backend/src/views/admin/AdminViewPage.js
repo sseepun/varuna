@@ -89,7 +89,7 @@ function AdminViewPage(props) {
                 <span className="fw-700">อีเมล :</span> {values.email}
               </div>
               <div className="grid lg-40 md-50 sm-100">
-                <span className="fw-700">เบอร์โทรศัพท์ :</span> {values.telephone}
+                <span className="fw-700">เบอร์โทรศัพท์ :</span> {values.telephone? values.telephone: '-'}
               </div>
               <div className="sep"></div>
               <div className="grid lg-40 md-50 sm-100">

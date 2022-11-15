@@ -102,31 +102,31 @@ module.exports = {
   userRead : async (req, res) => {
     try {
       var error = {};
-      const { _id, isAdmin } = req.query;
+      const { _id, isAdmin, isUser } = req.query;
       
       if(!_id) error['_id'] = '_id is required.';
       if(Object.keys(error).length) return resProcess['checkError'](res, error);
 
-      let condition = { _id: { [Op.eq]: _id } };
+      let condition = { _id: _id };
       if(isAdmin){
-        let roles = await db.UserRole.findOne({ where: { level: { [Op.gt] : 97 } }, attributes: [ '_id' ] });
-        if(!roles) {
-          error['role'] = 'role is invalid.';
-          return resProcess['checkError'](res, error);
-        }
+        condition['$user_role.level$'] = [98, 99];
+      }
+      if(isUser){
+        condition['$user_role.level$'] = [1];
       }
 
-      const user = await db.User.findOne({ 
-        where: condition,
-        include: [db.UserRole]
-      });
+      const user = await db.User.findOne({ where: condition, include: [ db.UserRole ] });
       if(!user){
         error['_id'] = '_id is invalid.';
         return resProcess['checkError'](res, error);
       }
 
       return resProcess['200'](res, {
-        result: user
+        result: {
+          ...user.dataValues,
+          role: user.user_role,
+          avatar: formater.cleanFile(user.avatar),
+        },
       });
     } catch(err) {
       return resProcess['500'](res, err);
@@ -158,11 +158,9 @@ module.exports = {
         return resProcess['checkError'](res, error);
       }
       
-      const role = await db.UserRole.findOne({ 
-        where: { level: roleLevel }, 
-        attributes: [ 'level' ] 
+      const role = await db.UserRole.findOne({
+        where: { level: roleLevel }, attributes: [ '_id', 'level' ] 
       });
-      console.log(role);
       if(!role){
         error['roleLevel'] = 'roleLevel is invalid.';
         return resProcess['checkError'](res, error);
@@ -189,17 +187,16 @@ module.exports = {
       const salt = await bcrypt.genSalt(10);
       const bcryptPassword = await bcrypt.hash(password, salt);
       let updateInput = {
-        role: role,
+        userRoleId: role._id,
         username: username,
         email: email,
         password: bcryptPassword,
-        status: status
+        status: status,
       };
       if(telephone!==undefined) updateInput['telephone'] = telephone;
       if(firstname!==undefined) updateInput['firstname'] = firstname;
       if(lastname!==undefined) updateInput['lastname'] = lastname;
-  
-
+      if(avatar!==undefined) updateInput['avatar'] = formater.cleanFileObject(avatar);
       await db.User.create(updateInput);
 
       return resProcess['200'](res);
