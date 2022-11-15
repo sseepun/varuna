@@ -225,28 +225,30 @@ module.exports = {
       if(!status && status!==0) error['status'] = 'status is required.';
       if(Object.keys(error).length) return resProcess['checkError'](res, error);
 
-      if(sanitize(_id) == sanitize(req.user._id)){
+      if( _id === req.user._id ){
         error['_id'] = '_id is invalid.';
         return resProcess['checkError'](res, error);
       }
 
-      const user = await db.User.findById(sanitize(_id))
-        .populate('role')
-        .populate('address');
+      const user = await db.User.findOne({ where: { _id : _id} });
       if(!user){
         error['_id'] = '_id is invalid.';
         return resProcess['checkError'](res, error);
-      }else if(user.role && user.role.level >= req.user.role.level){
+      }else if(user.role && user.role.level >= req.role.level){
         error['_id'] = 'No permission.';
         return resProcess['checkError'](res, error);
       }
       
-      const duplicateUsername = await db.User.findOne({ username: username, _id: { $ne: sanitize(_id) } }).select('_id');
+      const duplicateUsername = await db.User.findOne({
+        where: { username: username, _id: { [Op.not]: _id} }
+      });
       if(duplicateUsername){
         error['username'] = 'username is already in use.';
         return resProcess['checkError'](res, error);
       }
-      const duplicateEmail = await db.User.findOne({ email: email, _id: { $ne: sanitize(_id) } }).select('_id');
+      const duplicateEmail = await db.User.findOne({ 
+        where: { email: email , _id: { [Op.not]: _id} }
+      });
       if(duplicateEmail){
         error['email'] = 'email is already in use.';
         return resProcess['checkError'](res, error);
@@ -260,14 +262,13 @@ module.exports = {
       if(telephone!==undefined) updateInput['telephone'] = telephone;
       if(firstname!==undefined) updateInput['firstname'] = firstname;
       if(lastname!==undefined) updateInput['lastname'] = lastname;
-      if(avatar!==undefined) updateInput['avatar'] = avatar;
+      if(avatar!==undefined) updateInput['avatar'] = formater.cleanFileObject(avatar);
       if(password!==undefined){
         const salt = await bcrypt.genSalt(10);
         const bcryptPassword = await bcrypt.hash(password, salt);
         updateInput['password'] = bcryptPassword;
       }
-      await user.updateOne(updateInput, []);
-      await user.address.updateOne(formater.address(address), []);
+      await user.update(updateInput);
 
       return resProcess['200'](res);
     } catch(err) {
@@ -282,19 +283,17 @@ module.exports = {
       if(!_id) error['_id'] = '_id is required.';
       if(Object.keys(error).length) return resProcess['checkError'](res, error);
 
-      const user = await db.User.findById(sanitize(_id))
-        .populate({ path: 'role' })
-        .populate({ path: 'address' });
+      const user = await db.User.findByPk(_id);
       if(!user){
         error['_id'] = '_id is invalid.';
         return resProcess['checkError'](res, error);
-      }else if(user.role && user.role.level >= req.user.role.level){
+      }else if(user.role && user.role.level >= req.role.level){
         error['roleLevel'] = 'No permission.';
         return resProcess['checkError'](res, error);
       }
 
-      await user.remove();
-      await user.address.remove();
+      await user.destroy();
+
 
       return resProcess['200'](res);
     } catch(err) {

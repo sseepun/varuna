@@ -11,7 +11,7 @@ import { processRead, processUpdate } from '../../actions/admin.actions';
 import { UserModel} from '../../models';
 
 
-function AdminViewPage(props) {
+function UserViewPage(props) {
   const user = new UserModel(props.user);
   const history = useNavigate();
   const params = useParams();
@@ -21,12 +21,12 @@ function AdminViewPage(props) {
   const [values, setValues] = useState(new UserModel({ status: 1 }));
   
   /* eslint-disable */
-	useEffect(() => { onMounted(); props.setSidenavActiveIndex(2); }, []);
+	useEffect(() => { onMounted(); props.setSidenavActiveIndex(3); }, []);
 	useEffect(() => {
     setValues(new UserModel({ status: 1 }));
-    props.processRead('user', { _id: dataId, isAdmin: 1 }, true).then(d => {
+    props.processRead('user', { _id: dataId, isUser: 1 }, true).then(d => {
       setValues(d);
-    }).catch(() => history('/admin/admins'));
+    }).catch(() => history('/admin/users'));
   }, []);
   /* eslint-enable */
 
@@ -34,10 +34,10 @@ function AdminViewPage(props) {
     <>
       <div className="app-container">
         <Breadcrumb 
-          title={`${process} Admin`} 
+          title={`${process} User`} 
           structure={[
-            { title: 'Admin', to: '/admin' },
-            { title: 'Admin Management', to: '/admin/admins' }
+            { title: 'User', to: '/admin' },
+            { title: 'User Management', to: '/admin/users' }
           ]}
         />
 
@@ -59,11 +59,11 @@ function AdminViewPage(props) {
                 <p className="fw-500 op-60">ตำแหน่ง : {values.displayRole()}</p>
                 <div className="btns mt-2">
                   {user.isSuperAdmin() && !values.isSuperAdmin()? (
-                    <Link to={`/admin/admin/update/${dataId}`} className="btn btn-action btn-p btn-xs">
+                    <Link to={`/admin/user/update/${dataId}`} className="btn btn-action btn-p btn-xs">
                       <em className="fa-regular fa-pen-to-square mr-1"></em> แก้ไขข้อมูล
                     </Link>
                   ): (<></>)}
-                  <Link to="/admin/admins" className="btn btn-action btn-default btn-xs">
+                  <Link to="/admin/users" className="btn btn-action btn-default btn-xs">
                     ย้อนกลับ
                   </Link>
                 </div>
@@ -104,10 +104,10 @@ function AdminViewPage(props) {
   );
 }
 
-AdminViewPage.defaultProps = {
+UserViewPage.defaultProps = {
 	
 };
-AdminViewPage.propTypes = {
+UserViewPage.propTypes = {
   setSidenavActiveIndex: PropTypes.func.isRequired,
 	processRead: PropTypes.func.isRequired,
   processUpdate: PropTypes.func.isRequired
@@ -121,4 +121,4 @@ export default connect(mapStateToProps, {
   setSidenavActiveIndex: setSidenavActiveIndex,
   processRead: processRead,
   processUpdate: processUpdate
-})(AdminViewPage);
+})(UserViewPage);
