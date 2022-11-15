@@ -21,7 +21,7 @@ const MapLayerMapping = require('./map-layer-mapping.model')(sequelize, DataType
 User.belongsTo(UserRole);
 UserTemp.belongsTo(User);
 
-MapData.hasOne(MapLocation);
+MapData.belongsTo(MapLocation);
 MapPermission.belongsTo(MapData);
 MapPermission.belongsTo(User);
 

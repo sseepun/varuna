@@ -55,7 +55,7 @@ function MapDatasPage(props) {
 
   const onSubmitDelete = async (e) => {
     e.preventDefault();
-    if(selectedData && selectedData.isDeletable){
+    if(selectedData){
       let res = await props.processDelete('map-data', { _id: selectedData._id }, true);
       if(res) onLoadData();
     }

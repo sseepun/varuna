@@ -73,6 +73,9 @@ function App() {
             <Route path="/admin/map-datas" 
               element={<ProtectedRoute auth={GuardAdmin()} 
               element={lazy(() => import('./views/admin/MapDatasPage'))} />} />
+            <Route path="/admin/map-data/:process/*" 
+              element={<ProtectedRoute auth={GuardAdmin()} 
+              element={lazy(() => import('./views/admin/MapDataPage'))} />} />
             {/* END: Admin ***************************************************************** */}
 
 

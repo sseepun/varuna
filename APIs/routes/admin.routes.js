@@ -85,11 +85,21 @@ module.exports = function(app) {
     AdminController.mapLayerDelete
   );
   
-  // router.post(
-  //   '/map-datas',
-  //   [ authJwt.verifyToken, authJwt.isAdmin ],
-  //   AdminController.mapDataList
-  // );
+  router.post(
+    '/map-datas',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapDataList
+  );
+  router.post(
+    '/map-data',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapDataCreate
+  );
+  router.delete(
+    '/map-data',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapDataDelete
+  );
   // END: Map
 
   
