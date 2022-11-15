@@ -57,6 +57,12 @@ module.exports = {
         }]);
       });
 
+
+    // Map Layers
+    await queryInterface.bulkInsert('map_layers', [{
+      name: 'Main Layer', isDeletable: 0, status: 1,
+    }], { returning: ['_id'] });
+
   },
 
   down: async (queryInterface, Sequelize) => {

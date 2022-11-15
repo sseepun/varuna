@@ -6,6 +6,9 @@ export const SIDENAV_ACTIVE_INDEX = 'sidenav/active-index';
 export const APP_SETTINGS = 'app/settings';
 export const APP_USERS = 'app/users';
 
+export const APP_MAP_LAYERS = 'app/map-layers';
+export const APP_MAP_DATAS = 'app/map-datas';
+
 
 // Alert
 export const ALERT_CHANGE = 'alert/change';

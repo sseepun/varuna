@@ -57,6 +57,41 @@ module.exports = function(app) {
   );
   // END: App
 
+
+  // START: Map
+  router.post(
+    '/map-layers',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapLayerList
+  );
+  router.get(
+    '/map-layer',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapLayerRead
+  );
+  router.post(
+    '/map-layer',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapLayerCreate
+  );
+  router.patch(
+    '/map-layer',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapLayerUpdate
+  );
+  router.delete(
+    '/map-layer',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapLayerDelete
+  );
+  
+  // router.post(
+  //   '/map-datas',
+  //   [ authJwt.verifyToken, authJwt.isAdmin ],
+  //   AdminController.mapDataList
+  // );
+  // END: Map
+
   
   app.use('/admin', router);
 };

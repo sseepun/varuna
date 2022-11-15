@@ -28,6 +28,11 @@ module.exports = {
         type: Sequelize.TEXT
       },
 
+      isDeletable: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1
+      },
+
       status: {
         type: Sequelize.INTEGER,
         defaultValue: 0

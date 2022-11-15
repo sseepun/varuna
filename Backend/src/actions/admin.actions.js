@@ -2,15 +2,17 @@ import { alertLoading, alertChange } from './alert.actions';
 import { apiHeader } from '../helpers/header';
 import { API_URL } from './variables';
 import {
-  APP_USERS
+  APP_USERS, APP_MAP_LAYERS, APP_MAP_DATAS
 } from './types';
 import {
-  PaginateModel, UserModel
+  PaginateModel, UserModel, MapLayerModel, MapDataModel
 } from '../models';
 
 
 export const processClear = (type) => (dispatch) => {
   if(type === 'users') dispatch({ type: APP_USERS, payload: [] });
+  else if(type === 'map-layers') dispatch({ type: APP_MAP_LAYERS, payload: [] });
+  else if(type === 'map-datas') dispatch({ type: APP_MAP_DATAS, payload: [] });
 };
 
 
@@ -38,6 +40,12 @@ export const processList = (type, input={}, loading=false) => async (dispatch) =
       if(type === 'users'){
         res.result = data1.data.result.map(d => new UserModel(d));
         dispatch({ type: APP_USERS, payload: res.result });
+      }else if(type === 'map-layers'){
+        res.result = data1.data.result.map(d => new MapLayerModel(d));
+        dispatch({ type: APP_MAP_LAYERS, payload: res.result });
+      }else if(type === 'map-datas'){
+        res.result = data1.data.result.map(d => new MapDataModel(d));
+        dispatch({ type: APP_MAP_DATAS, payload: res.result });
       }else if(isExport){
         if(data1.data.fileName){
           res.result = `${API_URL}frontend/download/${data1.data.fileName}`;
@@ -78,6 +86,10 @@ export const processRead = (type, input={}, loading=false) => async (dispatch) =
       let result = null;
       if(type === 'user'){
         result = new UserModel(data1.data.result);
+      }else if(type === 'map-layer'){
+        result = new MapLayerModel(data1.data.result);
+      }else if(type === 'map-data'){
+        result = new MapDataModel(data1.data.result);
       }else{
         result = data1.data.result;
       }

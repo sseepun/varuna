@@ -14,7 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     image: { type: DataTypes.STRING },
     icon: { type: DataTypes.STRING },
     
-    status: { type: DataTypes.INTEGER, allowNull: false },
+    isDeletable: { type: DataTypes.INTEGER, allowNull: false },
+    
+    status: { type: DataTypes.INTEGER },
   }, {
     sequelize,
     modelName: 'map_layers',

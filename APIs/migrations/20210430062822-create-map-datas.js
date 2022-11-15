@@ -31,7 +31,7 @@ module.exports = {
         allowNull: true,
         type: Sequelize.TEXT
       },
-      icon: {
+      gallery: {
         allowNull: true,
         type: Sequelize.TEXT
       },
