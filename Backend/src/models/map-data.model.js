@@ -14,7 +14,7 @@ export class MapDataModel {
       data.image? data.image: { path: '/assets/img/default/img.jpg' }
     );
     this.gallery = data.gallery && data.gallery.length
-      ? data.data.gallery.map(d => new FileModel(d)): [];
+      ? data.gallery.map(d => new FileModel(d)): [];
 
     this.data = data.data? data.data: null;
     

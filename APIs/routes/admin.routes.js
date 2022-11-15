@@ -90,6 +90,11 @@ module.exports = function(app) {
     [ authJwt.verifyToken, authJwt.isAdmin ],
     AdminController.mapDataList
   );
+  router.get(
+    '/map-data',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapDataRead
+  );
   router.post(
     '/map-data',
     [ authJwt.verifyToken, authJwt.isAdmin ],

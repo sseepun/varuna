@@ -98,8 +98,8 @@ module.exports = {
         isDeletable: 1,
       };
       if(description!==undefined) updateInput['description'] = description;
-      if(image!==undefined) updateInput['image'] = formater.cleanFileObject(image);
-      if(icon!==undefined) updateInput['icon'] = formater.cleanFileObject(icon);
+      if(image!==undefined) updateInput['image'] = JSON.stringify(image);
+      if(icon!==undefined) updateInput['icon'] = JSON.stringify(icon);
       await db.MapLayer.create(updateInput);
       
       return resProcess['200'](res);
@@ -128,8 +128,8 @@ module.exports = {
         status: status,
       };
       if(description!==undefined) updateInput['description'] = description;
-      if(image!==undefined) updateInput['image'] = formater.cleanFileObject(image);
-      if(icon!==undefined) updateInput['icon'] = formater.cleanFileObject(icon);
+      if(image!==undefined) updateInput['image'] = JSON.stringify(image);
+      if(icon!==undefined) updateInput['icon'] = JSON.stringify(icon);
       await mapLayer.update(updateInput);
       
       return resProcess['200'](res);
@@ -206,14 +206,39 @@ module.exports = {
         paginate: paginate? paginate: {},
         dataFilter: dataFilter? dataFilter: {},
         result: result.map(d => {
-          let gallery = d.gallery? JSON.parse(d.gallery): [];
           return {
             ...d.dataValues,
             mapLocation: d.map_location,
             image: formater.cleanFile(d.image),
-            gallery: gallery.map(k => formater.cleanFile(k)),
+            gallery: d.gallery? JSON.parse(d.gallery): [],
           };
         }),
+      });
+    } catch(err) {
+      return resProcess['500'](res, err);
+    }
+  },
+  mapDataRead : async (req, res) => {
+    try {
+      var error = {};
+      const { _id } = req.query;
+      
+      if(!_id) error['_id'] = '_id is required.';
+      if(Object.keys(error).length) return resProcess['checkError'](res, error);
+
+      const mapData = await db.MapData.findOne({ where: { _id: _id }, include: [ db.MapLocation ] });
+      if(!mapData){
+        error['_id'] = '_id is invalid.';
+        return resProcess['checkError'](res, error);
+      }
+
+      return resProcess['200'](res, {
+        result: {
+          ...mapData.dataValues,
+          mapLocation: mapData.map_location,
+          image: formater.cleanFile(mapData.image),
+          gallery: mapData.gallery? JSON.parse(mapData.gallery): [],
+        },
       });
     } catch(err) {
       return resProcess['500'](res, err);
@@ -238,8 +263,9 @@ module.exports = {
         status: status,
       };
       if(description!==undefined) updateInput['description'] = description;
-      if(image!==undefined) updateInput['image'] = formater.cleanFileObject(image);
-      if(gallery!==undefined) updateInput['gallery'] = formater.cleanFileObject(gallery);
+      if(image!==undefined) updateInput['image'] = JSON.stringify(image);
+      if(gallery!==undefined) updateInput['gallery'] = JSON.stringify(gallery);
+      console.log(updateInput)
       await db.MapData.create(updateInput);
       
       return resProcess['200'](res);

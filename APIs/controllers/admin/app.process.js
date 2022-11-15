@@ -196,7 +196,7 @@ module.exports = {
       if(telephone!==undefined) updateInput['telephone'] = telephone;
       if(firstname!==undefined) updateInput['firstname'] = firstname;
       if(lastname!==undefined) updateInput['lastname'] = lastname;
-      if(avatar!==undefined) updateInput['avatar'] = formater.cleanFileObject(avatar);
+      if(avatar!==undefined) updateInput['avatar'] = JSON.stringify(avatar);
       await db.User.create(updateInput);
 
       return resProcess['200'](res);
@@ -262,7 +262,7 @@ module.exports = {
       if(telephone!==undefined) updateInput['telephone'] = telephone;
       if(firstname!==undefined) updateInput['firstname'] = firstname;
       if(lastname!==undefined) updateInput['lastname'] = lastname;
-      if(avatar!==undefined) updateInput['avatar'] = formater.cleanFileObject(avatar);
+      if(avatar!==undefined) updateInput['avatar'] = JSON.stringify(avatar);
       if(password!==undefined){
         const salt = await bcrypt.genSalt(10);
         const bcryptPassword = await bcrypt.hash(password, salt);

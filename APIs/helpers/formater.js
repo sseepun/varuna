@@ -29,11 +29,6 @@ const formater = {
       path: val.path,
     };
   },
-  cleanFileObject: (val) => {
-    if(!val) return '';
-    if(!val.path) return '';
-    else return JSON.stringify(val);
-  },
 
 };
 
