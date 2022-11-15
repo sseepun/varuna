@@ -51,6 +51,17 @@ function App() {
               element={<ProtectedRoute auth={GuardSuperAdmin()} 
               element={lazy(() => import('./views/admin/AdminPage'))} />} />
 
+            {/* User */}
+            <Route path="/admin/users" 
+              element={<ProtectedRoute auth={GuardAdmin()} 
+              element={lazy(() => import('./views/admin/UsersPage'))} />} />
+            <Route path="/admin/user/view/:dataId" 
+              element={<ProtectedRoute auth={GuardAdmin()} 
+              element={lazy(() => import('./views/admin/UserViewPage'))} />} />
+            <Route path="/admin/user/:process/*" 
+              element={<ProtectedRoute auth={GuardSuperAdmin()} 
+              element={lazy(() => import('./views/admin/UserPage'))} />} />
+
             {/* Personal */}
             <Route path="/admin/profile" 
               element={<ProtectedRoute auth={GuardAdmin()} 
