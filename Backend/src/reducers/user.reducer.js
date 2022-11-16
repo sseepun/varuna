@@ -46,8 +46,8 @@ const userReducer = (state = initialState, action) => {
       if(action.payload.lastname) temp.lastname = action.payload.lastname;
       if(action.payload.username) temp.username = action.payload.username;
       if(action.payload.email) temp.email = action.payload.email;
+      if(action.payload.telephone) temp.telephone = action.payload.telephone;
       if(action.payload.avatar) temp.avatar = action.payload.avatar;
-      if(action.payload.address) temp.address = action.payload.address;
 
       localStorage.setItem(`${APP_PREFIX}_USER`, JSON.stringify(temp));
       return { ...state, user: temp };

@@ -25,7 +25,7 @@ module.exports = {
   updateAccount : async (req, res) => {
     try {
       var error = {};
-      const { address, firstname, lastname, username, email, avatar } = req.body;
+      const { firstname, lastname, username, email, telephone, avatar } = req.body;
 
       if(!firstname) error['firstname'] = 'firstname is required.';
       if(!lastname) error['lastname'] = 'lastname is required.';
@@ -33,16 +33,22 @@ module.exports = {
       if(!email) error['email'] = 'email is required.';
       if(Object.keys(error).length) return resProcess['checkError'](res, error);
       
+      const user = await db.User.findByPk(req.user._id);
+      if(!user){
+        error['_id'] = '_id is invalid.';
+        return resProcess['checkError'](res, error);
+      }
+      
       const duplicateUsername = await db.User.findOne({
-        username: username, _id: { $ne: sanitize(req.user._id) }
-      }).select('_id');
+        where: { username: username, _id: { [Op.not]: req.user._id} }
+      });
       if(duplicateUsername){
         error['username'] = 'username is already in use.';
         return resProcess['checkError'](res, error);
       }
-      const duplicateEmail = await db.User.findOne({
-        email: email, _id: { $ne: sanitize(req.user._id) }
-      }).select('_id');
+      const duplicateEmail = await db.User.findOne({ 
+        where: { email: email , _id: { [Op.not]: req.user._id} }
+      });
       if(duplicateEmail){
         error['email'] = 'email is already in use.';
         return resProcess['checkError'](res, error);
@@ -54,9 +60,9 @@ module.exports = {
         username: username,
         email: email
       };
-      if(avatar!==undefined) updateInput['avatar'] = avatar;
-      await req.user.updateOne(updateInput, []);
-      await req.user.address.updateOne(formater.address(address), []);
+      if(telephone!==undefined) updateInput['telephone'] = telephone;
+      if(avatar!==undefined) updateInput['avatar'] = formater.cleanFileObject(avatar);
+      await user.update(updateInput);
 
       return resProcess['200'](res);
     } catch(err) {
@@ -78,6 +84,12 @@ module.exports = {
       }
       if(Object.keys(error).length) return resProcess['checkError'](res, error);
 
+      const user = await db.User.findByPk(req.user._id);
+      if(!user){
+        error['_id'] = '_id is invalid.';
+        return resProcess['checkError'](res, error);
+      }
+
       if(newPassword!==confirmNewPassword){
         error['confirmNewPassword'] = 'newPassword and confirmNewPassword do not match.';
         return resProcess['checkError'](res, error);
@@ -91,7 +103,7 @@ module.exports = {
 
       const salt = await bcrypt.genSalt(10);
       const bcryptPassword = await bcrypt.hash(newPassword, salt);
-      await req.user.updateOne({ password: bcryptPassword }, []);
+      await user.update({ password: bcryptPassword });
 
       return resProcess['200'](res);
     } catch(err) {

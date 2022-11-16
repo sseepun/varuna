@@ -6,14 +6,13 @@ import Footer from '../../components/Footer';
 
 import { connect } from 'react-redux';
 import { setSidenavActiveIndex } from '../../actions/app.actions';
-import { UserModel, AddressModel } from '../../models';
+import { UserModel } from '../../models';
 
 
 function ProfileViewPage(props) {
   const user = new UserModel(props.user);
 
   const values = new UserModel(user);
-  const address = new AddressModel(user.address);
   
   /* eslint-disable */
 	useEffect(() => { onMounted(); props.setSidenavActiveIndex(0); }, []);
@@ -66,41 +65,15 @@ function ProfileViewPage(props) {
               <span className="fw-700">อีเมล :</span> {values.email}
             </div>
             <div className="grid lg-40 md-50 sm-100">
+              <span className="fw-700">เบอร์โทรศัพท์ :</span> {values.telephone? values.telephone: '-'}
+            </div>
+            <div className="sep"></div>
+            <div className="grid lg-40 md-50 sm-100">
               <span className="fw-700">สถานะ :</span> {values.displayStatus()}
             </div>
           </div>
         </div>
       </div>
-      <div className="app-card p-0 mt-4">
-        <div className="app-card-block">
-          <p className="lg fw-800">ข้อมูลติดต่อ</p>
-          <div className="ss-sep-01 mt-3"></div>
-          <div className="grids">
-            <div className="grid lg-40 md-50 sm-100">
-              <span className="fw-700">เบอร์โทรศัพท์ :</span> {address.telephone? address.telephone: '-'}
-            </div>
-            <div className="sep"></div>
-            <div className="grid lg-80 md-100 sm-100">
-              <span className="fw-700">ที่อยู่ :</span> {address.address? address.address: '-'}
-            </div>
-            <div className="sep"></div>
-            <div className="grid lg-40 md-50 sm-100">
-              <span className="fw-700">{address.prefixSubdistrict()} :</span> {address.subdistrict? address.subdistrict: '-'}
-            </div>
-            <div className="grid lg-40 md-50 sm-100">
-              <span className="fw-700">{address.prefixDistrict()} :</span> {address.district? address.district: '-'}
-            </div>
-            <div className="sep"></div>
-            <div className="grid lg-40 md-50 sm-100">
-              <span className="fw-700">จังหวัด :</span> {address.province? address.province: '-'}
-            </div>
-            <div className="grid lg-40 md-50 sm-100">
-              <span className="fw-700">รหัสไปรษณีย์ :</span> {address.zipcode? address.zipcode: '-'}
-            </div>
-          </div>
-        </div>
-      </div>
-
       <Footer />
     </div>
   );
