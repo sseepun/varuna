@@ -187,6 +187,16 @@ footer.footer{background:#ffffff; box-shadow:rgb(0 0 0 / 4%) 0px 7px 14px;}
 .popup-container .hamburger > div{background:#999999;}
 
 
+/* Special Card 02 */
+.ss-card-02{background:#f9f9f9; border-color:#dddddd;}
+.ss-card-02:hover{color:var(--p-color);}
+.ss-card-02 .icon{border-color:var(--p-color); color:var(--p-color);}
+.ss-card-02:hover .icon{background:var(--p-color); color:#ffffff;}
+
+/* Special Card 03 */
+.ss-card-03{border-color:#dddddd;}
+
+
 /* Special Editor */
 .ss-editor .rdw-editor-toolbar, 
 .ss-editor .rdw-editor-main{border-color:#cccccc!important;}

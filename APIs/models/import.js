@@ -10,6 +10,7 @@ const User = require('./user.model')(sequelize, DataTypes);
 const UserTemp = require('./user-temp.model')(sequelize, DataTypes);
 
 const MapLocation = require('./map-location.model')(sequelize, DataTypes);
+const MapProject = require('./map-project.model')(sequelize, DataTypes);
 const MapData = require('./map-data.model')(sequelize, DataTypes);
 const MapPermission = require('./map-permission.model')(sequelize, DataTypes);
 
@@ -21,8 +22,9 @@ const MapLayerMapping = require('./map-layer-mapping.model')(sequelize, DataType
 User.belongsTo(UserRole);
 UserTemp.belongsTo(User);
 
-MapData.belongsTo(MapLocation);
-MapPermission.belongsTo(MapData);
+MapProject.belongsTo(MapLocation);
+MapData.belongsTo(MapProject);
+MapPermission.belongsTo(MapProject);
 MapPermission.belongsTo(User);
 
 MapLayerMapping.belongsTo(MapLayer);
@@ -35,6 +37,7 @@ module.exports = {
   User: User,
   UserTemp: UserTemp,
   MapLocation: MapLocation,
+  MapProject: MapProject,
   MapData: MapData,
   MapPermission: MapPermission,
   MapLayer: MapLayer,

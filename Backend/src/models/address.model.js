@@ -32,6 +32,10 @@ export class AddressModel {
   isValid() {
     return this._id? true: false;
   }
+  isValidAddress() {
+    return this.isValid() && this.subdistrict && this.district 
+      && this.province && this.zipcode;
+  }
 
   prefixDistrict() {
     if(!this.province) return 'เขต / อำเภอ';
@@ -97,6 +101,21 @@ export class AddressModel {
         this.selectedSubdistrict = temp[0];
         return temp;
       }
+    }
+  }
+
+  displayAddress() {
+    if(this.isValidAddress()){
+      return (
+        <>
+          {this.address? (<>{this.address}<br /></>): (<></>)}
+          {this.prefixSubdistrict()}{this.subdistrict}
+          {' '}{this.prefixDistrict()}{this.district}<br />
+          {this.province} {this.zipcode}
+        </>
+      );
+    }else{
+      return (<></>);
     }
   }
 }

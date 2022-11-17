@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 const uploadSingle = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-    if(file.mimetype && ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf'].indexOf(file.mimetype) > -1) {
+    if(file.mimetype && ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf', 'application/octet-stream'].indexOf(file.mimetype) > -1) {
       cb(null, true);
     } else {
       cb(null, false);
@@ -37,7 +37,7 @@ const UploadSingleService = util.promisify(uploadSingle);
 const uploadMultiple = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-    if(file.mimetype && ['image/png', 'image/jpg', 'image/jpeg'].indexOf(file.mimetype) > -1) {
+    if(file.mimetype && ['image/png', 'image/jpg', 'image/jpeg', 'application/octet-stream'].indexOf(file.mimetype) > -1) {
       cb(null, true);
     } else {
       cb(null, false);

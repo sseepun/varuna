@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     address: { type: DataTypes.STRING },
     subdistrict: { type: DataTypes.STRING },
     district: { type: DataTypes.STRING },
+    province: { type: DataTypes.STRING },
     zipcode: { type: DataTypes.STRING },
     country: { type: DataTypes.STRING },
   }, {

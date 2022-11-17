@@ -1,7 +1,8 @@
 import {
   CLIENT_IP, SIDENAV_ACTIVE_INDEX,
   APP_SETTINGS, APP_USERS,
-  APP_MAP_LAYERS, APP_MAP_DATAS,
+  APP_MAP_LAYERS, APP_MAP_PROJECTS, APP_MAP_DATAS,
+  APP_MAP_PERMISSIONS,
 } from '../actions/types';
 
 const initialState = {
@@ -10,7 +11,9 @@ const initialState = {
   settings: {},
   users: [],
   mapLayers: [],
+  mapProjects: [],
   mapDatas: [],
+  mapPermissions: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -29,8 +32,14 @@ const appReducer = (state = initialState, action) => {
       
     case APP_MAP_LAYERS:
       return {...state, mapLayers: action.payload };
+    
+    case APP_MAP_PROJECTS:
+      return {...state, mapProjects: action.payload };
     case APP_MAP_DATAS:
       return {...state, mapDatas: action.payload };
+      
+    case APP_MAP_PERMISSIONS:
+      return {...state, mapPermissions: action.payload };
 
     default:
       return state;

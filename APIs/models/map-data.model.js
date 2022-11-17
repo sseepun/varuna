@@ -8,15 +8,13 @@ module.exports = (sequelize, DataTypes) => {
   MapData.init({
     _id: { type: DataTypes.INTEGER, primaryKey: true },
 
-    mapLocationId: { type: DataTypes.INTEGER, allowNull: false },
-
+    mapProjectId: { type: DataTypes.INTEGER, allowNull: false },
     name: { type: DataTypes.STRING, allowNull: false },
-    description: { type: DataTypes.STRING },
-    
-    image: { type: DataTypes.STRING },
-    gallery: { type: DataTypes.STRING },
-    
+
     data: { type: DataTypes.STRING },
+
+    startAt: { type: DataTypes.DATE },
+    endAt: { type: DataTypes.DATE },
     
     status: { type: DataTypes.INTEGER, allowNull: false },
   }, {

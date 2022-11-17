@@ -81,12 +81,15 @@ function App() {
               element={<ProtectedRoute auth={GuardAdmin()} 
               element={lazy(() => import('./views/admin/MapLayerPage'))} />} />
               
-            <Route path="/admin/map-datas" 
+            <Route path="/admin/map-projects" 
               element={<ProtectedRoute auth={GuardAdmin()} 
-              element={lazy(() => import('./views/admin/MapDatasPage'))} />} />
-            <Route path="/admin/map-data/:process/*" 
+              element={lazy(() => import('./views/admin/MapProjectsPage'))} />} />
+            <Route path="/admin/map-project/view/:dataId" 
               element={<ProtectedRoute auth={GuardAdmin()} 
-              element={lazy(() => import('./views/admin/MapDataPage'))} />} />
+              element={lazy(() => import('./views/admin/MapProjectViewPage'))} />} />
+            <Route path="/admin/map-project/:process/*" 
+              element={<ProtectedRoute auth={GuardAdmin()} 
+              element={lazy(() => import('./views/admin/MapProjectPage'))} />} />
             {/* END: Admin ***************************************************************** */}
 
 

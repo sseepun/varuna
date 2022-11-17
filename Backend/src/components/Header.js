@@ -68,7 +68,7 @@ function Header(props) {
               activeIndexes: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
               children: [
                 { title: 'Map Layers', to: '/admin/map-layers', activeIndex: 21, icon: 'fa-solid fa-layer-group' },
-                { title: 'Map Data', to: '/admin/map-datas', activeIndex: 22, icon: 'fa-solid fa-map' },
+                { title: 'Map Projects', to: '/admin/map-projects', activeIndex: 22, icon: 'fa-solid fa-map' },
                 { title: 'Visualization', to: '/admin/visualization', activeIndex: 23, icon: 'fa-solid fa-globe' },
               ]
             },

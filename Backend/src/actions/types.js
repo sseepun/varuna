@@ -7,7 +7,10 @@ export const APP_SETTINGS = 'app/settings';
 export const APP_USERS = 'app/users';
 
 export const APP_MAP_LAYERS = 'app/map-layers';
+export const APP_MAP_PROJECTS = 'app/map-projects';
 export const APP_MAP_DATAS = 'app/map-datas';
+
+export const APP_MAP_PERMISSIONS = 'app/map-permissions';
 
 
 // Alert

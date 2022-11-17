@@ -50,3 +50,7 @@ public/chats/*
 !public/avatars
 public/avatars/*
 !public/avatars/index.md
+
+!public/geojson
+public/geojson/*
+!public/geojson/index.md

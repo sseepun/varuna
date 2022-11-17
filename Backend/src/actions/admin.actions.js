@@ -2,17 +2,21 @@ import { alertLoading, alertChange } from './alert.actions';
 import { apiHeader } from '../helpers/header';
 import { API_URL } from './variables';
 import {
-  APP_USERS, APP_MAP_LAYERS, APP_MAP_DATAS
+  APP_USERS, APP_MAP_LAYERS, APP_MAP_PROJECTS, APP_MAP_DATAS,
+  APP_MAP_PERMISSIONS
 } from './types';
 import {
-  PaginateModel, UserModel, MapLayerModel, MapDataModel
+  PaginateModel, UserModel, MapLayerModel, MapProjectModel, MapDataModel,
+  MapPermissionModel
 } from '../models';
 
 
 export const processClear = (type) => (dispatch) => {
   if(type === 'users') dispatch({ type: APP_USERS, payload: [] });
   else if(type === 'map-layers') dispatch({ type: APP_MAP_LAYERS, payload: [] });
+  else if(type === 'map-projects') dispatch({ type: APP_MAP_PROJECTS, payload: [] });
   else if(type === 'map-datas') dispatch({ type: APP_MAP_DATAS, payload: [] });
+  else if(type === 'map-permissions') dispatch({ type: APP_MAP_PERMISSIONS, payload: [] });
 };
 
 
@@ -43,9 +47,15 @@ export const processList = (type, input={}, loading=false) => async (dispatch) =
       }else if(type === 'map-layers'){
         res.result = data1.data.result.map(d => new MapLayerModel(d));
         dispatch({ type: APP_MAP_LAYERS, payload: res.result });
+      }else if(type === 'map-projects'){
+        res.result = data1.data.result.map(d => new MapProjectModel(d));
+        dispatch({ type: APP_MAP_PROJECTS, payload: res.result });
       }else if(type === 'map-datas'){
         res.result = data1.data.result.map(d => new MapDataModel(d));
         dispatch({ type: APP_MAP_DATAS, payload: res.result });
+      }else if(type === 'map-permissions'){
+        res.result = data1.data.result.map(d => new MapPermissionModel(d));
+        dispatch({ type: APP_MAP_PERMISSIONS, payload: res.result });
       }else if(isExport){
         if(data1.data.fileName){
           res.result = `${API_URL}frontend/download/${data1.data.fileName}`;
@@ -88,8 +98,12 @@ export const processRead = (type, input={}, loading=false) => async (dispatch) =
         result = new UserModel(data1.data.result);
       }else if(type === 'map-layer'){
         result = new MapLayerModel(data1.data.result);
+      }else if(type === 'map-project'){
+        result = new MapProjectModel(data1.data.result);
       }else if(type === 'map-data'){
         result = new MapDataModel(data1.data.result);
+      }else if(type === 'map-permission'){
+        result = new MapPermissionModel(data1.data.result);
       }else{
         result = data1.data.result;
       }

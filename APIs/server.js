@@ -26,7 +26,16 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  parameterLimit: 100000,
+  limit: '100mb',
+  extended: true,
+}));
+app.use(bodyParser.json({
+  parameterLimit: 100000,
+  limit: '100mb',
+  extended: true,
+}));
 
 
 // Routes

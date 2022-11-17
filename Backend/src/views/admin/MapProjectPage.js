@@ -4,23 +4,22 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { onMounted } from '../../helpers/frontend';
 import Breadcrumb from '../../components/Breadcrumb';
 import Footer from '../../components/Footer';
-import AvatarUploader from '../../components/AvatarUploader';
-import PasswordValidator from '../../components/PasswordValidator';
+import ImageUploader from '../../components/ImageUploader';
 import Select from 'react-select';
 
 import { connect } from 'react-redux';
 import { setSidenavActiveIndex } from '../../actions/app.actions';
 import { processCreate, processRead, processUpdate } from '../../actions/admin.actions';
-import { UserModel, AddressModel } from '../../models';
+import { MapProjectModel, AddressModel } from '../../models';
 
 
-function PartnerPage(props) {
+function MapProjectPage(props) {
   const history = useNavigate();
   const params = useParams();
   const process = params.process? params.process: 'create';
   const dataId = params['*']? params['*']: null;
 
-  const [values, setValues] = useState(new UserModel({ status: 1 }));
+  const [values, setValues] = useState(new MapProjectModel({ status: 1 }));
   const onChangeInput = (key, val, isNumber=false) => {
     if(isNumber) val = val || val===0? Number(val): '';
     setValues({ ...values, [key]: val });
@@ -49,39 +48,30 @@ function PartnerPage(props) {
     }
   };
 
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
   const onSubmit = async (e) => {
     e.preventDefault();
     if(process === 'create'){
-      let res = await props.processCreate('user',  {
-        ...values, address: address, roleLevel: 10,
-        password: password, confirmPassword: confirmPassword
+      let res = await props.processCreate('map-project', {
+        ...values, mapLocation: address
       }, true);
-      if(res) history(`/admin/partners`);
+      if(res) history(`/admin/map-project/view/${res.data}`);
     }else if(process === 'update'){
-      let updateInput = { ...values, address: address };
-      if(password) updateInput['password'] = password;
-      if(confirmPassword) updateInput['confirmPassword'] = confirmPassword;
-      await props.processUpdate('user', updateInput, true).then(() => {
-        setPassword('');
-        setConfirmPassword('');
-      });
+      let updateInput = { ...values, mapLocation: address };
+      await props.processUpdate('map-project', updateInput, true);
     }
   };
 
   /* eslint-disable */
-	useEffect(() => { onMounted(); props.setSidenavActiveIndex(21); }, []);
+	useEffect(() => { onMounted(); props.setSidenavActiveIndex(22); }, []);
 	useEffect(() => {
     if(['create', 'view', 'update'].indexOf(process) < 0){
-      history('/admin/partners');
+      history('/admin/map-projects');
     }else{
       if(['view', 'update'].indexOf(process) > -1){
-        props.processRead('user', { _id: dataId, isPartner: 1 }, true).then(d => {
+        props.processRead('map-project', { _id: dataId }, true).then(d => {
           setValues(d);
-          setAddress(d.address);
-        }).catch(() => history('/admin/partners'));
+          setAddress(d.mapLocation);
+        }).catch(() => history('/admin/map-projects'));
       }
     }
   }, []);
@@ -90,58 +80,38 @@ function PartnerPage(props) {
   return (
     <div className="app-container">
       <Breadcrumb 
-        title={`${process} Partner`} 
+        title={`${process} Map Data`} 
         structure={[
           { title: 'Admin', to: '/admin' },
-          { title: 'Partner Management', to: '/admin/partners' }
+          { title: 'Map Projects', to: '/admin/map-projects' }
         ]}
       />
 
       <div className="app-card p-0 mt-4">
         <form onSubmit={onSubmit}>
           <div className="app-card-block">
-            <p className="lg fw-800">ข้อมูลบัญชีผู้ใช้</p>
+            <p className="lg fw-800">ข้อมูลทั่วไป</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
+              <div className="grid sm-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>ชื่อจริง <span className="color-danger">*</span></label>
+                  <label>ชื่อโปรเจค <span className="color-danger">*</span></label>
                   <input
                     type="text" disabled={process==='view'} required={true} 
-                    value={values.firstname? values.firstname: ''} 
-                    onChange={e => onChangeInput('firstname', e.target.value)} 
-                  />
-                </div>
-              </div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>นามสกุล <span className="color-danger">*</span></label>
-                  <input
-                    type="text" disabled={process==='view'} required={true} 
-                    value={values.lastname? values.lastname: ''} 
-                    onChange={e => onChangeInput('lastname', e.target.value)} 
+                    value={values.name? values.name: ''} 
+                    onChange={e => onChangeInput('name', e.target.value)} 
                   />
                 </div>
               </div>
               <div className="sep"></div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
+              <div className="grid sm-100 md-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>ชื่อผู้ใช้ <span className="color-danger">*</span></label>
-                  <input
-                    type="text" disabled={process==='view'} required={true} 
-                    value={values.username? values.username: ''} 
-                    onChange={e => onChangeInput('username', e.target.value)} 
-                  />
-                </div>
-              </div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>อีเมล <span className="color-danger">*</span></label>
-                  <input
-                    type="email" disabled={process==='view'} required={true} 
-                    value={values.email? values.email: ''} 
-                    onChange={e => onChangeInput('email', e.target.value)} 
-                  />
+                  <label>รายละเอียด</label>
+                  <textarea
+                    type="text" disabled={process==='view'} rows={2} 
+                    value={values.description? values.description: ''} 
+                    onChange={e => onChangeInput('description', e.target.value)} 
+                  ></textarea>
                 </div>
               </div>
               <div className="sep"></div>
@@ -158,68 +128,13 @@ function PartnerPage(props) {
                   </select>
                 </div>
               </div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <AvatarUploader
-                  process={process} avatar={values.avatar} 
-                  onChangeAvatar={onChangeFile('avatar')} 
-                />
-              </div>
             </div>
           </div>
-          {process !== 'view'? (
-            <div className="app-card-block">
-              <p className="lg fw-800">ข้อมูลรหัสผ่าน</p>
-              <div className="ss-sep-01 mt-3"></div>
-              <div className="grids">
-                <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                  <div className="form-control">
-                    <label>
-                      รหัสผ่าน{process==='create'? (
-                        <> <span className="color-danger">*</span></>
-                      ): (<>ใหม่</>)}
-                    </label>
-                    <input
-                      type="password" disabled={process==='view'} 
-                      value={password} required={process==='create'} 
-                      onChange={e => setPassword(e.target.value)} 
-                    />
-                  </div>
-                  <div className="mt-2">
-                    <PasswordValidator process={process} password={password} />
-                  </div>
-                </div>
-                <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                  <div className="form-control">
-                    <label>
-                      ยืนยันรหัสผ่าน{process==='create'? (
-                        <> <span className="color-danger">*</span></>
-                      ): (<>ใหม่</>)}
-                    </label>
-                    <input
-                      type="password" disabled={process==='view'} 
-                      value={confirmPassword} required={process==='create'} 
-                      onChange={e => setConfirmPassword(e.target.value)} 
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          ): (<></>)}
+          
           <div className="app-card-block">
-            <p className="lg fw-800">ข้อมูลติดต่อ</p>
+            <p className="lg fw-800">ข้อมูลที่อยู่</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>เบอร์โทรศัพท์</label>
-                  <input
-                    type="text" disabled={process==='view'} 
-                    value={address.telephone? address.telephone: ''} 
-                    onChange={e => onChangeInputAddress('telephone', e.target.value)} 
-                  />
-                </div>
-              </div>
-              <div className="sep"></div>
               <div className="grid sm-100 md-100 lg-80 xl-2-3">
                 <div className="form-control">
                   <label>ที่อยู่</label>
@@ -243,7 +158,6 @@ function PartnerPage(props) {
                     })} 
                     value={address.province? { value: address.province, label: address.province }: ''} 
                     onChange={val => onChangeInputAddress('province', val, true)} 
-                    
                   />
                 </div>
               </div>
@@ -295,6 +209,32 @@ function PartnerPage(props) {
               </div>
             </div>
           </div>
+          
+          <div className="app-card-block">
+            <p className="lg fw-800">ข้อมูลรูปภาพ</p>
+            <div className="ss-sep-01 mt-3"></div>
+            <div className="grids">
+              <div className="grid sm-50 md-50 lg-40 xl-1-3">
+                <div className="form-control">
+                  <label>รูปภาพประกอบ</label>
+                  <ImageUploader
+                    process={process} images={[values.image]} 
+                    onChangeImage={onChangeFile('image')} isMultiple={false} 
+                  />
+                </div>
+              </div>
+              <div className="grid sm-50 md-50 lg-40 xl-1-3">
+                <div className="form-control">
+                  <label>รูปภาพ Gallery</label>
+                  <ImageUploader
+                    process={process} images={values.gallery} required={false} 
+                    onChangeImage={onChangeFile('gallery')} isMultiple={true} 
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="app-card-block border-top-1 bcolor-fgray pt-0">
             <div className="btns">
               {['create', 'update'].indexOf(process) > -1? (
@@ -303,11 +243,11 @@ function PartnerPage(props) {
                 </button>
               ): (<></>)}
               {process === 'update'? (
-                <Link to={`/admin/partner/view/${dataId}`} className="btn btn-action btn-p-border">
+                <Link to={`/admin/map-project/view/${dataId}`} className="btn btn-action btn-p-border">
                   ดูข้อมูล
                 </Link>
               ): (<></>)}
-              <Link to="/admin/partners" className="btn btn-action btn-default">
+              <Link to="/admin/map-projects" className="btn btn-action btn-default">
                 ย้อนกลับ
               </Link>
             </div>
@@ -320,11 +260,10 @@ function PartnerPage(props) {
   );
 }
 
-PartnerPage.defaultProps = {
+MapProjectPage.defaultProps = {
 	
 };
-PartnerPage.propTypes = {
-  setSidenavActiveIndex: PropTypes.func.isRequired,
+MapProjectPage.propTypes = {
   processCreate: PropTypes.func.isRequired,
 	processRead: PropTypes.func.isRequired,
 	processUpdate: PropTypes.func.isRequired
@@ -339,4 +278,4 @@ export default connect(mapStateToProps, {
   processCreate: processCreate,
   processRead: processRead,
   processUpdate: processUpdate
-})(PartnerPage);
+})(MapProjectPage);

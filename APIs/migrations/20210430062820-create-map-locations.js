@@ -24,6 +24,11 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: ''
       },
+      province: {
+        allowNull: true,
+        type: Sequelize.STRING,
+        defaultValue: ''
+      },
       zipcode: {
         allowNull: true,
         type: Sequelize.STRING,

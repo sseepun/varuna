@@ -6,7 +6,6 @@ import Breadcrumb from '../../components/Breadcrumb';
 import Footer from '../../components/Footer';
 import AvatarUploader from '../../components/AvatarUploader';
 import PasswordValidator from '../../components/PasswordValidator';
-import Select from 'react-select';
 
 import { connect } from 'react-redux';
 import { setSidenavActiveIndex } from '../../actions/app.actions';
@@ -120,7 +119,6 @@ function ProfilePage(props) {
                   />
                 </div>
               </div>
-              <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <AvatarUploader
                   avatar={values.avatar} 

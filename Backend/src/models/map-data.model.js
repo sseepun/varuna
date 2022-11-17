@@ -1,22 +1,16 @@
-import { FileModel, AddressModel } from '.';
-import { unescape } from 'html-escaper';
+import { MapProjectModel, FileModel } from '.';
 
 export class MapDataModel {
   constructor(data) {
     this._id = data._id? data._id: null;
 
-    this.mapLocation = new AddressModel(data.mapLocation? data.mapLocation: {});
-    
+    this.mapProject = new MapProjectModel(data.mapProject? data.mapProject: {});
     this.name = data.name? data.name: null;
-    this.description = data.description? unescape(data.description): null;
 
-    this.image = new FileModel(
-      data.image? data.image: { path: '/assets/img/default/img.jpg' }
-    );
-    this.gallery = data.gallery && data.gallery.length
-      ? data.gallery.map(d => new FileModel(d)): [];
+    this.data = new FileModel(data.data? data.data: {});
 
-    this.data = data.data? data.data: null;
+    this.startAt = data.startAt? new Date(data.startAt): null;
+    this.endAt = data.endAt? new Date(data.endAt): null;
     
     this.status = data.status? Number(data.status): 0;
   }
@@ -29,6 +23,19 @@ export class MapDataModel {
       else return (<span className="ss-tag bg-warning">ปิดใช้งาน</span>);
     }else{
       return (<span className="ss-tag bg-warning">ปิดใช้งาน</span>);
+    }
+  }
+
+  async getData() {
+    if(!this.isValid() || !this.data || !this.data.path){
+      return null;
+    }else{
+      let fetch1 = await fetch(this.data.path);
+      if(fetch1 && fetch1.status === 200){
+        return await fetch1.json();
+      }else{
+        return null;
+      }
     }
   }
 }

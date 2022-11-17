@@ -86,6 +86,32 @@ module.exports = function(app) {
   );
   
   router.post(
+    '/map-projects',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapProjectList
+  );
+  router.get(
+    '/map-project',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapProjectRead
+  );
+  router.post(
+    '/map-project',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapProjectCreate
+  );
+  router.patch(
+    '/map-project',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapProjectUpdate
+  );
+  router.delete(
+    '/map-project',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapProjectDelete
+  );
+  
+  router.post(
     '/map-datas',
     [ authJwt.verifyToken, authJwt.isAdmin ],
     AdminController.mapDataList
@@ -100,10 +126,26 @@ module.exports = function(app) {
     [ authJwt.verifyToken, authJwt.isAdmin ],
     AdminController.mapDataCreate
   );
+  router.patch(
+    '/map-data',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapDataUpdate
+  );
   router.delete(
     '/map-data',
     [ authJwt.verifyToken, authJwt.isAdmin ],
     AdminController.mapDataDelete
+  );
+  
+  router.post(
+    '/map-permissions',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapPermissionList
+  );
+  router.patch(
+    '/map-permission',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapPermissionUpdate
   );
   // END: Map
 
