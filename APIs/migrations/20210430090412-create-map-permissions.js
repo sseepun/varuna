@@ -9,10 +9,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
 
-      mapDataId: {
+      mapProjectId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'map_datas', key: '_id' },
+        references: { model: 'map_projects', key: '_id' },
         onUpdate: 'NO ACTION',
         onDelete: 'CASCADE'
       },

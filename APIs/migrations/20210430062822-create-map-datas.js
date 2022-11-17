@@ -9,37 +9,31 @@ module.exports = {
         type: Sequelize.INTEGER
       },
 
-      mapLocationId: {
+      mapProjectId: {
         allowNull: true,
         type: Sequelize.INTEGER,
-        references: { model: 'map_locations', key: '_id' },
+        references: { model: 'map_projects', key: '_id' },
         onUpdate: 'NO ACTION',
-        onDelete: 'NO ACTION'
+        onDelete: 'CASCADE'
       },
-      
       name: {
         type: Sequelize.STRING(255),
         allowNull: false,
-      },
-      description: {
-        allowNull: true,
-        type: Sequelize.TEXT,
-        defaultValue: ''
-      },
-      
-      image: {
-        allowNull: true,
-        type: Sequelize.TEXT
-      },
-      gallery: {
-        allowNull: true,
-        type: Sequelize.TEXT
       },
       
       data: {
         allowNull: true,
         type: Sequelize.TEXT,
         defaultValue: ''
+      },
+      
+      startAt: {
+        type: Sequelize.DATE,
+        defaultValue: null,
+      },
+      endAt: {
+        type: Sequelize.DATE,
+        defaultValue: null,
       },
 
       status: {

@@ -1,14 +1,7 @@
 'use strict';
-
-/*
-  status : Number
-    0 = Inactive
-    1 = Active
-*/
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('map_layer_mappings', {
+    await queryInterface.createTable('map_projects', {
       _id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,25 +9,31 @@ module.exports = {
         type: Sequelize.INTEGER
       },
 
-      mapLayerId: {
-        allowNull: false,
+      mapLocationId: {
+        allowNull: true,
         type: Sequelize.INTEGER,
-        references: { model: 'map_layers', key: '_id' },
+        references: { model: 'map_locations', key: '_id' },
         onUpdate: 'NO ACTION',
-        onDelete: 'CASCADE'
-      },
-      mapDataId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: { model: 'map_datas', key: '_id' },
-        onUpdate: 'NO ACTION',
-        onDelete: 'CASCADE'
+        onDelete: 'NO ACTION'
       },
       
-      data: {
+      name: {
+        type: Sequelize.STRING(255),
+        allowNull: false,
+      },
+      description: {
         allowNull: true,
         type: Sequelize.TEXT,
         defaultValue: ''
+      },
+      
+      image: {
+        allowNull: true,
+        type: Sequelize.TEXT
+      },
+      gallery: {
+        allowNull: true,
+        type: Sequelize.TEXT
       },
 
       status: {
@@ -52,6 +51,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('map_layer_mappings');
+    await queryInterface.dropTable('map_projects');
   }
 };
