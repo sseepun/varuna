@@ -11,7 +11,7 @@ import Select from 'react-select';
 import { connect } from 'react-redux';
 import { setSidenavActiveIndex } from '../../actions/app.actions';
 import { userUpdate } from '../../actions/user.actions';
-import { UserModel, AddressModel } from '../../models';
+import { UserModel } from '../../models';
 
 
 function ProfilePage(props) {
@@ -26,32 +26,11 @@ function ProfilePage(props) {
     onChangeInput(key, val);
   };
 
-  const [address, setAddress] = useState(new AddressModel(user.address));
-  const onChangeInputAddress = (key, val, selector=false) => {
-    if(selector && val) val = val.value;
-    if(key === 'province'){
-      setAddress(new AddressModel({
-        ...address, province: val, district: null, subdistrict: null, zipcode: null
-      }));
-    }else if(key === 'district'){
-      setAddress(new AddressModel({
-        ...address, district: val, subdistrict: null, zipcode: null
-      }));
-    }else if(key === 'subdistrict'){
-      setAddress(new AddressModel({
-        ...address, subdistrict: val, zipcode: null
-      }));
-    }else{
-      setAddress(new AddressModel({ ...address, [key]: val }));
-    }
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
-    await props.processUpdate('account', { ...values, address: address });
+    await props.processUpdate('account', { ...values });
   };
 
-  
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -132,99 +111,21 @@ function ProfilePage(props) {
               </div>
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <AvatarUploader
-                  avatar={values.avatar} 
-                  onChangeAvatar={onChangeFile('avatar')} 
-                />
-              </div>
-            </div>
-          </div>
-          <div className="app-card-block">
-            <p className="lg fw-800">ข้อมูลติดต่อ</p>
-            <div className="ss-sep-01 mt-3"></div>
-            <div className="grids">
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
                   <label>เบอร์โทรศัพท์</label>
                   <input
                     type="text" 
-                    value={address.telephone? address.telephone: ''} 
-                    onChange={e => onChangeInputAddress('telephone', e.target.value)} 
-                  />
-                </div>
-              </div>
-              <div className="sep"></div>
-              <div className="grid sm-100 md-100 lg-80 xl-2-3">
-                <div className="form-control">
-                  <label>ที่อยู่</label>
-                  <textarea
-                    type="text" rows={2} 
-                    value={address.address? address.address: ''} 
-                    onChange={e => onChangeInputAddress('address', e.target.value)} 
-                  ></textarea>
-                </div>
-              </div>
-              <div className="sep"></div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>จังหวัด</label>
-                  <Select 
-                    className={`select-multi`} 
-                    isMulti={false} placeholder="" 
-                    isDisabled={false} isClearable={true} 
-                    options={address.provinces().map(d => {
-                      return { value: d.nameTH, label: d.nameTH };
-                    })} 
-                    value={address.province? { value: address.province, label: address.province }: ''} 
-                    onChange={val => onChangeInputAddress('province', val, true)} 
-                  />
-                </div>
-              </div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>{address.prefixDistrict()}</label>
-                  <Select 
-                    className={`select-multi`} 
-                    isMulti={false} placeholder="" 
-                    isDisabled={false} isClearable={true} 
-                    options={address.districts().map(d => {
-                      return { value: d.nameTH, label: d.nameTH };
-                    })} 
-                    value={address.district? { value: address.district, label: address.district }: ''} 
-                    onChange={val => onChangeInputAddress('district', val, true)} 
+                    value={values.telephone? values.telephone: ''} 
+                    onChange={e => onChangeInput('telephone', e.target.value)} 
                   />
                 </div>
               </div>
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>{address.prefixSubdistrict()}</label>
-                  <Select 
-                    className={`select-multi`} 
-                    isMulti={false} placeholder="" 
-                    isDisabled={false} isClearable={true} 
-                    options={address.subdistricts().map(d => {
-                      return { value: d.nameTH, label: d.nameTH };
-                    })} 
-                    value={address.subdistrict? { value: address.subdistrict, label: address.subdistrict }: ''} 
-                    onChange={val => onChangeInputAddress('subdistrict', val, true)} 
-                  />
-                </div>
-              </div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>รหัสไปรษณีย์</label>
-                  <Select 
-                    className={`select-multi`} 
-                    isMulti={false} placeholder="" 
-                    isDisabled={false} isClearable={true} 
-                    options={address.zipcodes().map(d => {
-                      return { value: d.zipcode, label: d.zipcode };
-                    })} 
-                    value={address.zipcode? { value: address.zipcode, label: address.zipcode }: ''} 
-                    onChange={val => onChangeInputAddress('zipcode', val, true)} 
-                  />
-                </div>
+                <AvatarUploader
+                  avatar={values.avatar} 
+                  onChangeAvatar={onChangeFile('avatar')} 
+                />
               </div>
             </div>
           </div>
