@@ -19,10 +19,10 @@ export class MapDataModel {
 
   displayStatus() {
     if(this.isValid()){
-      if(this.status === 1) return (<span className="ss-tag bg-success">เปิดใช้งาน</span>);
-      else return (<span className="ss-tag bg-warning">ปิดใช้งาน</span>);
+      if(this.status === 1) return (<span className="ss-tag bg-success">Active</span>);
+      else return (<span className="ss-tag bg-warning">Inactive</span>);
     }else{
-      return (<span className="ss-tag bg-warning">ปิดใช้งาน</span>);
+      return (<span className="ss-tag bg-warning">Inactive</span>);
     }
   }
 
@@ -30,10 +30,20 @@ export class MapDataModel {
     if(!this.isValid() || !this.data || !this.data.path){
       return null;
     }else{
-      let fetch1 = await fetch(this.data.path);
-      if(fetch1 && fetch1.status === 200){
-        return await fetch1.json();
-      }else{
+      try {
+        let fetch1 = await fetch(this.data.path, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if(fetch1 && fetch1.status === 200){
+          let data1 = await fetch1.json();
+          return data1;
+        }else{
+          return null;
+        }
+      } catch(err) {
+        console.log(123)
+        console.log(err);
         return null;
       }
     }

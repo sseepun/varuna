@@ -27,12 +27,12 @@ function Page404(props) {
               </div>
             </div>
             <p className="fw-500 text-center mt-6">
-              ไม่พบหน้าที่คุณค้นหาในระบบของเรา <br />
-              กรุณาลองใหม่อีกครั้ง
+              The page you searched for was not found in our system.
+              <br /> Please try again later.
             </p>
             <div className="btns pt-2">
               <Link to="/" className="btn btn-action btn-p btn-lg w-full">
-                กลับสู่หน้าแรก
+                Back to Sign In
               </Link>
             </div>
           </div>

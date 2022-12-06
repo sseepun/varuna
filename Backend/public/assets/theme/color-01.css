@@ -87,6 +87,10 @@ html, body{background:#ffffff; color:#141414;}
 .btn.btn-info:hover{box-shadow:inset 0 0 0 100rem rgba(0,0,0,.04);}
 .btn.btn-info:active{box-shadow:inset 0 0 0 100rem rgba(0,0,0,.08);}
 
+.btn.btn-danger, .btn.btn-danger:focus{color:#ffffff; background:#f5334f;}
+.btn.btn-danger:hover{box-shadow:inset 0 0 0 100rem rgba(0,0,0,.04);}
+.btn.btn-danger:active{box-shadow:inset 0 0 0 100rem rgba(0,0,0,.08);}
+
 .btn-icon{background:transparent; color:#141414;}
 .btn-icon:hover{background:#f4f4f4; color:var(--p-color);}
 
@@ -185,6 +189,11 @@ footer.footer{background:#ffffff; box-shadow:rgb(0 0 0 / 4%) 0px 7px 14px;}
 .popup-container .popup-box .popup-header,
 .popup-container .popup-box .popup-footer{border-color:#e1e0ea!important;}
 .popup-container .hamburger > div{background:#999999;}
+
+
+/* Progress Wrapper */
+.progress-container .progress-bar{background:#eeeeee;}
+.progress-container .progress-bar > .bar{background:var(--p-color);}
 
 
 /* Special Card 02 */

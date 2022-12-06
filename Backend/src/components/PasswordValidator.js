@@ -20,16 +20,16 @@ function PasswordValidator(props) {
   return (
     props.process !== 'view'? (
       <div>
-        <p className="xs fw-500">ข้อแนะนำการตั้งรหัสผ่าน</p>
+        <p className="xs fw-500">Password instruction</p>
         <ul>
           <li className={`xs fw-500 ${valid1? 'color-p': 'op-60'}`}>
-            ขั้นต่ำ 6 ตัวอักษร
+            Minimum of 6 characters
           </li>
           <li className={`xs fw-500 ${valid2? 'color-p': 'op-60'}`}>
-            ตัวเลข 0-9 อย่างน้อย 1 ตัว
+            Contain at least one number from 0-9
           </li>
           <li className={`xs fw-500 ${valid3? 'color-p': 'op-60'}`}>
-            สัญลักษณ์ * ! @ # $ & ? % ^ ( ) อย่างน้อย 1 ตัว
+            Contain at least one symbol from * ! @ # $ & ? % ^ ( )
           </li>
         </ul>
       </div>

@@ -90,12 +90,12 @@ function MapProjectPage(props) {
       <div className="app-card p-0 mt-4">
         <form onSubmit={onSubmit}>
           <div className="app-card-block">
-            <p className="lg fw-800">ข้อมูลทั่วไป</p>
+            <p className="lg fw-800">Project Information</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
               <div className="grid sm-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>ชื่อโปรเจค <span className="color-danger">*</span></label>
+                  <label>Project name <span className="color-danger">*</span></label>
                   <input
                     type="text" disabled={process==='view'} required={true} 
                     value={values.name? values.name: ''} 
@@ -106,7 +106,7 @@ function MapProjectPage(props) {
               <div className="sep"></div>
               <div className="grid sm-100 md-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>รายละเอียด</label>
+                  <label>Description</label>
                   <textarea
                     type="text" disabled={process==='view'} rows={2} 
                     value={values.description? values.description: ''} 
@@ -117,14 +117,14 @@ function MapProjectPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>สถานะ <span className="color-danger">*</span></label>
+                  <label>Status <span className="color-danger">*</span></label>
                   <select 
                     disabled={process==='view'} required={true} 
                     value={values.status || values.status===0? values.status: ''} 
                     onChange={e => onChangeInput('status', e.target.value, true)} 
                   >
-                    <option value="1">เปิดใช้งาน</option>
-                    <option value="0">ปิดใช้งาน</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
                   </select>
                 </div>
               </div>
@@ -132,12 +132,12 @@ function MapProjectPage(props) {
           </div>
           
           <div className="app-card-block">
-            <p className="lg fw-800">ข้อมูลที่อยู่</p>
+            <p className="lg fw-800">Address Information</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
               <div className="grid sm-100 md-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>ที่อยู่</label>
+                  <label>Address</label>
                   <textarea
                     type="text" disabled={process==='view'} rows={2} 
                     value={address.address? address.address: ''} 
@@ -148,7 +148,7 @@ function MapProjectPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>จังหวัด</label>
+                  <label>Province</label>
                   <Select 
                     className={`select-multi ${process === 'view'? 'disabled': ''}`} 
                     isMulti={false} placeholder="" 
@@ -163,7 +163,7 @@ function MapProjectPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>{address.prefixDistrict()}</label>
+                  <label>District</label>
                   <Select 
                     className={`select-multi ${process === 'view'? 'disabled': ''}`} 
                     isMulti={false} placeholder="" 
@@ -179,7 +179,7 @@ function MapProjectPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>{address.prefixSubdistrict()}</label>
+                  <label>Subdistrict</label>
                   <Select 
                     className={`select-multi ${process === 'view'? 'disabled': ''}`} 
                     isMulti={false} placeholder="" 
@@ -194,7 +194,7 @@ function MapProjectPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>รหัสไปรษณีย์</label>
+                  <label>Zipcode</label>
                   <Select 
                     className={`select-multi ${process === 'view'? 'disabled': ''}`} 
                     isMulti={false} placeholder="" 
@@ -211,12 +211,12 @@ function MapProjectPage(props) {
           </div>
           
           <div className="app-card-block">
-            <p className="lg fw-800">ข้อมูลรูปภาพ</p>
+            <p className="lg fw-800">Image Information</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>รูปภาพประกอบ</label>
+                  <label>Image</label>
                   <ImageUploader
                     process={process} images={[values.image]} 
                     onChangeImage={onChangeFile('image')} isMultiple={false} 
@@ -225,7 +225,7 @@ function MapProjectPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>รูปภาพ Gallery</label>
+                  <label>Gallery</label>
                   <ImageUploader
                     process={process} images={values.gallery} required={false} 
                     onChangeImage={onChangeFile('gallery')} isMultiple={true} 
@@ -239,16 +239,16 @@ function MapProjectPage(props) {
             <div className="btns">
               {['create', 'update'].indexOf(process) > -1? (
                 <button type="submit" className="btn btn-action btn-p">
-                  {process==='create'? 'สร้าง': 'แก้ไข'}ข้อมูล
+                  {process==='create'? 'Create': 'Update'}
                 </button>
               ): (<></>)}
               {process === 'update'? (
                 <Link to={`/admin/map-project/view/${dataId}`} className="btn btn-action btn-p-border">
-                  ดูข้อมูล
+                  View
                 </Link>
               ): (<></>)}
               <Link to="/admin/map-projects" className="btn btn-action btn-default">
-                ย้อนกลับ
+                Back
               </Link>
             </div>
           </div>

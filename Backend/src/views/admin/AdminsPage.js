@@ -89,7 +89,7 @@ function AdminsPage(props) {
                 <div className="form-control">
                   <div className="input-icon">
                     <input
-                      type="text" placeholder="ค้นหา..." 
+                      type="text" placeholder="Search..." 
                       value={dataFilter.keywords? dataFilter.keywords: ''} 
                       onChange={e => onChangeDataFilter('keywords', e.target.value)} 
                     />
@@ -105,22 +105,22 @@ function AdminsPage(props) {
                     value={dataFilter.status || dataFilter.status===0? dataFilter.status: ''} 
                     onChange={e => onChangeDataFilter('status', e.target.value, true)} 
                   >
-                    <option value="">เลือกสถานะ</option>
-                    <option value="1">เปิดใช้งาน</option>
-                    <option value="0">ปิดใช้งาน</option>
+                    <option value="">All statuses</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
                   </select>
                 </div>
               </div>
               <div className="grid sm-50 md-20 lg-25 xs-text-center">
                 <button type="submit" className="btn btn-action btn-p">
-                  ค้นหา
+                  Search
                 </button>
               </div>
               {user.isSuperAdmin()? (
                 <div className="grid sm-50 md-30 lg-25 text-right xs-text-center">
                   <Link to="/admin/admin/create" className="btn btn-action btn-info">
                     <em className="fa-solid fa-plus mr-2"></em>
-                    สร้าง Admin
+                    Create Admin
                   </Link>
                 </div>
               ): (<></>)}
@@ -130,18 +130,18 @@ function AdminsPage(props) {
             <table className="table" ref={tableRef}>
               <thead>
                 <tr>
-                  <th style={{ minWidth: 90, maxWidth: 90 }} className="text-center">โปรไฟล์</th>
-                  <th style={{ minWidth: 180, width: '100%' }}>ชื่อ-นามสกุล</th>
-                  <th style={{ minWidth: 140 }}>ชื่อผู้ใช้</th>
-                  <th style={{ minWidth: 180 }}>อีเมล</th>
-                  <th style={{ minWidth: 120 }}>ตำแหน่ง</th>
-                  <th style={{ minWidth: 110 }} className="text-center">สถานะ</th>
-                  <th style={{ minWidth: 110 }} className="text-center">การกระทำ</th>
+                  <th style={{ minWidth: 90, maxWidth: 90 }} className="text-center">Avatar</th>
+                  <th style={{ minWidth: 180, width: '100%' }}>Full name</th>
+                  <th style={{ minWidth: 140 }}>Username</th>
+                  <th style={{ minWidth: 180 }}>Email</th>
+                  <th style={{ minWidth: 120 }}>Role</th>
+                  <th style={{ minWidth: 110 }} className="text-center">Status</th>
+                  <th style={{ minWidth: 110 }} className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {loading? (
-                  <tr><td colSpan={7} className="text-center">กำลังโหลดข้อมูล...</td></tr>
+                  <tr><td colSpan={7} className="text-center">Loading data...</td></tr>
                 ): (
                   props.list && props.list.length? (
                     props.list.map((d, i) => (
@@ -183,7 +183,7 @@ function AdminsPage(props) {
                       </tr>
                     ))
                   ): (
-                    <tr><td colSpan={7} className="text-center">ไม่พบข้อมูลในระบบ</td></tr>
+                    <tr><td colSpan={7} className="text-center">No data found.</td></tr>
                   )
                 )}
               </tbody>
@@ -204,7 +204,7 @@ function AdminsPage(props) {
           <div className="wrapper">
             <div className="popup-box">
               <div className="popup-header">
-                <h6 className="fw-600 lh-xs">ยืนยันการลบข้อมูล</h6>
+                <h6 className="fw-600 lh-xs">Confirm to delete</h6>
                 <div className="btn-close" onClick={onModalToggle}>
                   <div className="hamburger active">
                     <div></div><div></div><div></div>
@@ -214,16 +214,17 @@ function AdminsPage(props) {
               <form onSubmit={onSubmitDelete}>
                 <div className="popup-body">
                   <p className="fw-500">
-                    กรุณายืนยันการลบข้อมูล ข้อมูลไม่สามารถนำกลับมาได้หลังจากถูกลบไปแล้ว
+                    Please confirm to delete data.
+                    The data cannot be retrieved after this confirmation.
                   </p>
                 </div>
                 <div className="popup-footer">
                   <div className="btns mt-0">
-                    <button type="submit" className="btn btn-action btn-p">
-                      ยืนยันการลบ
+                    <button type="submit" className="btn btn-action btn-danger">
+                      Delete
                     </button>
                     <button type="button" className="btn btn-action btn-default" onClick={onModalToggle}>
-                      ปิด
+                      Cancel
                     </button>
                   </div>
                 </div>

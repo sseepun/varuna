@@ -81,12 +81,12 @@ function AdminPage(props) {
       <div className="app-card p-0 mt-4">
         <form onSubmit={onSubmit}>
           <div className="app-card-block">
-            <p className="lg fw-800">ข้อมูลบัญชีผู้ใช้</p>
+            <p className="lg fw-800">Account Information</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>ชื่อจริง <span className="color-danger">*</span></label>
+                  <label>First name <span className="color-danger">*</span></label>
                   <input
                     type="text" disabled={process==='view'} required={true} 
                     value={values.firstname? values.firstname: ''} 
@@ -96,7 +96,7 @@ function AdminPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>นามสกุล <span className="color-danger">*</span></label>
+                  <label>Last name <span className="color-danger">*</span></label>
                   <input
                     type="text" disabled={process==='view'} required={true} 
                     value={values.lastname? values.lastname: ''} 
@@ -107,7 +107,7 @@ function AdminPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>ชื่อผู้ใช้ <span className="color-danger">*</span></label>
+                  <label>Username <span className="color-danger">*</span></label>
                   <input
                     type="text" disabled={process==='view'} required={true} 
                     value={values.username? values.username: ''} 
@@ -117,7 +117,7 @@ function AdminPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>อีเมล <span className="color-danger">*</span></label>
+                  <label>Email <span className="color-danger">*</span></label>
                   <input
                     type="email" disabled={process==='view'} required={true} 
                     value={values.email? values.email: ''} 
@@ -128,7 +128,7 @@ function AdminPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>เบอร์โทรศัพท์</label>
+                  <label>Telephone</label>
                   <input
                     type="text" disabled={process==='view'} 
                     value={values.telephone? values.telephone: ''} 
@@ -138,14 +138,14 @@ function AdminPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>สถานะ <span className="color-danger">*</span></label>
+                  <label>Status <span className="color-danger">*</span></label>
                   <select 
                     disabled={process==='view'} required={true} 
                     value={values.status || values.status===0? values.status: ''} 
                     onChange={e => onChangeInput('status', e.target.value, true)} 
                   >
-                    <option value="1">เปิดใช้งาน</option>
-                    <option value="0">ปิดใช้งาน</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
                   </select>
                 </div>
               </div>
@@ -160,15 +160,16 @@ function AdminPage(props) {
           </div>
           {process !== 'view'? (
             <div className="app-card-block">
-              <p className="lg fw-800">ข้อมูลรหัสผ่าน</p>
+              <p className="lg fw-800">Password Information</p>
               <div className="ss-sep-01 mt-3"></div>
               <div className="grids">
                 <div className="grid sm-50 md-50 lg-40 xl-1-3">
                   <div className="form-control">
                     <label>
-                      รหัสผ่าน{process==='create'? (
+                      {process==='create'? ('Password'): ('New password')}
+                      {process==='create'? (
                         <> <span className="color-danger">*</span></>
-                      ): (<>ใหม่</>)}
+                      ): (<></>)}
                     </label>
                     <input
                       type="password" disabled={process==='view'} 
@@ -183,9 +184,10 @@ function AdminPage(props) {
                 <div className="grid sm-50 md-50 lg-40 xl-1-3">
                   <div className="form-control">
                     <label>
-                      ยืนยันรหัสผ่าน{process==='create'? (
+                      {process==='create'? ('Confirm password'): ('Confirm new password')}
+                      {process==='create'? (
                         <> <span className="color-danger">*</span></>
-                      ): (<>ใหม่</>)}
+                      ): (<></>)}
                     </label>
                     <input
                       type="password" disabled={process==='view'} 
@@ -201,16 +203,16 @@ function AdminPage(props) {
             <div className="btns">
               {['create', 'update'].indexOf(process) > -1? (
                 <button type="submit" className="btn btn-action btn-p">
-                  {process==='create'? 'สร้าง': 'แก้ไข'}ข้อมูล
+                  {process==='create'? 'Create': 'Update'}
                 </button>
               ): (<></>)}
               {process === 'update'? (
                 <Link to={`/admin/admin/view/${dataId}`} className="btn btn-action btn-p-border">
-                  ดูข้อมูล
+                  View
                 </Link>
               ): (<></>)}
               <Link to="/admin/admins" className="btn btn-action btn-default">
-                ย้อนกลับ
+                Back
               </Link>
             </div>
           </div>

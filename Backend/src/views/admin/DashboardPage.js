@@ -10,6 +10,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { connect } from 'react-redux';
 import { setSidenavActiveIndex } from '../../actions/app.actions';
 import { processList } from '../../actions/admin.actions';
+import { MAPBOX_KEY } from '../../actions/variables';
 
 
 function DashboardPage(props) {
@@ -74,7 +75,7 @@ function DashboardPage(props) {
               }} 
               style={{ width: '100%', height: 'calc(100vh - 20rem)' }} 
               mapStyle={`mapbox://styles/mapbox/${dataFilter.mapStyle}`} 
-              mapboxAccessToken="pk.eyJ1Ijoic3NlZXB1biIsImEiOiJjamV3Z3poY241OXRlMzNtZWg0djNwMWR5In0.7p_XJjExf3-YT79G66H7Cw" 
+              mapboxAccessToken={MAPBOX_KEY} 
             >
               <Layer {...parkLayer} />
             </Map>

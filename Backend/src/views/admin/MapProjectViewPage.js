@@ -22,7 +22,7 @@ function MapProjectViewPage(props) {
   const [address, setAddress] = useState(new AddressModel({}));
   
   const [tabIndex, setTabIndex] = useState(0);
-  const tabList = ['ข้อมูลโปรเจค', 'ข้อมูลแผนที่', 'สิทธิ์การเข้าถึง'];
+  const tabList = ['Project Information', 'Project Data', 'Permissions'];
   const onChangeTabIndex = (e, i) => {
     e.preventDefault();
     setTabIndex(i);
@@ -123,14 +123,14 @@ function MapProjectViewPage(props) {
               <div className="avatar-desc">
                 <h5 className="fw-500">{values.name}</h5>
                 <p className="fw-500 color-gray op-0">
-                  สถานะ : <span className="fw-700 color-p">{values.displayStatus()}</span> 
+                  Status : <span className="fw-700 color-p">{values.displayStatus()}</span> 
                 </p>
                 <div className="btns mt-2">
                   <Link to={`/admin/map-project/update/${dataId}`} className="btn btn-action btn-p btn-xs">
-                    <em className="fa-regular fa-pen-to-square mr-1"></em> แก้ไขข้อมูล
+                    <em className="fa-regular fa-pen-to-square mr-1"></em> Update
                   </Link>
                   <Link to="/admin/map-projects" className="btn btn-action btn-default btn-xs">
-                    ย้อนกลับ
+                    Back
                   </Link>
                 </div>
               </div>
@@ -153,51 +153,51 @@ function MapProjectViewPage(props) {
         <>
           <div className="app-card p-0 mt-4">
             <div className="app-card-block">
-              <p className="lg fw-800">ข้อมูลทั่วไป</p>
+              <p className="lg fw-800">Project Information</p>
               <div className="ss-sep-01 mt-3"></div>
               <div className="grids">
                 <div className="grid lg-40 md-50 sm-100">
-                  <span className="fw-700">ชื่อโปรเจค :</span> {values.name}
+                  <span className="fw-700">Project name :</span> {values.name}
                 </div>
                 <div className="grid lg-40 md-50 sm-100">
-                  <span className="fw-700">สถานะ :</span> {values.displayStatus()}
+                  <span className="fw-700">Status :</span> {values.displayStatus()}
                 </div>
                 <div className="sep"></div>
                 <div className="grid lg-80 md-100 sm-100">
-                  <span className="fw-700">รายละเอียด :</span> {values.description? values.description: '-'}
+                  <span className="fw-700">Description :</span> {values.description? values.description: '-'}
                 </div>
               </div>
             </div>
           </div>
           <div className="app-card p-0 mt-4">
             <div className="app-card-block">
-              <p className="lg fw-800">ข้อมูลที่อยู่</p>
+              <p className="lg fw-800">Address Information</p>
               <div className="ss-sep-01 mt-3"></div>
               <div className="grids">
                 <div className="sep"></div>
                 <div className="grid lg-80 md-100 sm-100">
-                  <span className="fw-700">ที่อยู่ :</span> {address.address? address.address: '-'}
+                  <span className="fw-700">Address :</span> {address.address? address.address: '-'}
                 </div>
                 <div className="sep"></div>
                 <div className="grid lg-40 md-50 sm-100">
-                  <span className="fw-700">{address.prefixSubdistrict()} :</span> {address.subdistrict? address.subdistrict: '-'}
+                  <span className="fw-700">Subdistrict :</span> {address.subdistrict? address.subdistrict: '-'}
                 </div>
                 <div className="grid lg-40 md-50 sm-100">
-                  <span className="fw-700">{address.prefixDistrict()} :</span> {address.district? address.district: '-'}
+                  <span className="fw-700">District :</span> {address.district? address.district: '-'}
                 </div>
                 <div className="sep"></div>
                 <div className="grid lg-40 md-50 sm-100">
-                  <span className="fw-700">จังหวัด :</span> {address.province? address.province: '-'}
+                  <span className="fw-700">Province :</span> {address.province? address.province: '-'}
                 </div>
                 <div className="grid lg-40 md-50 sm-100">
-                  <span className="fw-700">รหัสไปรษณีย์ :</span> {address.zipcode? address.zipcode: '-'}
+                  <span className="fw-700">Zipcode :</span> {address.zipcode? address.zipcode: '-'}
                 </div>
               </div>
             </div>
           </div>
           <div className="app-card p-0 mt-4">
             <div className="app-card-block">
-              <p className="lg fw-800">ข้อมูลรูปภาพ</p>
+              <p className="lg fw-800">Image Information</p>
               <div className="ss-sep-01 mt-3"></div>
               <div className="gallery-grids pt-3">
                 <div className="grid xl-15 lg-20 md-25 sm-1-3 xs-50">
@@ -239,16 +239,14 @@ function MapProjectViewPage(props) {
                 <table className="table">
                   <thead>
                     <tr>
-                      <th style={{ minWidth: 140, width: '100%' }}>
-                        ผู้ใช้
-                      </th>
-                      <th style={{ minWidth: 100 }} className="text-center">อ่าน</th>
-                      <th style={{ minWidth: 100 }} className="text-center">สร้าง</th>
-                      <th style={{ minWidth: 100 }} className="text-center">แก้ไข</th>
-                      <th style={{ minWidth: 100 }} className="text-center">ลบ</th>
+                      <th style={{ minWidth: 140, width: '100%' }}>User</th>
+                      <th style={{ minWidth: 100 }} className="text-center">Read</th>
+                      <th style={{ minWidth: 100 }} className="text-center">Create</th>
+                      <th style={{ minWidth: 100 }} className="text-center">Update</th>
+                      <th style={{ minWidth: 100 }} className="text-center">Delete</th>
                       <th style={{ minWidth: 100 }} className="text-center">
                         <div onClick={onAddPermission} className="btn btn-action btn-p btn-xxs ml-2">
-                          <em className="fa-solid fa-plus mr-1"></em> เพิ่ม
+                          <em className="fa-solid fa-plus mr-1"></em> Add
                         </div>
                       </th>
                     </tr>
@@ -302,7 +300,7 @@ function MapProjectViewPage(props) {
             <div className="app-card-block border-top-1 bcolor-fgray pt-0">
               <div className="btns">
                 <button type="submit" className="btn btn-action btn-p">
-                  บันทึกข้อมูล
+                  Save
                 </button>
               </div>
             </div>

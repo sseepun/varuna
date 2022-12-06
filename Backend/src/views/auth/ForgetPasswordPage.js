@@ -38,7 +38,7 @@ function ForgetPasswordPage(props) {
             <div className="title">
               <img className="logo" src={appLogo()} alt="Logo" />
               <div className="text">
-                <h5 className="fw-900 lh-sm">ลืมรหัสผ่าน</h5>
+                <h5 className="fw-900 lh-sm">Forget Password</h5>
                 <p className="fw-600 op-70">Back Office System</p>
               </div>
             </div>
@@ -49,7 +49,7 @@ function ForgetPasswordPage(props) {
                     <div className="grid sm-100">
                       <div className="form-control">
                         <input
-                          type="email" required={true} placeholder="อีเมลของคุณ *" 
+                          type="email" required={true} placeholder="Your Email *" 
                           value={values.email? values.email: ''} className="lg" 
                           onChange={e => onChangeInput('email', e.target.value)} 
                         />
@@ -58,24 +58,25 @@ function ForgetPasswordPage(props) {
                   </div>
                   <div className="btns">
                     <button type="submit" className="btn btn-action btn-p btn-lg w-full">
-                      ขอตั้งรหัสผ่านใหม่
+                      Request to Reset Password
                     </button>
                   </div>
                 </form>
                 <p className="sm color-gray text-center mt-6">
                   <Link to="/auth/signin" className="color-s h-color-p fw-600">
-                    กลับสู่หน้าเข้าสู่ระบบ
+                    Back to Sign In
                   </Link>
                 </p>
               </>
             ): (
               <>
                 <p className="fw-500 text-center mt-6">
-                  คุณได้ทำการขอตั้งรหัสผ่านใหม่เรียบร้อยแล้ว กรุณาตรวจสอบอีเมลของคุณเพื่อทำตามขั้นตอนต่อไป
+                  You have successfully requested to reset your password. 
+                  Please check your email for the next steps.
                 </p>
                 <div className="btns pt-2">
                   <Link to="/auth/signin" className="btn btn-action btn-p w-full">
-                    เข้าสู่ระบบ
+                    Back to Sign In
                   </Link>
                 </div>
               </>

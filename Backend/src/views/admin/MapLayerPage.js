@@ -69,7 +69,7 @@ function MapLayerPage(props) {
             <div className="grids">
               <div className="grid sm-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>ชื่อ Layer <span className="color-danger">*</span></label>
+                  <label>Layer name <span className="color-danger">*</span></label>
                   <input
                     type="text" disabled={process==='view'} required={true} 
                     value={values.name? values.name: ''} 
@@ -80,7 +80,7 @@ function MapLayerPage(props) {
               <div className="sep"></div>
               <div className="grid sm-100 md-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>รายละเอียด</label>
+                  <label>Description</label>
                   <textarea
                     type="text" disabled={process==='view'} rows={2} 
                     value={values.description? values.description: ''} 
@@ -91,7 +91,7 @@ function MapLayerPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>รูปภาพประกอบ</label>
+                  <label>Image</label>
                   <ImageUploader
                     process={process} images={[values.image]} 
                     onChangeImage={onChangeFile('image')} isMultiple={false} 
@@ -100,7 +100,7 @@ function MapLayerPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>รูปไอคอน</label>
+                  <label>Icon</label>
                   <ImageUploader
                     process={process} images={[values.icon]} 
                     onChangeImage={onChangeFile('icon')} isMultiple={false} 
@@ -110,14 +110,14 @@ function MapLayerPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>สถานะ <span className="color-danger">*</span></label>
+                  <label>Status <span className="color-danger">*</span></label>
                   <select 
                     disabled={!values.isDeletable || process==='view'} required={true} 
                     value={values.status || values.status===0? values.status: ''} 
                     onChange={e => onChangeInput('status', e.target.value, true)} 
                   >
-                    <option value="1">เปิดใช้งาน</option>
-                    <option value="0">ปิดใช้งาน</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
                   </select>
                 </div>
               </div>
@@ -127,16 +127,16 @@ function MapLayerPage(props) {
             <div className="btns">
               {['create', 'update'].indexOf(process) > -1? (
                 <button type="submit" className="btn btn-action btn-p">
-                  {process==='create'? 'สร้าง': 'แก้ไข'}ข้อมูล
+                  {process==='create'? 'Create': 'Update'}
                 </button>
               ): (<></>)}
               {process === 'update'? (
                 <Link to={`/admin/map-layer/view/${dataId}`} className="btn btn-action btn-p-border">
-                  ดูข้อมูล
+                  View
                 </Link>
               ): (<></>)}
               <Link to="/admin/map-layers" className="btn btn-action btn-default">
-                ย้อนกลับ
+                Back
               </Link>
             </div>
           </div>

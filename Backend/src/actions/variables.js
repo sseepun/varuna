@@ -9,3 +9,5 @@ export const APP_PREFIX = `${process.env.REACT_APP_PREFIX}`;
 
 export const TOKEN_KEY = `${process.env.REACT_APP_TOKEN_KEY}`;
 export const REFRESH_KEY = `${process.env.REACT_APP_REFRESH_KEY}`;
+
+export const MAPBOX_KEY = `${process.env.REACT_APP_MAPBOX_KEY}`;

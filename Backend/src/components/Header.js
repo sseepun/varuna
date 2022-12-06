@@ -113,16 +113,16 @@ function Header(props) {
                 <div className="dropdown bcolor-fgray">
                   <div className="wrapper bcolor-fgray">
                     <h6 className="name">{user.displayName()}</h6>
-                    <p className="role color-gray">ตำแหน่ง : {user.displayRole()}</p>
+                    <p className="role color-gray">Role : {user.displayRole()}</p>
                   </div>
                   <div className="wrapper bcolor-fgray">
                     <Link to={`${user.path()}/profile`} className="dropdown-item">
                       <div className="icon"><em className="fa-solid fa-user"></em></div>
-                      ข้อมูลส่วนตัว
+                      My Profile
                     </Link>
                     <div className="dropdown-item c-pointer" onClick={onSignout}>
                       <div className="icon"><em className="fa-solid fa-right-to-bracket"></em></div>
-                      ออกจากระบบ
+                      Sign Out
                     </div>
                   </div>
                 </div>

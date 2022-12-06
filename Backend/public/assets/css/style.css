@@ -488,6 +488,20 @@ fieldset{width:100%; padding:0; margin:0; border:0;}
 }
 
 
+/* Progress Wrapper */
+.progress-container{
+	width:100%; display:flex; align-items:center; justify-content:space-between;
+}
+.progress-container .progress-wrapper{width:calc(100% - 3.5rem);}
+.progress-container .progress-bar{
+	position:relative; display:block; width:100%; height:.5rem;
+	border-radius:.25rem; overflow:hidden;
+}
+.progress-container .progress-bar > .bar{
+	display:block; height:.5rem; transition:width .1s;
+}
+
+
 /* Scrollbar */
 ::-webkit-scrollbar{width:7px; border-radius:.25rem;}
 ::-webkit-scrollbar-track{background:#dddddd;}
@@ -542,7 +556,7 @@ fieldset{width:100%; padding:0; margin:0; border:0;}
 	border:1.5px solid transparent; transition:color .25s;
 }
 .ss-card-03 > .wrapper{width:100%;}
-.ss-card-03 .title{cursor:pointer; transition:color .25;}
+.ss-card-03 .title{cursor:pointer; transition:color .25s;}
 .ss-card-03 .options{
 	position:absolute; bottom:0; left:0; right:0; padding:.75rem 1rem;
 	display:flex; align-items:center; justify-content:space-between;
