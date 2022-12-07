@@ -34,6 +34,7 @@ function SigninPage(props) {
   return (
     <section className="auth-01 section-padding">
       <div className="bg-img" style={{ backgroundImage: `url('/assets/img/bg/01.jpg')` }}></div>
+      <div className="filter"></div>
       <div className="container">
         <div className="auth-container bradius box-shadow">
           <div className="auth-body bg-white">

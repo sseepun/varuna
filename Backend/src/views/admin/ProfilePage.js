@@ -129,7 +129,7 @@ function ProfilePage(props) {
           </div>
           <div className="app-card-block border-top-1 bcolor-fgray pt-0">
             <div className="btns">
-              <button type="submit" className="btn btn-action btn-p">
+              <button type="submit" className="btn btn-action btn-s">
                 Update
               </button>
               <Link to="/admin/profile" className="btn btn-action btn-default">
@@ -184,7 +184,7 @@ function ProfilePage(props) {
           </div>
           <div className="app-card-block border-top-1 bcolor-fgray pt-0">
             <div className="btns">
-              <button type="submit" className="btn btn-action btn-p">
+              <button type="submit" className="btn btn-action btn-s">
                 Update
               </button>
               <Link to="/admin/profile" className="btn btn-action btn-default">

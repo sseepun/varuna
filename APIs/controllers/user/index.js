@@ -61,7 +61,7 @@ module.exports = {
         email: email
       };
       if(telephone!==undefined) updateInput['telephone'] = telephone;
-      if(avatar!==undefined) updateInput['avatar'] = formater.cleanFileObject(avatar);
+      if(avatar!==undefined) updateInput['avatar'] = JSON.stringify(avatar);
       await user.update(updateInput);
 
       return resProcess['200'](res);

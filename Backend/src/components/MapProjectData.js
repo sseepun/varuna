@@ -245,12 +245,12 @@ function MapProjectData(props) {
               </div>
               <div className="popup-footer">
                 <div className="btns mt-0">
-                  <button type="submit" className="btn btn-action btn-p">
+                  <button type="submit" className="btn btn-action btn-s">
                     {process === 'create'? 'Add': 'Update'}
                   </button>
                   {process === 'update'? (
                     <button 
-                      type="button" className="btn btn-action btn-p-border" 
+                      type="button" className="btn btn-action btn-s-border" 
                       onClick={e => onProcess(e, 'read', selectedData)} 
                     >
                       View
@@ -398,6 +398,32 @@ function MapProjectData(props) {
                 <button 
                   type="button" onClick={e => { e.preventDefault(); setUploadStatus(0); }}
                   className={`btn btn-action btn-disabled ${uploadStatus < 2? 'op-50 pe-none': ''}`} 
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={`popup-container ${uploadStatus < 0? 'active': ''}`}>
+        <div className="wrapper">
+          <div className="popup-box">
+            <div className="popup-header">
+              <h6 className="fw-600 lh-xs">
+                Failed to upload GeoJSON
+              </h6>
+            </div>
+            <div className="popup-body">
+              <p className="fw-500">
+                {uploadMessage}
+              </p>
+            </div>
+            <div className="popup-footer">
+              <div className="btns mt-0">
+                <button 
+                  type="button" onClick={e => { e.preventDefault(); setUploadStatus(0); }}
+                  className={`btn btn-action btn-disabled`} 
                 >
                   Close
                 </button>

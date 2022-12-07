@@ -126,12 +126,12 @@ function MapLayerPage(props) {
           <div className="app-card-block border-top-1 bcolor-fgray pt-0">
             <div className="btns">
               {['create', 'update'].indexOf(process) > -1? (
-                <button type="submit" className="btn btn-action btn-p">
+                <button type="submit" className="btn btn-action btn-s">
                   {process==='create'? 'Create': 'Update'}
                 </button>
               ): (<></>)}
               {process === 'update'? (
-                <Link to={`/admin/map-layer/view/${dataId}`} className="btn btn-action btn-p-border">
+                <Link to={`/admin/map-layer/view/${dataId}`} className="btn btn-action btn-s-border">
                   View
                 </Link>
               ): (<></>)}

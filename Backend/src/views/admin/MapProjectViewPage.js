@@ -126,7 +126,7 @@ function MapProjectViewPage(props) {
                   Status : <span className="fw-700 color-p">{values.displayStatus()}</span> 
                 </p>
                 <div className="btns mt-2">
-                  <Link to={`/admin/map-project/update/${dataId}`} className="btn btn-action btn-p btn-xs">
+                  <Link to={`/admin/map-project/update/${dataId}`} className="btn btn-action btn-s btn-xs">
                     <em className="fa-regular fa-pen-to-square mr-1"></em> Update
                   </Link>
                   <Link to="/admin/map-projects" className="btn btn-action btn-default btn-xs">
@@ -245,7 +245,7 @@ function MapProjectViewPage(props) {
                       <th style={{ minWidth: 100 }} className="text-center">Update</th>
                       <th style={{ minWidth: 100 }} className="text-center">Delete</th>
                       <th style={{ minWidth: 100 }} className="text-center">
-                        <div onClick={onAddPermission} className="btn btn-action btn-p btn-xxs ml-2">
+                        <div onClick={onAddPermission} className="btn btn-action btn-s btn-xxs ml-2">
                           <em className="fa-solid fa-plus mr-1"></em> Add
                         </div>
                       </th>
@@ -299,7 +299,7 @@ function MapProjectViewPage(props) {
             </div>
             <div className="app-card-block border-top-1 bcolor-fgray pt-0">
               <div className="btns">
-                <button type="submit" className="btn btn-action btn-p">
+                <button type="submit" className="btn btn-action btn-s">
                   Save
                 </button>
               </div>

@@ -4,7 +4,7 @@
   position:relative; display:flex; align-items:center; min-height:100vh;
   background-size:cover; background-position:center; background-repeat:no-repeat;
 }
-.auth-01 > .bg-img{
+.auth-01 > .bg-img, .auth-01 > .filter{
   position:fixed; top:0; left:0; width:100vw; height:100vh;
   background-size:cover; background-position:center; background-repeat:no-repeat;
 }
@@ -15,18 +15,18 @@
 .auth-01 .auth-container > .auth-footer{width:100%; padding:1.25rem 2rem;}
 .auth-01 .auth-container .title{display:flex; align-items:center; justify-content:center;}
 .auth-01 .auth-container .title .logo{
-  display:block; height:3.25rem; width:auto; margin:0 .75rem 0 0;
+  display:block; height:2.75rem; width:auto; margin:0 .75rem 0 0;
 }
 @media screen and (max-width:1199.98px){
-  .auth-01 .auth-container .title .logo{height:3.1875rem; margin:0 .6875rem 0 0;}
+  .auth-01 .auth-container .title .logo{height:2.6875rem; margin:0 .6875rem 0 0;}
 }
 @media screen and (max-width:991.98px){
-  .auth-01 .auth-container .title .logo{height:3.125rem; margin:0 .625rem 0 0;}
+  .auth-01 .auth-container .title .logo{height:2.625rem; margin:0 .625rem 0 0;}
 }
 @media screen and (max-width:767.98px){
   .auth-01 .auth-container > .auth-body{padding:1.75rem 1.5rem;}
   .auth-01 .auth-container > .auth-footer{padding:1.25rem 1.5rem;}
-  .auth-01 .auth-container .title .logo{height:2.9375rem; margin:0 .5625rem 0 0;}
+  .auth-01 .auth-container .title .logo{height:2.5rem; margin:0 .5625rem 0 0;}
 }
 @media screen and (max-width:575.98px){
   .auth-01 .auth-container > .auth-body{padding:1.5rem 1rem;}

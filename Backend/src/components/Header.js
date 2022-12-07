@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { appLogo, appName } from '../helpers/frontend';
+import { appLogo } from '../helpers/frontend';
 
 import { connect } from 'react-redux';
 import { userSignout, userPermission } from '../actions/user.actions';
@@ -28,6 +28,12 @@ function Header(props) {
   const onSidenavActiveToggle = (e) => {
     e.preventDefault();
     setSidenavActive(!sidenavActive);
+  };
+  
+	const [collapseActive, setCollapseActive] = useState(false);
+  const onCollapseActiveToggle = (e) => {
+    e.preventDefault();
+    setCollapseActive(!collapseActive);
   };
   // END: Menu
 
@@ -89,12 +95,22 @@ function Header(props) {
     || ( currentPath.indexOf('/user') > -1 && user.isUser() )? (
       <>
         {/* Topnav */}
-        <nav className="topnav bcolor-fgray">
+        <nav className={`topnav bcolor-fgray ${collapseActive? 'collapse': ''}`}>
           <div className="wrapper">
             <Link to={user.path()} className="logo-container h-color-p">
               <img className="logo" src={appLogo()} alt="Logo" />
-              <div className="text fw-900">{appName()}</div>
+              <div className="text text-white">
+                <img src={'/assets/img/text-white.png'} alt="Logo Text" />
+              </div>
+              <div className="text text-dark">
+                <img src={'/assets/img/text-dark.png'} alt="Logo Text" />
+              </div>
             </Link>
+            <div className="collapse-toggle" onClick={onCollapseActiveToggle}>
+              <div className={`wrapper ${collapseActive? 'active': ''}`}>
+                <em className="fa-solid fa-arrow-right"></em>
+              </div>
+            </div>
             <div className="sidenav-toggle" onClick={onSidenavActiveToggle}>
               <div className={`hamburger ${sidenavActive? 'active': ''}`}>
                 <div></div><div></div><div></div>
@@ -133,7 +149,7 @@ function Header(props) {
         </nav>
   
         {/* Sidenav */}
-        <nav className={`sidenav ${sidenavActive? 'active': ''}`}>
+        <nav className={`sidenav ${sidenavActive? 'active': ''} ${collapseActive? 'collapse': ''}`}>
           <ul className="wrapper">
             {menu.map((d, i) => (
               <div 
@@ -142,13 +158,15 @@ function Header(props) {
               >
                 {d.to? (
                   <Link className="menu-header" to={d.to}>
-                    {d.title}
+                    <div className="leading">{d.title.charAt(0)}</div>
+                    <div className="full">{d.title}</div>
                   </Link>
                 ): (
                   <div className="menu-header" onClick={e => onMenuToggle(e, i)}>
-                    {d.title}
-                    {d.children && d.children.length? (
-                      <div className="chev"><em className="fa-solid fa-chevron-right"></em></div>
+                    <div className="leading">{d.title.charAt(0)}</div>
+                    <div className="full">{d.title}</div>
+                    {false && d.children && d.children.length? (
+                      <div className="chev"><em className="fa-solid fa--right"></em></div>
                     ): (<></>)}
                   </div>
                 )}

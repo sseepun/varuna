@@ -59,7 +59,7 @@ function UserViewPage(props) {
                 <p className="fw-500 op-60">Role : {values.displayRole()}</p>
                 <div className="btns mt-2">
                   {user.isAdmin() && !values.isAdmin()? (
-                    <Link to={`/admin/user/update/${dataId}`} className="btn btn-action btn-p btn-xs">
+                    <Link to={`/admin/user/update/${dataId}`} className="btn btn-action btn-s btn-xs">
                       <em className="fa-regular fa-pen-to-square mr-1"></em> Update
                     </Link>
                   ): (<></>)}

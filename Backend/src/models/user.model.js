@@ -34,9 +34,9 @@ export class UserModel {
   displayStatus() {
     if(this.isValid()){
       if(this.status === 1) return (<span className="ss-tag bg-success">Active</span>);
-      else return (<span className="ss-tag bg-warning">Inactive</span>);
+      else return (<span className="ss-tag bg-danger">Inactive</span>);
     }else{
-      return (<span className="ss-tag bg-warning">Inactive</span>);
+      return (<span className="ss-tag bg-danger">Inactive</span>);
     }
   }
 

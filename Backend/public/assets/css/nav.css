@@ -6,16 +6,27 @@ nav.topnav{
 }
 nav.topnav > .wrapper{width:100%; display:flex; align-items:center;}
 nav.topnav .logo-container{
-  display:flex; align-items:center; justify-content:center; width:15rem;
-  padding:.75rem 1rem; overflow:hidden; transition:width .25s;
+  display:flex; align-items:center; width:15rem; height:4.25rem;
+  padding:.75rem 1rem; overflow:hidden; transition:all .25s;
 }
-nav.topnav .logo-container .logo{display:block; height:2.5rem; width:auto;}
+nav.topnav .logo-container .logo{
+  display:block; height:2rem; width:auto; transition:all .25s;
+}
 nav.topnav .logo-container .text{
-  font-size:1.5rem; padding:0 0 0 .5rem; overflow:hidden; white-space:nowrap;
-  transition:width .25s, padding .25s, color .25s, opacity .25s;
+  display:block; font-size:1.5rem; padding:0 0 0 .5rem; overflow:hidden;
+  white-space:nowrap; transition:none;
 }
+nav.topnav .logo-container .text.text-dark{display:none;}
+nav.topnav .logo-container .text img{display:block; height:.875rem; width:auto;}
 nav.topnav .sidenav-toggle{cursor:pointer; padding:.75rem;}
 nav.topnav .sidenav-toggle .hamburger{transform:scale(.8);}
+nav.topnav .collapse-toggle{
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  width:1.75rem; height:1.75rem; font-size:.75rem; margin:0 0 0 .5rem;
+  border-radius:var(--bradius); border:1px solid transparent; transition:all .25s;
+}
+nav.topnav .collapse-toggle > .wrapper{transform:scaleX(-1); transition:transform .25s;}
+nav.topnav .collapse-toggle > .wrapper.active{transform:scale(1);}
 
 nav.topnav .options{display:flex; align-items:center; margin:0 0 0 auto; padding:0;}
 nav.topnav .option{position:relative;}
@@ -61,49 +72,79 @@ nav.topnav .option > .dropdown .text-empty{
   display:block; padding:.25rem 1rem; text-align:center; font-size:1rem; font-weight:600;
 }
 
+@media screen and (max-width:1199.98px){
+  nav.topnav .collapse-toggle{display:none;}
+  nav.topnav .logo-container{justify-content:center; transition:none;}
+  nav.topnav .logo-container .text.text-white{display:none;}
+  nav.topnav .logo-container .text.text-dark{display:block;}
+}
 @media screen and (max-width:767.98px){
   nav.topnav .logo-container{width:4.5rem;}
   nav.topnav .logo-container .text{width:0rem; padding:0; opacity:0;}
 }
 @media screen and (min-width:1200px){
   nav.topnav .sidenav-toggle{display:none;}
+  nav.topnav.collapse .logo-container{width:4rem; padding:.75rem;}
+  nav.topnav.collapse .logo-container .logo{height:1.375rem;}
+  nav.topnav.collapse .logo-container .text{position:absolute; opacity:0; pointer-events:none;}
 }
 
 
 /* Sidenav */
 nav.sidenav{
   position:fixed; top:4.25rem; left:0; padding:0; z-index:90;
-  width:15rem; height:calc(100vh - 4.25rem); transition:transform .45s;
+  width:15rem; height:calc(100vh - 4.25rem); transition:all .25s, transform .45s;
 }
-nav.sidenav > .wrapper{width:100%; height:100%; padding:0; margin:0; overflow-y:auto;}
-nav.sidenav .menu-set{display:block; border-bottom:1px solid transparent;}
+nav.sidenav > .wrapper{width:100%; height:100%; padding:0; margin:0;}
+nav.sidenav .menu-set{display:block;}
 nav.sidenav .menu-set:last-child{margin:0 0 4rem 0;}
 nav.sidenav .menu-header{
   position:relative; display:flex; align-items:center; padding:.75rem 1rem;
-  font-size:.8125rem; font-weight:800; text-transform:uppercase; letter-spacing:.075rem;
-  border-bottom:1px solid transparent; cursor:pointer; transition:all .25s;
+  font-size:.8125rem; font-weight:700; text-transform:uppercase; letter-spacing:.1rem;
+  margin:0 0 .25rem 0; cursor:pointer; transition:all .25s;
 }
-nav.sidenav .menu-header > .chev{
-  margin:0 0 0 auto; font-size:.75rem; transition:transform .25s;
-}
+nav.sidenav .menu-header > .chev{margin:0 0 0 auto; font-size:.75rem; transition:all .25s;}
 nav.sidenav .menu-set.active .menu-header > .chev{transform:rotate(90deg);}
-nav.sidenav .menu-container{overflow:hidden; max-height:0; transition:max-height .6s}
-nav.sidenav .menu-set.active .menu-container{max-height:100vh;}
+nav.sidenav .menu-container{margin:0 0 .5rem 0;}
 nav.sidenav .menu{
-  position:relative; display:flex; align-items:center; padding:.625rem 1rem;
-  font-size:.9375rem; font-weight:400; border-bottom:1px solid transparent;
-  transition:all .25s;
+  position:relative; display:flex; align-items:center; padding:.625rem .5rem;
+  margin:0 1rem; font-size:.875rem; font-weight:400; border-radius:var(--bradius);
+  white-space:nowrap; transition:all .25s;
 }
-nav.sidenav .menu::after{
-  content:''; position:absolute; top:0; bottom:0; left:0; width:0; transition:width .25s;
-}
-nav.sidenav .menu.active::after{width:.125rem;}
 nav.sidenav .menu > .icon{width:1.25rem; text-align:center; font-size:.875rem;}
-nav.sidenav .menu > .label{display:block; padding:0 0 0 1rem;}
-nav.sidenav .menu-set > *:last-child, nav.sidenav .menu-container > *:last-child{border-bottom:0;}
+nav.sidenav .menu > .label{display:block; padding:0 0 0 .875rem;}
 @media screen and (max-width:1199.98px){
   nav.sidenav{transform:translateX(-15rem);}
   nav.sidenav.active{transform:translateX(0);}
+}
+
+nav.sidenav .menu-header > .leading, nav.sidenav .menu-header > .full{
+  position:absolute; opacity:0; white-space:nowrap; transition:all .25s;
+}
+nav.sidenav .menu-header > .full{position:relative; opacity:1;}
+@media screen and (min-width:1200px){
+  nav.sidenav.collapse{width:4rem;}
+  nav.sidenav.collapse .menu-container{margin:0 0 1rem 0;}
+
+  nav.sidenav.collapse .menu-header, nav.sidenav.collapse .menu{
+    justify-content:center; height:2.5rem; border-radius:var(--bradius);
+    padding:0; margin:0 .625rem .625rem .625rem;
+  }
+  nav.sidenav.collapse .menu-header > .chev{display:none;}
+  nav.sidenav.collapse .menu-header > .leading{
+    position:relative; opacity:1; transform:scale(1.25);
+  }
+  nav.sidenav.collapse .menu-header > .full, nav.sidenav.collapse .menu > .label{
+    position:absolute; opacity:0; top:0; bottom:0; left:100%; padding:0 .75rem;
+    pointer-events:none; display:flex; align-items:center; transition:all 0s;
+    border-radius:0 var(--bradius) var(--bradius) 0;
+  }
+  nav.sidenav.collapse .menu-header:hover > .full,
+  nav.sidenav.collapse .menu:hover > .label{
+    left:calc(100% + .625rem); opacity:1; pointer-events:auto;
+  }
+  nav.sidenav.collapse:hover .menu-header > .full,
+  nav.sidenav.collapse:hover .menu > .label{transition:all .25s;}
 }
 
 

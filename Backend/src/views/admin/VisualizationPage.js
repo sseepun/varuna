@@ -8,18 +8,18 @@ import { connect } from 'react-redux';
 import { setSidenavActiveIndex } from '../../actions/app.actions';
 import { processList } from '../../actions/admin.actions';
 
-function DashboardPage(props) {
+function VisualizationPage(props) {
   /* eslint-disable */
-	useEffect(() => { onMounted(); props.setSidenavActiveIndex(1); }, []);
+	useEffect(() => { onMounted(); props.setSidenavActiveIndex(23); }, []);
   /* eslint-enable */
 
   return (
     <div className="app-container">
       <Breadcrumb 
-        title="Dashboard" 
+        title="Visualization" 
         structure={[
           { title: 'Admin', to: '/admin' },
-          { title: 'Dashboard', to: '/admin' }
+          { title: 'Visualization', to: '/admin/visualization' }
         ]}
       />
 
@@ -28,10 +28,10 @@ function DashboardPage(props) {
   );
 }
 
-DashboardPage.defaultProps = {
+VisualizationPage.defaultProps = {
 	
 };
-DashboardPage.propTypes = {
+VisualizationPage.propTypes = {
 	setSidenavActiveIndex: PropTypes.func.isRequired,
   processList: PropTypes.func.isRequired,
 };
@@ -43,4 +43,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setSidenavActiveIndex: setSidenavActiveIndex,
   processList: processList,
-})(DashboardPage);
+})(VisualizationPage);

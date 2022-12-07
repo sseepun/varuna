@@ -90,6 +90,10 @@ function App() {
             <Route path="/admin/map-project/:process/*" 
               element={<ProtectedRoute auth={GuardAdmin()} 
               element={lazy(() => import('./views/admin/MapProjectPage'))} />} />
+              
+            <Route path="/admin/visualization" 
+              element={<ProtectedRoute auth={GuardAdmin()} 
+              element={lazy(() => import('./views/admin/VisualizationPage'))} />} />
             {/* END: Admin ***************************************************************** */}
 
 
