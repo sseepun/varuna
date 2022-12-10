@@ -109,12 +109,12 @@ function MapLayersPage(props) {
                 </div>
               </div>
               <div className="grid sm-50 md-20 lg-25 xs-text-center">
-                <button type="submit" className="btn btn-action btn-s">
+                <button type="submit" className="btn btn-action btn-p">
                   Search
                 </button>
               </div>
               <div className="grid sm-50 md-30 lg-25 text-right xs-text-center">
-                <Link to="/admin/map-layer/create" className="btn btn-action btn-s">
+                <Link to="/admin/map-layer/create" className="btn btn-action btn-p">
                   <em className="fa-solid fa-plus mr-2"></em>
                   Create Map Layer
                 </Link>

@@ -202,12 +202,12 @@ function AdminPage(props) {
           <div className="app-card-block border-top-1 bcolor-fgray pt-0">
             <div className="btns">
               {['create', 'update'].indexOf(process) > -1? (
-                <button type="submit" className="btn btn-action btn-s">
+                <button type="submit" className="btn btn-action btn-p">
                   {process==='create'? 'Create': 'Update'}
                 </button>
               ): (<></>)}
               {process === 'update'? (
-                <Link to={`/admin/admin/view/${dataId}`} className="btn btn-action btn-s-border">
+                <Link to={`/admin/admin/view/${dataId}`} className="btn btn-action btn-p-border">
                   View
                 </Link>
               ): (<></>)}

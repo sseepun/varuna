@@ -245,12 +245,12 @@ function MapProjectData(props) {
               </div>
               <div className="popup-footer">
                 <div className="btns mt-0">
-                  <button type="submit" className="btn btn-action btn-s">
+                  <button type="submit" className="btn btn-action btn-p">
                     {process === 'create'? 'Add': 'Update'}
                   </button>
                   {process === 'update'? (
                     <button 
-                      type="button" className="btn btn-action btn-s-border" 
+                      type="button" className="btn btn-action btn-p-border" 
                       onClick={e => onProcess(e, 'read', selectedData)} 
                     >
                       View

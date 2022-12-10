@@ -95,7 +95,7 @@ function MapLayerViewPage(props) {
         </div>
         <div className="app-card-block border-top-1 bcolor-fgray pt-0">
           <div className="btns">
-            <Link to={`/admin/map-layer/update/${dataId}`} className="btn btn-action btn-s-border">
+            <Link to={`/admin/map-layer/update/${dataId}`} className="btn btn-action btn-p-border">
               Update
             </Link>
             <Link to="/admin/map-layers" className="btn btn-action btn-default">

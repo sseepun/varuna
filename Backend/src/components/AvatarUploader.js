@@ -20,11 +20,11 @@ function AvatarUploader(props) {
         </div>
         <div className="avatar-option">
           {props.process === 'view'? (
-            <div className="btn btn-action btn-s btn-xs pe-none">
+            <div className="btn btn-action btn-p btn-xs pe-none">
               <em className="fa-solid fa-camera mr-2"></em> Avatar
             </div>
           ): (
-            <div className="avatar-btn btn btn-action btn-s btn-xs">
+            <div className="avatar-btn btn btn-action btn-p btn-xs">
               <em className="fa-solid fa-camera mr-2"></em> Update Avatar
               <input type="file" accept="image/png,image/jpeg" onChange={onChangeFile} />
             </div>

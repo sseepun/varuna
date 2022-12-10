@@ -44,6 +44,11 @@ html, body{background:#ffffff; color:#141414;}
 .bcolor-warning{border-color:#ecb403!important;}
 .bcolor-danger{border-color:#f5334f!important;}
 
+.ss-tag.bg-info{background:rgb(90,141,238,.15)!important; color:#5a8dee;}
+.ss-tag.bg-success{background:rgba(173,247,182,.15)!important; color:#4ecc48;}
+.ss-tag.bg-warning{background:rgba(236,180,3,.15)!important; color:#ecb403;}
+.ss-tag.bg-danger{background:rgba(245,51,79,.15)!important; color:#f5334f;}
+
 
 /* App Container */
 .app-container{background:#f0f0f2;}
@@ -202,7 +207,7 @@ footer.footer{background:#ffffff; box-shadow:rgb(0 0 0 / 4%) 0px 7px 14px;}
 .paginate .page{border-color:#eeeeee!important;}
 .paginate .page{color:#666666;}
 .paginate .page:hover{background:#f4f4f4;}
-.paginate .page.active{background:#202020; color:#ffffff;}
+.paginate .page.active{background:var(--p-color); color:#ffffff;}
 
 
 /* Popup */

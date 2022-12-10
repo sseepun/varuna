@@ -39,7 +39,7 @@ function ProfileViewPage(props) {
             <h5 className="fw-500 lh-sm">{values.displayName()}</h5>
             <p className="fw-500 op-60">Role : {values.displayRole()}</p>
             <div className="btns mt-2">
-              <Link to={`/admin/profile/update`} className="btn btn-action btn-s btn-xs">
+              <Link to={`/admin/profile/update`} className="btn btn-action btn-p btn-xs">
                 <em className="fa-regular fa-pen-to-square mr-1"></em> Update
               </Link>
               <Link to="/admin" className="btn btn-action btn-default btn-xs">
