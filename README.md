@@ -1,6 +1,6 @@
 # Varuna Map Visualization Module
-
 <br />
+
 ## APIs
 `APIs` folder contains the backend api codes. The technology used is `Node.js`. The imported packages are listed in `APIs/package.json` file. The structure of the api is as followed:
 <ol>
@@ -15,8 +15,8 @@
   <li>`APIs/.env_MAIN` is the template file for setting up the environment variables `.env`.</li>
   <li>`APIs/server.js` is the server file for `Node.js`.</li>
 </ol>
-
 <br />
+
 ## Web Application
 `Backend` folder contains the web application codes. The technology used is `React.js`. You can read more about it here https://reactjs.org/. The imported packages are listed in `Backend/package.json` file. The structure of the web app is as followed:
 <ol>
@@ -35,8 +35,8 @@
   </li>
   <li>`Backend/.env_MAIN` is the template file for setting up the environment variables `.env`.</li>
 </ol>
-
 <br />
+
 ## CDN
 `CDN` folder contains the cdn codes. The technology used is `Node.js`. The imported packages are listed in `CDN/package.json` file. The structure of the api is as followed:
 <ol>
