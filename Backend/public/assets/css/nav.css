@@ -151,7 +151,7 @@ nav.sidenav .menu-header > .full{position:relative; opacity:1;}
 /* Footer */
 footer.footer{
   position:absolute; bottom:0; left:15rem; right:0; border-top:1px solid transparent;
-  display:flex; align-items:center; height:3.5rem; transition:left .45s;
+  display:flex; align-items:center; height:3.5rem; transition:left .25s;
 }
 @media screen and (max-width:1199.98px){
   footer.footer{left:0;}

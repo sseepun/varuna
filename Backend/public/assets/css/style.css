@@ -55,7 +55,7 @@ select, textarea, button{
 /* App Container */
 .app-container{
 	position:relative; display:block; width:100%; min-height:100vh;
-	padding:5.25rem 1rem 4.5rem 16rem; transition:padding .45s;
+	padding:5.25rem 1rem 4.5rem 16rem; transition:padding .25s;
 }
 .app-container > .bg-img{
 	position:absolute; top:4.25rem; bottom:3.5rem; left:15rem; right:0;
@@ -68,6 +68,7 @@ select, textarea, button{
 }
 @media screen and (min-width:1200px){
 	nav.sidenav.collapse + .app-container{padding:5.25rem 1rem 4.5rem 5rem;}
+	nav.sidenav.collapse + .app-container footer.footer{left:4rem;}
 }
 /* @supports (-webkit-touch-callout:none){
   .app-container{min-height:-webkit-fill-available;}
