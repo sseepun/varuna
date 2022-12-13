@@ -54,22 +54,22 @@ function ProfilePage(props) {
   return (
     <div className="app-container">
       <Breadcrumb 
-        title={`Profile Update`} 
+        title={`แก้ไขข้อมูลส่วนตัว`} 
         structure={[
-          { title: 'Admin', to: '/admin' },
-          { title: 'Profile Update', to: '/admin/profile/update' }
+          { title: 'สำหรับผู้ดูแลระบบ', to: '/admin' },
+          { title: 'แก้ไขข้อมูลส่วนตัว', to: '/admin/profile/update' }
         ]}
       />
 
       <div className="app-card p-0 mt-4">
         <form onSubmit={onSubmit}>
           <div className="app-card-block">
-            <p className="lg fw-800">Account Information</p>
+            <p className="lg fw-800">ข้อมูลบัญชีผู้ใช้</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>First name <span className="color-danger">*</span></label>
+                  <label>ชื่อจริง <span className="color-danger">*</span></label>
                   <input
                     type="text" required={true} 
                     value={values.firstname? values.firstname: ''} 
@@ -79,7 +79,7 @@ function ProfilePage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Last name <span className="color-danger">*</span></label>
+                  <label>นามสกุล <span className="color-danger">*</span></label>
                   <input
                     type="text" required={true} 
                     value={values.lastname? values.lastname: ''} 
@@ -90,7 +90,7 @@ function ProfilePage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Username <span className="color-danger">*</span></label>
+                  <label>ชื่อผู้ใช้ <span className="color-danger">*</span></label>
                   <input
                     type="text" required={true} 
                     value={values.username? values.username: ''} 
@@ -100,7 +100,7 @@ function ProfilePage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Email <span className="color-danger">*</span></label>
+                  <label>อีเมล <span className="color-danger">*</span></label>
                   <input
                     type="email" required={true} 
                     value={values.email? values.email: ''} 
@@ -111,7 +111,7 @@ function ProfilePage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Telephone</label>
+                  <label>เบอร์โทรศัพท์</label>
                   <input
                     type="text" 
                     value={values.telephone? values.telephone: ''} 
@@ -130,10 +130,10 @@ function ProfilePage(props) {
           <div className="app-card-block border-top-1 bcolor-fgray pt-0">
             <div className="btns">
               <button type="submit" className="btn btn-action btn-p">
-                Update
+                แก้ไขข้อมูล
               </button>
               <Link to="/admin/profile" className="btn btn-action btn-default">
-                Back
+                ย้อนกลับ
               </Link>
             </div>
           </div>
@@ -143,12 +143,12 @@ function ProfilePage(props) {
       <div className="app-card p-0 mt-4">
         <form onSubmit={onSubmitPassword}>
           <div className="app-card-block">
-            <p className="lg fw-800">Reset Password</p>
+            <p className="lg fw-800">ตั้งรหัสผ่านใหม่</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Current password <span className="color-danger">*</span></label>
+                  <label>รหัสผ่านปัจจุบัน <span className="color-danger">*</span></label>
                   <input
                     type="password" required={true} 
                     value={oldPassword? oldPassword: ''} 
@@ -159,7 +159,7 @@ function ProfilePage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>New password <span className="color-danger">*</span></label>
+                  <label>รหัสผ่านใหม่ <span className="color-danger">*</span></label>
                   <input
                     type="password" required={true} 
                     value={newPassword? newPassword: ''} 
@@ -172,7 +172,7 @@ function ProfilePage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Confirm new password <span className="color-danger">*</span></label>
+                  <label>ยืนยันรหัสผ่านใหม่ <span className="color-danger">*</span></label>
                   <input
                     type="password" required={true} 
                     value={confirmNewPassword? confirmNewPassword: ''} 
@@ -185,10 +185,10 @@ function ProfilePage(props) {
           <div className="app-card-block border-top-1 bcolor-fgray pt-0">
             <div className="btns">
               <button type="submit" className="btn btn-action btn-p">
-                Update
+                ตั้งรหัสผ่านใหม่
               </button>
               <Link to="/admin/profile" className="btn btn-action btn-default">
-                Back
+                ย้อนกลับ
               </Link>
             </div>
           </div>

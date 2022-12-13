@@ -16,10 +16,10 @@ function VisualizationPage(props) {
   return (
     <div className="app-container">
       <Breadcrumb 
-        title="Visualization" 
+        title="การแสดงข้อมูลแผนที่" 
         structure={[
-          { title: 'Admin', to: '/admin' },
-          { title: 'Visualization', to: '/admin/visualization' }
+          { title: 'การจัดการข้อมูลแผนที่', to: '/admin' },
+          { title: 'การแสดงข้อมูลแผนที่', to: '/admin/visualization' }
         ]}
       />
 

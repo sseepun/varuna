@@ -62,20 +62,20 @@ function Header(props) {
         if(u.isAdmin()){
           temp = [
             {
-              title: 'Admin Panel',
+              title: 'สำหรับผู้ดูแลระบบ',
               activeIndexes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
               children: [
-                { title: 'Dashboard', to: '/admin', activeIndex: 1, icon: 'fa-solid fa-chart-simple' },
-                { title: 'Admins', to: '/admin/admins', activeIndex: 2, icon: 'fa-solid fa-users' },
-                { title: 'Users', to: '/admin/users', activeIndex: 3, icon: 'fa-solid fa-people-group' },
+                { title: 'แดชบอร์ด', to: '/admin', activeIndex: 1, icon: 'fa-solid fa-chart-simple' },
+                { title: 'ผู้ดูแลระบบ', to: '/admin/admins', activeIndex: 2, icon: 'fa-solid fa-users' },
+                { title: 'ผู้ใช้งานทั่วไป', to: '/admin/users', activeIndex: 3, icon: 'fa-solid fa-people-group' },
               ]
             }, {
-              title: 'Map Management',
+              title: 'การจัดการข้อมูลแผนที่',
               activeIndexes: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
               children: [
-                { title: 'Map Layers', to: '/admin/map-layers', activeIndex: 21, icon: 'fa-solid fa-layer-group' },
-                { title: 'Map Projects', to: '/admin/map-projects', activeIndex: 22, icon: 'fa-solid fa-map' },
-                { title: 'Visualization', to: '/admin/visualization', activeIndex: 23, icon: 'fa-solid fa-globe' },
+                { title: 'เลเยอร์แผนที่', to: '/admin/map-layers', activeIndex: 21, icon: 'fa-solid fa-layer-group' },
+                { title: 'โครงการแผนที่', to: '/admin/map-projects', activeIndex: 22, icon: 'fa-solid fa-map' },
+                { title: 'การแสดงข้อมูลแผนที่', to: '/admin/visualization', activeIndex: 23, icon: 'fa-solid fa-globe' },
               ]
             },
           ];
@@ -129,16 +129,16 @@ function Header(props) {
                 <div className="dropdown bcolor-fgray">
                   <div className="wrapper bcolor-fgray">
                     <h6 className="name">{user.displayName()}</h6>
-                    <p className="role color-gray">Role : {user.displayRole()}</p>
+                    <p className="role color-gray">ตำแหน่ง : {user.displayRole()}</p>
                   </div>
                   <div className="wrapper bcolor-fgray">
                     <Link to={`${user.path()}/profile`} className="dropdown-item">
                       <div className="icon"><em className="fa-solid fa-user"></em></div>
-                      My Profile
+                      ข้อมูลส่วนตัว
                     </Link>
                     <div className="dropdown-item c-pointer" onClick={onSignout}>
                       <div className="icon"><em className="fa-solid fa-right-to-bracket"></em></div>
-                      Sign Out
+                      ออกจากระบบ
                     </div>
                   </div>
                 </div>

@@ -80,22 +80,22 @@ function MapProjectPage(props) {
   return (
     <div className="app-container">
       <Breadcrumb 
-        title={`${process} Map Data`} 
+        title={`${process==='create'? 'สร้าง': 'แก้ไข'}โครงการแผนที่`} 
         structure={[
-          { title: 'Admin', to: '/admin' },
-          { title: 'Map Projects', to: '/admin/map-projects' }
+          { title: 'การจัดการข้อมูลแผนที่', to: '/admin' },
+          { title: 'โครงการแผนที่', to: '/admin/map-projects' }
         ]}
       />
 
       <div className="app-card p-0 mt-4">
         <form onSubmit={onSubmit}>
           <div className="app-card-block">
-            <p className="lg fw-800">Project Information</p>
+            <p className="lg fw-800">ข้อมูลโครงการ</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
               <div className="grid sm-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>Project name <span className="color-danger">*</span></label>
+                  <label>ชื่อโครงการ <span className="color-danger">*</span></label>
                   <input
                     type="text" disabled={process==='view'} required={true} 
                     value={values.name? values.name: ''} 
@@ -106,7 +106,7 @@ function MapProjectPage(props) {
               <div className="sep"></div>
               <div className="grid sm-100 md-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>Description</label>
+                  <label>คำบรรยาย</label>
                   <textarea
                     type="text" disabled={process==='view'} rows={2} 
                     value={values.description? values.description: ''} 
@@ -117,14 +117,14 @@ function MapProjectPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Status <span className="color-danger">*</span></label>
+                  <label>สถานะ <span className="color-danger">*</span></label>
                   <select 
                     disabled={process==='view'} required={true} 
                     value={values.status || values.status===0? values.status: ''} 
                     onChange={e => onChangeInput('status', e.target.value, true)} 
                   >
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
+                    <option value="1">เปิดใช้งาน</option>
+                    <option value="0">ปิดใช้งาน</option>
                   </select>
                 </div>
               </div>
@@ -132,12 +132,12 @@ function MapProjectPage(props) {
           </div>
           
           <div className="app-card-block">
-            <p className="lg fw-800">Address Information</p>
+            <p className="lg fw-800">ข้อมูลที่อยู่</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
               <div className="grid sm-100 md-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>Address</label>
+                  <label>ที่อยู่</label>
                   <textarea
                     type="text" disabled={process==='view'} rows={2} 
                     value={address.address? address.address: ''} 
@@ -148,7 +148,7 @@ function MapProjectPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Province</label>
+                  <label>จังหวัด</label>
                   <Select 
                     className={`select-multi ${process === 'view'? 'disabled': ''}`} 
                     isMulti={false} placeholder="" 
@@ -163,7 +163,7 @@ function MapProjectPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>District</label>
+                  <label>{address.prefixDistrict()}</label>
                   <Select 
                     className={`select-multi ${process === 'view'? 'disabled': ''}`} 
                     isMulti={false} placeholder="" 
@@ -179,7 +179,7 @@ function MapProjectPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Subdistrict</label>
+                  <label>{address.prefixSubdistrict()}</label>
                   <Select 
                     className={`select-multi ${process === 'view'? 'disabled': ''}`} 
                     isMulti={false} placeholder="" 
@@ -194,7 +194,7 @@ function MapProjectPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Zipcode</label>
+                  <label>รหัสไปรษณีย์</label>
                   <Select 
                     className={`select-multi ${process === 'view'? 'disabled': ''}`} 
                     isMulti={false} placeholder="" 
@@ -211,12 +211,12 @@ function MapProjectPage(props) {
           </div>
           
           <div className="app-card-block">
-            <p className="lg fw-800">Image Information</p>
+            <p className="lg fw-800">ข้อมูลรูปภาพ</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Image</label>
+                  <label>รูปภาพ</label>
                   <ImageUploader
                     process={process} images={[values.image]} 
                     onChangeImage={onChangeFile('image')} isMultiple={false} 
@@ -225,7 +225,7 @@ function MapProjectPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Gallery</label>
+                  <label>รูปภาพ Gallery</label>
                   <ImageUploader
                     process={process} images={values.gallery} required={false} 
                     onChangeImage={onChangeFile('gallery')} isMultiple={true} 
@@ -239,16 +239,16 @@ function MapProjectPage(props) {
             <div className="btns">
               {['create', 'update'].indexOf(process) > -1? (
                 <button type="submit" className="btn btn-action btn-p">
-                  {process==='create'? 'Create': 'Update'}
+                  {process==='create'? 'สร้าง': 'แก้ไข'}ข้อมูล
                 </button>
               ): (<></>)}
               {process === 'update'? (
                 <Link to={`/admin/map-project/view/${dataId}`} className="btn btn-action btn-p-border">
-                  View
+                  ดูข้อมูล
                 </Link>
               ): (<></>)}
               <Link to="/admin/map-projects" className="btn btn-action btn-default">
-                Back
+                ย้อนกลับ
               </Link>
             </div>
           </div>

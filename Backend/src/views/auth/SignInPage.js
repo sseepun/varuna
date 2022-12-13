@@ -41,7 +41,7 @@ function SigninPage(props) {
             <div className="title">
               <img className="logo" src={appLogo()} alt="Logo" />
               <div className="text">
-                <h5 className="fw-900 lh-sm">Sign In</h5>
+                <h5 className="fw-900 lh-sm">เข้าสู่ระบบ</h5>
                 <p className="fw-600 op-70">Back Office System</p>
               </div>
             </div>
@@ -50,7 +50,7 @@ function SigninPage(props) {
                 <div className="grid sm-100">
                   <div className="form-control">
                     <input
-                      type="text" required={true} placeholder="Username / Email" className="lg" 
+                      type="text" required={true} placeholder="ชื่อผู้ใช้ / อีเมล" className="lg" 
                       value={values.username? values.username: ''} 
                       onChange={e => onChangeInput('username', e.target.value)} 
                     />
@@ -59,7 +59,7 @@ function SigninPage(props) {
                 <div className="grid sm-100">
                   <div className="form-control">
                     <input
-                      type="password" required={true} placeholder="Password" className="lg" 
+                      type="password" required={true} placeholder="รหัสผ่าน" className="lg" 
                       value={values.password? values.password: ''} 
                       onChange={e => onChangeInput('password', e.target.value)} 
                     />
@@ -68,12 +68,12 @@ function SigninPage(props) {
               </div>
               <div className="btns">
                 <button type="submit" className="btn btn-action btn-p btn-lg w-full">
-                  Sign In
+                  เข้าสู่ระบบ
                 </button>
               </div>
             </form>
             <p className="sm color-gray text-center mt-6">
-              <Link to="/auth/forget-password" className="color-s h-color-p fw-600">Forget password ?</Link>
+              ลืมรหัสผ่าน? <Link to="/auth/forget-password" className="color-s h-color-p fw-600">ตั้งรหัสผ่านใหม่</Link>
             </p>
           </div>
           <div className="auth-footer bg-s color-white">

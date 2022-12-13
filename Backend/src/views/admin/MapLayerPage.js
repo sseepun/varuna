@@ -56,10 +56,10 @@ function MapLayerPage(props) {
   return (
     <div className="app-container">
       <Breadcrumb 
-        title={`${process} Map Layer`} 
+        title={`${process==='create'? 'สร้าง': 'แก้ไข'}เลเยอร์แผนที่`} 
         structure={[
-          { title: 'Admin', to: '/admin' },
-          { title: 'Map Layers', to: '/admin/map-layers' }
+          { title: 'การจัดการข้อมูลแผนที่', to: '/admin' },
+          { title: 'เลเยอร์แผนที่', to: '/admin/map-layers' }
         ]}
       />
 
@@ -69,7 +69,7 @@ function MapLayerPage(props) {
             <div className="grids">
               <div className="grid sm-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>Layer name <span className="color-danger">*</span></label>
+                  <label>ชื่อเลเยอร์ <span className="color-danger">*</span></label>
                   <input
                     type="text" disabled={process==='view'} required={true} 
                     value={values.name? values.name: ''} 
@@ -80,7 +80,7 @@ function MapLayerPage(props) {
               <div className="sep"></div>
               <div className="grid sm-100 md-100 lg-80 xl-2-3">
                 <div className="form-control">
-                  <label>Description</label>
+                  <label>คำบรรยาย</label>
                   <textarea
                     type="text" disabled={process==='view'} rows={2} 
                     value={values.description? values.description: ''} 
@@ -91,7 +91,7 @@ function MapLayerPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Image</label>
+                  <label>รูปภาพ</label>
                   <ImageUploader
                     process={process} images={[values.image]} 
                     onChangeImage={onChangeFile('image')} isMultiple={false} 
@@ -100,7 +100,7 @@ function MapLayerPage(props) {
               </div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Icon</label>
+                  <label>ไอคอน</label>
                   <ImageUploader
                     process={process} images={[values.icon]} 
                     onChangeImage={onChangeFile('icon')} isMultiple={false} 
@@ -110,14 +110,14 @@ function MapLayerPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>Status <span className="color-danger">*</span></label>
+                  <label>สถานะ <span className="color-danger">*</span></label>
                   <select 
                     disabled={!values.isDeletable || process==='view'} required={true} 
                     value={values.status || values.status===0? values.status: ''} 
                     onChange={e => onChangeInput('status', e.target.value, true)} 
                   >
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
+                    <option value="1">เปิดใช้งาน</option>
+                    <option value="0">ปิดใช้งาน</option>
                   </select>
                 </div>
               </div>
@@ -127,16 +127,16 @@ function MapLayerPage(props) {
             <div className="btns">
               {['create', 'update'].indexOf(process) > -1? (
                 <button type="submit" className="btn btn-action btn-p">
-                  {process==='create'? 'Create': 'Update'}
+                  {process==='create'? 'สร้าง': 'แก้ไข'}ข้อมูล
                 </button>
               ): (<></>)}
               {process === 'update'? (
                 <Link to={`/admin/map-layer/view/${dataId}`} className="btn btn-action btn-p-border">
-                  View
+                  ดูข้อมูล
                 </Link>
               ): (<></>)}
               <Link to="/admin/map-layers" className="btn btn-action btn-default">
-                Back
+                ย้อนกลับ
               </Link>
             </div>
           </div>

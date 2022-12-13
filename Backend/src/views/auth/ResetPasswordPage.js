@@ -50,7 +50,7 @@ function ResetPasswordPage(props) {
             <div className="title">
               <img className="logo" src={appLogo()} alt="Logo" />
               <div className="text">
-                <h5 className="fw-900 lh-sm">Reset Password</h5>
+                <h5 className="fw-900 lh-sm">ตั้งรหัสผ่านใหม่</h5>
                 <p className="fw-600 op-70">Back Office System</p>
               </div>
             </div>
@@ -61,7 +61,7 @@ function ResetPasswordPage(props) {
                     <div className="grid sm-100">
                       <div className="form-control">
                         <input
-                          type="password" required={true} placeholder="New Password *" 
+                          type="password" required={true} placeholder="รหัสผ่านใหม่ *" 
                           value={values.newPassword? values.newPassword: ''} className="lg" 
                           onChange={e => onChangeInput('newPassword', e.target.value)} 
                         />
@@ -70,7 +70,7 @@ function ResetPasswordPage(props) {
                     <div className="grid sm-100">
                       <div className="form-control">
                         <input
-                          type="password" required={true} placeholder="Confirm New Password *" 
+                          type="password" required={true} placeholder="ยืนยันรหัสผ่านใหม่ *" 
                           value={values.confirmNewPassword? values.confirmNewPassword: ''} className="lg" 
                           onChange={e => onChangeInput('confirmNewPassword', e.target.value)} 
                         />
@@ -82,24 +82,24 @@ function ResetPasswordPage(props) {
                   </div>
                   <div className="btns">
                     <button type="submit" className="btn btn-action btn-p btn-lg w-full">
-                      Reset Password
+                      ตั้งรหัสผ่านใหม่
                     </button>
                   </div>
                 </form>
                 <p className="sm color-gray text-center mt-6">
                   <Link to="/auth/signin" className="color-s h-color-p fw-600">
-                    Back to Sign In
+                    กลับสู่หน้าเข้าสู่ระบบ
                   </Link>
                 </p>
               </>
             ): (
               <>
                 <p className="fw-500 text-center mt-6">
-                  You have successfully reset your password.
+                  คุณได้ทำการตั้งรหัสผ่านใหม่เรียบร้อยแล้ว
                 </p>
                 <div className="btns pt-2">
                   <Link to="/auth/signin" className="btn btn-action btn-p w-full">
-                    Back to Sign In
+                    เข้าสู่ระบบ
                   </Link>
                 </div>
               </>

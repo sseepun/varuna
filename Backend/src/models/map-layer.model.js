@@ -24,10 +24,10 @@ export class MapLayerModel {
 
   displayStatus() {
     if(this.isValid()){
-      if(this.status === 1) return (<span className="ss-tag bg-success">Active</span>);
-      else return (<span className="ss-tag bg-danger">Inactive</span>);
+      if(this.status === 1) return (<span className="ss-tag bg-success">เปิดใช้งาน</span>);
+      else return (<span className="ss-tag bg-danger">ปิดใช้งาน</span>);
     }else{
-      return (<span className="ss-tag bg-danger">Inactive</span>);
+      return (<span className="ss-tag bg-danger">ปิดใช้งาน</span>);
     }
   }
 }

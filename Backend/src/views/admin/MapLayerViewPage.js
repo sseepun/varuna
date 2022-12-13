@@ -32,10 +32,10 @@ function MapLayerViewPage(props) {
   return (
     <div className="app-container">
       <Breadcrumb 
-        title={`${process} Map Layer`} 
+        title={`ดูเลเยอร์แผนที่`} 
         structure={[
-          { title: 'Admin', to: '/admin' },
-          { title: 'Map Layers', to: '/admin/map-layers' }
+          { title: 'การจัดการข้อมูลแผนที่', to: '/admin' },
+          { title: 'เลเยอร์แผนที่', to: '/admin/map-layers' }
         ]}
       />
 
@@ -44,7 +44,7 @@ function MapLayerViewPage(props) {
           <div className="grids">
             <div className="grid sm-100 lg-80 xl-2-3">
               <div className="form-control">
-                <label>Layer name <span className="color-danger">*</span></label>
+                <label>ชื่อเลเยอร์ <span className="color-danger">*</span></label>
                 <input
                   type="text" disabled={process==='view'} required={true} 
                   value={values.name? values.name: ''} 
@@ -54,7 +54,7 @@ function MapLayerViewPage(props) {
             <div className="sep"></div>
             <div className="grid sm-100 md-100 lg-80 xl-2-3">
               <div className="form-control">
-                <label>Description</label>
+                <label>คำบรรยาย</label>
                 <textarea
                   type="text" disabled={process==='view'} rows={2} 
                   value={values.description? values.description: ''} 
@@ -64,7 +64,7 @@ function MapLayerViewPage(props) {
             <div className="sep"></div>
             <div className="grid sm-50 md-50 lg-40 xl-1-3">
               <div className="form-control">
-                <label>Image</label>
+                <label>รูปภาพ</label>
                 <ImageUploader
                   process={process} images={[values.image]} 
                 />
@@ -72,7 +72,7 @@ function MapLayerViewPage(props) {
             </div>
             <div className="grid sm-50 md-50 lg-40 xl-1-3">
               <div className="form-control">
-                <label>Icon <span className="color-danger">*</span></label>
+                <label>ไอคอน <span className="color-danger">*</span></label>
                 <ImageUploader
                   process={process} images={[values.icon]} required={true} 
                 />
@@ -81,13 +81,13 @@ function MapLayerViewPage(props) {
             <div className="sep"></div>
             <div className="grid sm-50 md-50 lg-40 xl-1-3">
               <div className="form-control">
-                <label>Status <span className="color-danger">*</span></label>
+                <label>สถานะ <span className="color-danger">*</span></label>
                 <select 
                   disabled={process==='view'} required={true} 
                   value={values.status || values.status===0? values.status: ''} 
                 >
-                  <option value="1">Active</option>
-                  <option value="0">Inactive</option>
+                  <option value="1">เปิดใช้งาน</option>
+                  <option value="0">ปิดใช้งาน</option>
                 </select>
               </div>
             </div>
@@ -96,10 +96,10 @@ function MapLayerViewPage(props) {
         <div className="app-card-block border-top-1 bcolor-fgray pt-0">
           <div className="btns">
             <Link to={`/admin/map-layer/update/${dataId}`} className="btn btn-action btn-p-border">
-              Update
+              แก้ไขข้อมูล
             </Link>
             <Link to="/admin/map-layers" className="btn btn-action btn-default">
-              Back
+              ย้อนกลับ
             </Link>
           </div>
         </div>

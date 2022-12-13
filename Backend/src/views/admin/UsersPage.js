@@ -21,6 +21,12 @@ function UsersPage(props) {
     if(isNumber) val = val || val===0? Number(val): '';
     setDataFilter({ ...dataFilter, [key]: val });
   };
+  const onSubmitDataFilter = (e=null) => {
+    if(e) e.preventDefault();
+    setPaginate(new PaginateModel({ ...paginate, page: 1 }));
+    onLoadData(null, { ...paginate, page: 1 });
+    scrollToRef(tableRef);
+  };
 
   const [paginate, setPaginate] = useState(new PaginateModel({}));
   const onChangePage = (page) => {
@@ -73,21 +79,21 @@ function UsersPage(props) {
     <>
       <div className="app-container">
         <Breadcrumb 
-          title="User Management" 
+          title="การจัดการผู้ใช้" 
           structure={[
-            { title: 'User', to: '/admin' },
-            { title: 'User Management', to: '/admin/users' }
+            { title: 'สำหรับผู้ดูแลระบบ', to: '/admin' },
+            { title: 'ผู้ใช้งานทั่วไป', to: '/admin/users' }
           ]}
         />
 
         <div className="app-card pt-0 mt-4">
-          <form onSubmit={onLoadData}>
+          <form onSubmit={onSubmitDataFilter}>
             <div className="grids">
               <div className="grid sm-50 md-25 lg-25">
                 <div className="form-control">
                   <div className="input-icon">
                     <input
-                      type="text" placeholder="Search..." 
+                      type="text" placeholder="ค้นหา..." 
                       value={dataFilter.keywords? dataFilter.keywords: ''} 
                       onChange={e => onChangeDataFilter('keywords', e.target.value)} 
                     />
@@ -103,22 +109,22 @@ function UsersPage(props) {
                     value={dataFilter.status || dataFilter.status===0? dataFilter.status: ''} 
                     onChange={e => onChangeDataFilter('status', e.target.value, true)} 
                   >
-                    <option value="">All statuses</option>
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
+                    <option value="">ทุกสถานะ</option>
+                    <option value="1">เปิดใช้งาน</option>
+                    <option value="0">ปิดใช้งาน</option>
                   </select>
                 </div>
               </div>
               <div className="grid sm-50 md-20 lg-25 xs-text-center">
                 <button type="submit" className="btn btn-action btn-p">
-                  Search
+                  ค้นหา
                 </button>
               </div>
               {user.isSuperAdmin()? (
                 <div className="grid sm-50 md-30 lg-25 text-right xs-text-center">
                   <Link to="/admin/user/create" className="btn btn-action btn-p">
                     <em className="fa-solid fa-plus mr-2"></em>
-                    Create User
+                    สร้างผู้ใช้
                   </Link>
                 </div>
               ): (<></>)}
@@ -128,17 +134,17 @@ function UsersPage(props) {
             <table className="table" ref={tableRef}>
               <thead>
                 <tr>
-                  <th style={{ minWidth: 90, maxWidth: 90 }} className="text-center">Avatar</th>
-                  <th style={{ minWidth: 180, width: '100%' }}>Full name</th>
-                  <th style={{ minWidth: 140 }}>Username</th>
-                  <th style={{ minWidth: 180 }}>Email</th>
-                  <th style={{ minWidth: 110 }} className="text-center">Status</th>
-                  <th style={{ minWidth: 110 }} className="text-center">Actions</th>
+                  <th style={{ minWidth: 90, maxWidth: 90 }} className="text-center">โปรไฟล์</th>
+                  <th style={{ minWidth: 180, width: '100%' }}>ชื่อ-นามสกุล</th>
+                  <th style={{ minWidth: 140 }}>ชื่อผู้ใช้</th>
+                  <th style={{ minWidth: 180 }}>อีเมล</th>
+                  <th style={{ minWidth: 110 }} className="text-center">สถานะ</th>
+                  <th style={{ minWidth: 110 }} className="text-center">การกระทำ</th>
                 </tr>
               </thead>
               <tbody>
                 {loading? (
-                  <tr><td colSpan={6} className="text-center">Loading data...</td></tr>
+                  <tr><td colSpan={6} className="text-center">กำลังโหลดข้อมูล...</td></tr>
                 ): (
                   props.list && props.list.length? (
                     props.list.map((d, i) => (
@@ -179,7 +185,7 @@ function UsersPage(props) {
                       </tr>
                     ))
                   ): (
-                    <tr><td colSpan={6} className="text-center">No data found.</td></tr>
+                    <tr><td colSpan={6} className="text-center">ไม่พบข้อมูลในระบบ</td></tr>
                   )
                 )}
               </tbody>
@@ -200,7 +206,7 @@ function UsersPage(props) {
           <div className="wrapper">
             <div className="popup-box">
               <div className="popup-header">
-                <h6 className="fw-600 lh-xs">Confirm to delete</h6>
+                <h6 className="fw-600 lh-xs">ยืนยันการลบข้อมูล</h6>
                 <div className="btn-close" onClick={onModalToggle}>
                   <div className="hamburger active">
                     <div></div><div></div><div></div>
@@ -210,17 +216,16 @@ function UsersPage(props) {
               <form onSubmit={onSubmitDelete}>
                 <div className="popup-body">
                   <p className="fw-500">
-                    Please confirm to delete data.
-                    The data cannot be retrieved after this confirmation.
+                    กรุณายืนยันการลบข้อมูล ข้อมูลไม่สามารถนำกลับมาได้หลังจากถูกลบไปแล้ว
                   </p>
                 </div>
                 <div className="popup-footer">
                   <div className="btns mt-0">
-                    <button type="submit" className="btn btn-action btn-danger">
-                      Delete
+                    <button type="submit" className="btn btn-action btn-p">
+                      ยืนยันการลบ
                     </button>
                     <button type="button" className="btn btn-action btn-default" onClick={onModalToggle}>
-                      Cancel
+                      ปิด
                     </button>
                   </div>
                 </div>

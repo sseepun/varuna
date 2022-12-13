@@ -100,7 +100,7 @@ nav.sidenav .menu-set{display:block;}
 nav.sidenav .menu-set:last-child{margin:0 0 4rem 0;}
 nav.sidenav .menu-header{
   position:relative; display:flex; align-items:center; padding:.75rem 1rem;
-  font-size:.8125rem; font-weight:700; text-transform:uppercase; letter-spacing:.1rem;
+  font-size:.9375rem; font-weight:600; text-transform:uppercase; letter-spacing:.025rem;
   margin:0 0 .25rem 0; cursor:pointer; transition:all .25s;
 }
 nav.sidenav .menu-header > .chev{margin:0 0 0 auto; font-size:.75rem; transition:all .25s;}

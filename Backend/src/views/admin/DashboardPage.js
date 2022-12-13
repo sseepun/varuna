@@ -16,10 +16,10 @@ function DashboardPage(props) {
   return (
     <div className="app-container">
       <Breadcrumb 
-        title="Dashboard" 
+        title="แดชบอร์ด" 
         structure={[
-          { title: 'Admin', to: '/admin' },
-          { title: 'Dashboard', to: '/admin' }
+          { title: 'สำหรับผู้ดูแลระบบ', to: '/admin' },
+          { title: 'แดชบอร์ด', to: '/admin' }
         ]}
       />
 

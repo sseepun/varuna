@@ -140,7 +140,7 @@ function MapProjectData(props) {
               <div className="ss-card ss-card-03 bradius">
                 <div className="wrapper">
                   <div className="title h-color-p" onClick={e => onProcess(e, 'read', d)}>
-                    <span className="fw-500">Data name :</span> {d.name}
+                    <span className="fw-500">ชื่อข้อมูล :</span> {d.name}
                   </div>
                   <p className="sm mt-1">
                     <span className="fw-500">ช่วงเวลา :</span> 01/2565 - 12/2565
@@ -181,7 +181,7 @@ function MapProjectData(props) {
                 <div className="icon">
                   <em className="fa-solid fa-plus"></em>
                 </div>
-                <p className="fw-500">Add Project Data</p>
+                <p className="fw-500">สร้างข้อมูลแผนที่</p>
               </div>
             </div>
           </div>
@@ -193,7 +193,7 @@ function MapProjectData(props) {
           <div className="popup-box popup-lg">
             <div className="popup-header">
               <h6 className="fw-600 lh-xs">
-                {process === 'create'? 'Add': 'Update'} project data
+                {process === 'create'? 'สร้าง': 'แก้ไข'}ข้อมูลแผนที่
               </h6>
               <div className="btn-close" onClick={onProcess}>
                 <div className="hamburger active">
@@ -206,7 +206,7 @@ function MapProjectData(props) {
                 <div className="grids">
                   <div className="grid sm-50">
                     <div className="form-control">
-                      <label>Data name <span className="color-danger">*</span></label>
+                      <label>ชื่อข้อมูล <span className="color-danger">*</span></label>
                       <input
                         type="text" required={true} 
                         value={selectedData && selectedData.name? selectedData.name: ''} 
@@ -216,21 +216,21 @@ function MapProjectData(props) {
                   </div>
                   <div className="grid sm-50">
                     <div className="form-control">
-                      <label>Status <span className="color-danger">*</span></label>
+                      <label>สถานะ <span className="color-danger">*</span></label>
                       <select 
                         required={true} 
                         value={selectedData && (selectedData.status || selectedData.status===0)? selectedData.status: ''} 
                         onChange={e => onChangeInput('status', e.target.value, true)} 
                       >
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
+                        <option value="1">เปิดใช้งาน</option>
+                        <option value="0">ปิดใช้งาน</option>
                       </select>
                     </div>
                   </div>
                   <div className="grid sm-100">
                     <div className="form-control">
                       <label>
-                        GeoJSON file{' '}
+                        ไฟล์ GeoJSON{' '}
                         {process === 'create'? (<span className="color-danger">*</span>): (<></>)}
                       </label>
                       <input 
@@ -246,18 +246,18 @@ function MapProjectData(props) {
               <div className="popup-footer">
                 <div className="btns mt-0">
                   <button type="submit" className="btn btn-action btn-p">
-                    {process === 'create'? 'Add': 'Update'}
+                    {process === 'create'? 'สร้าง': 'แก้ไข'}
                   </button>
                   {process === 'update'? (
                     <button 
                       type="button" className="btn btn-action btn-p-border" 
                       onClick={e => onProcess(e, 'read', selectedData)} 
                     >
-                      View
+                      ดูข้อมูล
                     </button>
                   ): (<></>)}
                   <button type="button" className="btn btn-action btn-default" onClick={onProcess}>
-                    Close
+                    ยกเลิก
                   </button>
                 </div>
               </div>
@@ -269,7 +269,7 @@ function MapProjectData(props) {
         <div className="wrapper">
           <div className="popup-box">
             <div className="popup-header">
-              <h6 className="fw-600 lh-xs">Confirm to delete</h6>
+              <h6 className="fw-600 lh-xs">ยืนยันการลบข้อมูล</h6>
               <div className="btn-close" onClick={onProcess}>
                 <div className="hamburger active">
                   <div></div><div></div><div></div>
@@ -279,17 +279,16 @@ function MapProjectData(props) {
             <form onSubmit={onSubmit}>
               <div className="popup-body">
                 <p className="fw-500">
-                  Please confirm to delete data.
-                  The data cannot be retrieved after this confirmation.
+                  กรุณายืนยันการลบข้อของคุณ ข้อมูลไม่สามารถนำกลับมาได้หลังจากถูกลบไปแล้ว
                 </p>
               </div>
               <div className="popup-footer">
                 <div className="btns mt-0">
                   <button type="submit" className="btn btn-action btn-danger">
-                    Delete
+                    ยืนยันการลบ
                   </button>
                   <button type="button" className="btn btn-action btn-default" onClick={onProcess}>
-                    Cancel
+                    ปิด
                   </button>
                 </div>
               </div>

@@ -15,7 +15,7 @@ function UserViewPage(props) {
   const user = new UserModel(props.user);
   const history = useNavigate();
   const params = useParams();
-  const process = params.process? params.process: 'view';
+  // const process = params.process? params.process: 'view';
   const dataId = params.dataId? params.dataId: null;
 
   const [values, setValues] = useState(new UserModel({ status: 1 }));
@@ -34,10 +34,10 @@ function UserViewPage(props) {
     <>
       <div className="app-container">
         <Breadcrumb 
-          title={`${process} User`} 
+          title={`ดูผู้ใช้`} 
           structure={[
-            { title: 'User', to: '/admin' },
-            { title: 'User Management', to: '/admin/users' }
+            { title: 'สำหรับผู้ดูแลระบบ', to: '/admin' },
+            { title: 'ผู้ใช้งานทั่วไป', to: '/admin/users' }
           ]}
         />
 
@@ -56,15 +56,15 @@ function UserViewPage(props) {
             {values.isValid()? (
               <div className="avatar-desc">
                 <h5 className="fw-500 lh-sm">{values.displayName()}</h5>
-                <p className="fw-500 op-60">Role : {values.displayRole()}</p>
+                <p className="fw-500 op-60">ตำแหน่ง : {values.displayRole()}</p>
                 <div className="btns mt-2">
                   {user.isAdmin() && !values.isAdmin()? (
                     <Link to={`/admin/user/update/${dataId}`} className="btn btn-action btn-p btn-xs">
-                      <em className="fa-regular fa-pen-to-square mr-1"></em> Update
+                      <em className="fa-regular fa-pen-to-square mr-1"></em> แก้ไขข้อมูล
                     </Link>
                   ): (<></>)}
                   <Link to="/admin/users" className="btn btn-action btn-default btn-xs">
-                    Back
+                    ย้อนกลับ
                   </Link>
                 </div>
               </div>
@@ -74,25 +74,25 @@ function UserViewPage(props) {
 
         <div className="app-card p-0 mt-4">
           <div className="app-card-block">
-            <p className="lg fw-800">Account Information</p>
+            <p className="lg fw-800">ข้อมูลบัญชีผู้ใช้</p>
             <div className="ss-sep-01 mt-3"></div>
             <div className="grids">
               <div className="grid lg-40 md-50 sm-100">
-                <span className="fw-700">Full name :</span> {values.displayName()}
+                <span className="fw-700">ชื่อ-นามสกุล :</span> {values.displayName()}
               </div>
               <div className="grid lg-40 md-50 sm-100">
-                <span className="fw-700">Username :</span> {values.username}
-              </div>
-              <div className="sep"></div>
-              <div className="grid lg-40 md-50 sm-100">
-                <span className="fw-700">Email :</span> {values.email}
-              </div>
-              <div className="grid lg-40 md-50 sm-100">
-                <span className="fw-700">Telephone :</span> {values.telephone? values.telephone: '-'}
+                <span className="fw-700">ชื่อผู้ใช้ :</span> {values.username}
               </div>
               <div className="sep"></div>
               <div className="grid lg-40 md-50 sm-100">
-                <span className="fw-700">Status :</span> {values.displayStatus()}
+                <span className="fw-700">อีเมล :</span> {values.email}
+              </div>
+              <div className="grid lg-40 md-50 sm-100">
+                <span className="fw-700">เบอร์โทรศัพท์ :</span> {values.telephone? values.telephone: '-'}
+              </div>
+              <div className="sep"></div>
+              <div className="grid lg-40 md-50 sm-100">
+                <span className="fw-700">สถานะ :</span> {values.displayStatus()}
               </div>
             </div>
           </div>

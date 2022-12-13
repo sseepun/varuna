@@ -15,7 +15,7 @@ function Pagination(props) {
   return (
     <div className="table-footer">
       <div className="option ws-nowrap">
-        <p className="sm fw-500 mr-1">Show</p>
+        <p className="sm fw-500 mr-1">แสดง</p>
         <select 
           className="sm w-auto" 
           value={props.paginate.pp || props.paginate.pp===0? props.paginate.pp: 10} 
@@ -26,13 +26,13 @@ function Pagination(props) {
           <option value="50">50</option>
           <option value="100">100</option>
         </select>
-        <p className="sm fw-500 ml-1">per page</p>
+        <p className="sm fw-500 ml-1">ต่อหน้า</p>
       </div>
       <div className="option option-detail">
         <p>
           {props.paginate.total? (
             <>{(props.paginate.page-1)*props.paginate.pp + 1} - {Math.min(props.paginate.page*props.paginate.pp, props.paginate.total)}</>
-          ): (<>0</>)} data from {props.paginate.total}
+          ): (<>0</>)} จาก {props.paginate.total}
         </p>
       </div>
       <div className="option option-paginate">
