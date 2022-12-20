@@ -85,6 +85,12 @@ module.exports = function(app) {
     AdminController.mapLayerDelete
   );
   
+  router.patch(
+    '/map-layer-attributes',
+    [ authJwt.verifyToken, authJwt.isAdmin ],
+    AdminController.mapLayerAttributesUpdate
+  );
+  
   router.post(
     '/map-projects',
     [ authJwt.verifyToken, authJwt.isAdmin ],

@@ -22,20 +22,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Parse requests of content-type - application/json
-app.use(bodyParser.json());
-app.use(cookieParser());
-
+app.use(bodyParser.json({ limit: '1000mb' }));
 // Parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({
-  parameterLimit: 100000,
-  limit: '100mb',
-  extended: true,
-}));
-app.use(bodyParser.json({
-  parameterLimit: 100000,
-  limit: '100mb',
-  extended: true,
-}));
+app.use(bodyParser.urlencoded({ limit: '1000mb', extended: true, parameterLimit: 1000000 }));
+app.use(cookieParser());
 
 
 // Routes

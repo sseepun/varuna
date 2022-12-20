@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import axios from 'axios';
 import { apiHeaderFormData } from '../helpers/header';
+import { formatNumber } from '../helpers/frontend';
 
 import * as turf from '@turf/turf';
 import Map, { Source, Layer } from 'react-map-gl';
@@ -12,7 +13,7 @@ import { connect } from 'react-redux';
 import {
   processClear, processList, processCreate, processRead, processUpdate, processDelete
 } from '../actions/admin.actions';
-import { MapProjectModel, MapDataModel } from '../models';
+import { MapProjectModel, MapDataModel, MapLayerModel } from '../models';
 import { CDN_URL, MAPBOX_KEY } from '../actions/variables';
 
 
@@ -62,6 +63,7 @@ function MapProjectData(props) {
     }
   };
 
+  const [mapKey, setMapKey] = useState(Math.random().toString(36));
   const [mapData, setMapData] = useState(null);
   const [mapCenter, setMapCenter] = useState([100.5018, 13.7563]);
   const [mapStyle, setMapStyle] = useState('satellite-v9');
@@ -70,6 +72,7 @@ function MapProjectData(props) {
   const onProcess = async (e, p='', d=null) => {
     if(e) e.preventDefault();
     setMapData(null);
+    setDisplayData(null);
     if(p){
       if(p === 'read'){
         let res = await props.processRead('map-data', { _id: d._id }, true);
@@ -78,7 +81,9 @@ function MapProjectData(props) {
           let temp = await res.getData();
           let center = turf.center(temp);
           setMapData(temp);
+          setDisplayData(temp);
           setMapCenter(center.geometry.coordinates);
+          setMapKey(Math.random().toString(36));
         }
       }else{
         if(d) setSelectedData(new MapDataModel(d));
@@ -122,11 +127,52 @@ function MapProjectData(props) {
     }
   };
 
+
+  // START: Map Layer
+  const [selectedLayer, setSelectedLayer] = useState(new MapLayerModel({}));
+  const onChangeLayer = (val) => {
+    setDisplayData(mapData);
+    setSelectedRow(-1);
+    let temp = [ ...props.layers ].filter(d => d._id === val);
+    if(temp.length) setSelectedLayer(temp[0]);
+    else setSelectedLayer(new MapLayerModel({}));
+    setMapKey(Math.random().toString(36));
+  };
+
+  const [selectedRow, setSelectedRow] = useState(-1);
+  const [displayData, setDisplayData] = useState(null);
+  const onFilterMapData = (e=null, i=-1, feature=null) => {
+    if(e) e.preventDefault();
+    if(!feature){
+      selectedRow(-1);
+      setDisplayData(mapData);
+    }else{
+      if(i === selectedRow){
+        setSelectedRow(-1);
+        setDisplayData(mapData);
+        let center = turf.center(mapData);
+        setMapCenter(center.geometry.coordinates);
+      }else{
+        setSelectedRow(i);
+        let temp = { ...mapData };
+        temp.features = [ feature ];
+        setDisplayData(temp);
+        let center = turf.center(temp);
+        setMapCenter(center.geometry.coordinates);
+      }
+    }
+    setMapKey(Math.random().toString(36));
+  };
+  // END: Map Layer
+
+
   /* eslint-disable */
 	useEffect(() => {
     if(mapProject.isValid()){
-      props.processList('map-layers', { dataFilter: { status: 1 } });
       props.processList('map-datas', { dataFilter: { mapProjectId: mapProject._id } });
+      props.processList('map-layers', { dataFilter: { status: 1 } }).then(d => {
+        if(d && d.result && d.result.length) setSelectedLayer(d.result[0]);
+      });
     }
   }, []);
   /* eslint-enable */
@@ -299,7 +345,7 @@ function MapProjectData(props) {
 
       <div className={`popup-container ${process === 'read'? 'active': ''}`}>
         <div className="wrapper">
-          <div className="popup-box popup-xxl">
+          <div className="popup-box popup-3xl">
             <div className="popup-header">
               <h6 className="fw-600 lh-xs">
                 ดูข้อมูลแผนที่ : {selectedData.name} 
@@ -313,49 +359,113 @@ function MapProjectData(props) {
             </div>
             <div className="popup-body pt-0">
               <div className="grids">
-                <div className="grid md-2-3">
+                <div className="grid md-60 sm-100">
                   {mapData? (
                     <Map 
+                      // key={mapKey} 
                       initialViewState={{
                         longitude: mapCenter[0],
                         latitude: mapCenter[1],
-                        zoom: 11.5
+                        zoom: 11.75,
                       }} 
                       style={{ width: '100%', height: '28rem' }} 
                       mapStyle={`mapbox://styles/mapbox/${mapStyle}`} 
                       mapboxAccessToken={MAPBOX_KEY} 
                       interactiveLayerIds={[ 'data' ]} 
                     >
-                      <Source type="geojson" data={mapData}>
-                        <Layer 
-                          {...{
-                            id: 'data',
-                            type: 'fill',
-                            paint: {
-                              'fill-color': '#ff0000',
-                              'fill-opacity': 1
-                            }
-                          }}
-                        />
+                      <Source type="geojson" data={displayData}>
+                        {selectedLayer.isValid()? (
+                          <Layer 
+                            {...{
+                              id: 'data',
+                              type: 'fill',
+                              paint: {
+                                'fill-color': selectedLayer.color,
+                                'fill-opacity': selectedLayer.opacity/100,
+                              }
+                            }}
+                          />
+                        ): (<></>)}
                       </Source>
                     </Map>
                   ): (<></>)}
                 </div>
-                <div className="grid md-1-3">
-                  <div className="form-control">
-                    <label>Map Style</label>
-                    <select 
-                      value={mapStyle? mapStyle: ''} 
-                      onChange={e => setMapStyle(e.target.value)} 
-                    >
-                      <option value="satellite-v9">Satellite</option>
-                      <option value="light-v10">Light</option>
-                      <option value="dark-v10">Dark</option>
-                      <option value="streets-v11">Streets</option>
-                      <option value="outdoors-v11">Outdoors</option>
-                    </select>
-                  </div>
+                <div className="grid md-40 sm-100">
+                  <div className="grids">
+                    <div className="grid sm-100 mt-0">
+                      <div className="form-control">
+                        <label>รูปแบบแผนที่</label>
+                        <select 
+                          value={mapStyle? mapStyle: ''} 
+                          onChange={e => setMapStyle(e.target.value)} 
+                        >
+                          <option value="satellite-v9">Satellite</option>
+                          <option value="light-v10">Light</option>
+                          <option value="dark-v10">Dark</option>
+                          <option value="streets-v11">Streets</option>
+                          <option value="outdoors-v11">Outdoors</option>
+                        </select>
+                      </div>
+                    </div>
+                    {props.layers.length? (
+                      <div className="grid sm-100">
+                        <div className="form-group">
+                          <label>เลเยอร์แผนที่</label>
+                          <select 
+                            value={selectedLayer && selectedLayer._id? selectedLayer._id: ''} 
+                            onChange={e => onChangeLayer(e.target.value)} 
+                          >
+                            {props.layers.map((d, i) => (
+                              <option key={`layer_${i}`} value={d._id}>{d.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    ): (<></>)}
 
+                    {displayData && selectedLayer.isValid()? (
+                      <div className="grid sm-100">
+                        {selectedLayer.type === 1? ( // Table
+                          <div className="graph-wrapper">
+                            <table className="table header-sticky">
+                              <thead>
+                                <tr>
+                                  {selectedLayer.attributes.map((d, i) => (
+                                    <th key={`th_${i}`} className="ws-nowrap">{d.name}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {!mapData.features || !mapData.features.length? (
+                                  <tr>
+                                    <td colSpan={selectedLayer.attributes.length} className="text-center">
+                                      ไม่มีข้อมูล
+                                    </td>
+                                  </tr>
+                                ): (
+                                  mapData.features.map((d, i) => (
+                                    <tr 
+                                      key={`row_${i}`} className={`c-pointer ${i === selectedRow? 'row-active': ''}`} 
+                                      onClick={e => onFilterMapData(e, i, d)} 
+                                    >
+                                      {selectedLayer.attributes.map((k, j) => (
+                                        <td key={`col_${i}_${j}`} className="ws-nowrap">
+                                          {isNaN(d.properties[k.key])
+                                            ? d.properties[k.key]
+                                            : formatNumber(d.properties[k.key])} {k.unit}
+                                        </td>
+                                      ))}
+                                    </tr>
+                                  ))
+                                )}
+                              </tbody>
+                            </table>
+                          </div>
+                        ): (<></>)}
+                      </div>
+                    ): (<></>)}
+
+                  </div>
                 </div>
               </div>
             </div>
@@ -436,7 +546,7 @@ function MapProjectData(props) {
 }
 
 MapProjectData.defaultProps = {
-  
+  mapProject: PropTypes.object.isRequired,
 };
 MapProjectData.propTypes = {
   processClear: PropTypes.func.isRequired,

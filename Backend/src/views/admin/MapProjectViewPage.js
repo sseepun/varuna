@@ -122,7 +122,7 @@ function MapProjectViewPage(props) {
             {values.isValid()? (
               <div className="avatar-desc">
                 <h5 className="fw-500">{values.name}</h5>
-                <p className="fw-500 color-gray op-0">
+                <p className="fw-500 color-gray">
                   สถานะ : <span className="fw-700 color-p">{values.displayStatus()}</span> 
                 </p>
                 <div className="btns mt-2">

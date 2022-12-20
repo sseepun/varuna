@@ -2,10 +2,10 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class MapPermission extends Model {
+  class MapLayerMapping extends Model {
     
   };
-  MapPermission.init({
+  MapLayerMapping.init({
     _id: { type: DataTypes.INTEGER, primaryKey: true },
 
     mapLayerId: { type: DataTypes.INTEGER, allowNull: false },
@@ -22,5 +22,5 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'map_layer_mappings',
     underscored: false,
   });
-  return MapPermission;
+  return MapLayerMapping;
 };

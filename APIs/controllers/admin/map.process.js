@@ -8,6 +8,7 @@ module.exports = {
   mapLayerList : async (req, res) => {
     try {
       const { paginate, dataFilter } = req.body;
+      console.log(paginate)
 
       let condition = {};
       if(dataFilter){
@@ -51,6 +52,7 @@ module.exports = {
             ...d.dataValues,
             image: formater.cleanFile(d.image),
             icon: formater.cleanFile(d.icon),
+            attributes: d.attributes? JSON.parse(d.attributes): [],
           };
         }),
       });
@@ -77,6 +79,7 @@ module.exports = {
           ...mapLayer.dataValues,
           image: formater.cleanFile(mapLayer.image),
           icon: formater.cleanFile(mapLayer.icon),
+          attributes: mapLayer.attributes? JSON.parse(mapLayer.attributes): [],
         },
       });
     } catch(err) {
@@ -86,14 +89,24 @@ module.exports = {
   mapLayerCreate : async (req, res) => {
     try {
       var error = {};
-      const { name, description, image, icon, status } = req.body;
+      const {
+        name, description, image, icon, color, opacity, type, order, status
+      } = req.body;
 
       if(!name) error['name'] = 'name is required.';
+      if(!color) error['color'] = 'color is required.';
+      if(!opacity && opacity!==0) error['opacity'] = 'opacity is required.';
+      if(!type) error['type'] = 'type is required.';
+      if(!order) error['order'] = 'order is required.';
       if([0, 1].indexOf(status) < 0) error['status'] = 'status is required.';
       if(Object.keys(error).length) return resProcess['checkError'](res, error);
 
       let updateInput = {
         name: name,
+        color: color,
+        opacity: opacity,
+        type: type,
+        order: order,
         status: status,
         isDeletable: 1,
       };
@@ -110,10 +123,16 @@ module.exports = {
   mapLayerUpdate : async (req, res) => {
     try {
       var error = {};
-      const { _id, name, description, image, icon, status } = req.body;
+      const {
+        _id, name, description, image, icon, color, opacity, type, order, status
+      } = req.body;
 
       if(!_id) error['_id'] = '_id is required.';
       if(!name) error['name'] = 'name is required.';
+      if(!color) error['color'] = 'color is required.';
+      if(!opacity && opacity!==0) error['opacity'] = 'opacity is required.';
+      if(!type) error['type'] = 'type is required.';
+      if(!order) error['order'] = 'order is required.';
       if([0, 1].indexOf(status) < 0) error['status'] = 'status is required.';
       if(Object.keys(error).length) return resProcess['checkError'](res, error);
 
@@ -125,6 +144,10 @@ module.exports = {
 
       let updateInput = {
         name: name,
+        color: color,
+        opacity: opacity,
+        type: type,
+        order: order,
         status: status,
       };
       if(description!==undefined) updateInput['description'] = description;
@@ -152,6 +175,32 @@ module.exports = {
       }
       
       await mapLayer.destroy();
+      
+      return resProcess['200'](res);
+    } catch(err) {
+      return resProcess['500'](res, err);
+    }
+  },
+  
+  mapLayerAttributesUpdate : async (req, res) => {
+    try {
+      var error = {};
+      const { mapLayerId, attributes } = req.body;
+
+      if(!mapLayerId) error['mapLayerId'] = 'mapLayerId is required.';
+      if(Object.keys(error).length) return resProcess['checkError'](res, error);
+
+      const mapLayer = await db.MapLayer.findOne({ where: { _id: mapLayerId } });
+      if(!mapLayer){
+        error['_id'] = '_id is invalid.';
+        return resProcess['checkError'](res, error);
+      }
+
+      let updateInput = {
+        attributes: attributes && attributes.length
+          ? JSON.stringify(attributes): '[]',
+      };
+      await mapLayer.update(updateInput);
       
       return resProcess['200'](res);
     } catch(err) {

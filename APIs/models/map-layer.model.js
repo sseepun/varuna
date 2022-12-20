@@ -1,6 +1,21 @@
 'use strict';
 const { Model } = require('sequelize');
 
+/*
+  type : Integer
+    1 = Table
+    2 = Vertical Bar Chart
+    3 = Horizontal Bar Chart
+    4 = Pie Chart
+    5 = Donut Chart
+
+  attributes : Array
+    attribute : Object
+      name : String
+      unit : String
+      key : String
+*/
+
 module.exports = (sequelize, DataTypes) => {
   class MapLayer extends Model {
 
@@ -13,10 +28,17 @@ module.exports = (sequelize, DataTypes) => {
     
     image: { type: DataTypes.STRING },
     icon: { type: DataTypes.STRING },
+
+    color: { type: DataTypes.STRING, allowNull: false },
+    opacity: { type: DataTypes.INTEGER, defaultValue: 25 },
     
-    isDeletable: { type: DataTypes.INTEGER, allowNull: false },
-    
+    type: { type: DataTypes.INTEGER, defaultValue: 1 },
+    attributes: { type: DataTypes.STRING, defaultValue: '[]' },
+
+    order: { type: DataTypes.INTEGER, defaultValue: 1 },
     status: { type: DataTypes.INTEGER },
+
+    isDeletable: { type: DataTypes.INTEGER, allowNull: false },
   }, {
     sequelize,
     modelName: 'map_layers',

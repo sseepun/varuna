@@ -27,16 +27,39 @@ module.exports = {
         allowNull: true,
         type: Sequelize.TEXT
       },
+      
+      color: {
+        allowNull: false,
+        type: Sequelize.TEXT,
+      },
+      opacity: {
+        type: Sequelize.INTEGER,
+        defaultValue: 25
+      },
+      
+      type: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1
+      },
+      attributes: {
+        type: Sequelize.TEXT,
+        defaultValue: '[]'
+      },
 
+      order: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1
+      },
+      status: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
+      
       isDeletable: {
         type: Sequelize.INTEGER,
         defaultValue: 1
       },
 
-      status: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-      },
       createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')

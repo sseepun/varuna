@@ -107,6 +107,59 @@ function MapLayerPage(props) {
                   />
                 </div>
               </div>
+              
+              <div className="sep"></div>
+              <div className="grid sm-50 md-50 lg-40 xl-1-3">
+                <div className="form-control">
+                  <label>สี <span className="color-danger">*</span></label>
+                  <input 
+                    type="color" disabled={process==='view'} required={true} 
+                    value={values.color? values.color: ''} 
+                    onChange={e => onChangeInput('color', e.target.value)} 
+                  />
+                </div>
+              </div>
+              <div className="grid sm-50 md-50 lg-40 xl-1-3">
+                <div className="form-control">
+                  <label>ความเข้มของสี (%) <span className="color-danger">*</span></label>
+                  <input 
+                    type="number" disabled={process==='view'} required={true} 
+                    min={0} max={100} step={1} 
+                    value={values.opacity || values.opacity===0? values.opacity: ''} 
+                    onChange={e => onChangeInput('opacity', e.target.value, true)} 
+                  />
+                </div>
+              </div>
+
+              <div className="sep"></div>
+              <div className="grid sm-50 md-50 lg-40 xl-1-3">
+                <div className="form-control">
+                  <label>การแสดงผล <span className="color-danger">*</span></label>
+                  <select 
+                    required={true} 
+                    value={values.type? values.type: ''} 
+                    onChange={e => onChangeInput('type', e.target.value, true)} 
+                  >
+                    <option value="1">Table</option>
+                    <option value="2">Vertical Bar Chart</option>
+                    <option value="3">Horizontal Bar Chart</option>
+                    <option value="4">Pie Chart</option>
+                    <option value="5">Donut Chart</option>
+                  </select>
+                </div>
+              </div>
+              <div className="grid sm-50 md-50 lg-40 xl-1-3">
+                <div className="form-control">
+                  <label>ลำดับ <span className="color-danger">*</span></label>
+                  <input
+                    type="number" disabled={process==='view'} required={true} 
+                    min={1} step={1} 
+                    value={values.order || values.order===0? values.order: ''} 
+                    onChange={e => onChangeInput('order', e.target.value, true)} 
+                  />
+                </div>
+              </div>
+              
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">

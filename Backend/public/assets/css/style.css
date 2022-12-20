@@ -159,12 +159,13 @@ ol > li:before{
 /* Input */
 input[type=text], input[type=email], input[type=password], input[type=date], input[type=tel],
 input[type=number], input[type=phone], input[type=submit], input[type=file], input[type=time],
-select, textarea{
+input[type=color], select, textarea{
   width:100%; border:1.5px solid transparent; border-radius:var(--bradius);
   padding:.375rem .625rem; font-size:.9375rem; margin:0; outline:none;
   font-weight:var(--fw); line-height:var(--lh); box-shadow:none;
   transition:border-color .25s, color .25s;
 }
+input[type=color]{padding:0 .125rem; height:2.4375rem;}
 input[type=time]{padding:.3125rem .625rem;}
 select{padding:.475rem .625rem;}
 
@@ -309,9 +310,6 @@ fieldset{width:100%; padding:0; margin:0; border:0;}
 	opacity:0; pointer-events:none; transition:opacity .25s;
 }
 #global-loader.active{opacity:1; pointer-events:auto;}
-/* @supports (-webkit-touch-callout:none){
-  #global-loader{padding-bottom:5rem;}
-} */
 
 
 /* Breadcrumb */
@@ -323,6 +321,9 @@ fieldset{width:100%; padding:0; margin:0; border:0;}
 @media screen and (max-width:767.98px){
 	.breadcrumb .structure{width:100%;;}
 }
+
+
+.color-block{display:inline-block; width:4rem; height:1rem;}
 
 
 /* Hamburger */
@@ -457,7 +458,8 @@ fieldset{width:100%; padding:0; margin:0; border:0;}
 	display:block; position:relative; width:100%; max-width:25rem; overflow:hidden;
 	margin:0 auto; border-radius:var(--bradius);
 }
-.popup-container .popup-box.popup-xxl{max-width:58rem;}
+.popup-container .popup-box.popup-3xl{max-width:68rem;}
+.popup-container .popup-box.popup-2xl{max-width:58rem;}
 .popup-container .popup-box.popup-xl{max-width:48rem;}
 .popup-container .popup-box.popup-lg{max-width:41rem;}
 .popup-container .popup-box.popup-md{max-width:33rem;}
@@ -490,6 +492,10 @@ fieldset{width:100%; padding:0; margin:0; border:0;}
 }
 @supports (-webkit-touch-callout:none){
   .popup-container{padding-bottom:5rem;}
+}
+
+.popup-container .popup-box .graph-wrapper{
+	width:100%; max-height:17.8125rem; overflow-x:hidden; overflow-y:auto;
 }
 
 
@@ -704,6 +710,8 @@ table.table .table-img img{
 }
 table.table .table-img.sm img{max-width:4.5rem; max-height:3rem;}
 table.table .table-checkbox{font-size:.9375rem; width:.9375rem; height:.9375rem; margin:0;}
+
+table.table.header-sticky thead tr:nth-child(1) th{position:sticky; top:0; z-index:1;}
 
 /* Table Footer */
 .table-footer{
