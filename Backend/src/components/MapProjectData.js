@@ -63,7 +63,6 @@ function MapProjectData(props) {
     }
   };
 
-  const [mapKey, setMapKey] = useState(Math.random().toString(36));
   const [mapData, setMapData] = useState(null);
   const [mapCenter, setMapCenter] = useState([100.5018, 13.7563]);
   const [mapStyle, setMapStyle] = useState('satellite-v9');
@@ -83,7 +82,6 @@ function MapProjectData(props) {
           setMapData(temp);
           setDisplayData(temp);
           setMapCenter(center.geometry.coordinates);
-          setMapKey(Math.random().toString(36));
         }
       }else{
         if(d) setSelectedData(new MapDataModel(d));
@@ -136,7 +134,6 @@ function MapProjectData(props) {
     let temp = [ ...props.layers ].filter(d => d._id === val);
     if(temp.length) setSelectedLayer(temp[0]);
     else setSelectedLayer(new MapLayerModel({}));
-    setMapKey(Math.random().toString(36));
   };
 
   const [selectedRow, setSelectedRow] = useState(-1);
@@ -161,7 +158,6 @@ function MapProjectData(props) {
         setMapCenter(center.geometry.coordinates);
       }
     }
-    setMapKey(Math.random().toString(36));
   };
   // END: Map Layer
 
@@ -362,7 +358,6 @@ function MapProjectData(props) {
                 <div className="grid md-60 sm-100">
                   {mapData? (
                     <Map 
-                      // key={mapKey} 
                       initialViewState={{
                         longitude: mapCenter[0],
                         latitude: mapCenter[1],
@@ -425,11 +420,13 @@ function MapProjectData(props) {
 
                     {displayData && selectedLayer.isValid()? (
                       <div className="grid sm-100">
+
                         {selectedLayer.type === 1? ( // Table
                           <div className="graph-wrapper">
                             <table className="table header-sticky">
                               <thead>
                                 <tr>
+                                  <th style={{ width: '3rem' }} className="text-center">ID</th>
                                   {selectedLayer.attributes.map((d, i) => (
                                     <th key={`th_${i}`} className="ws-nowrap">{d.name}</th>
                                   ))}
@@ -438,7 +435,10 @@ function MapProjectData(props) {
                               <tbody>
                                 {!mapData.features || !mapData.features.length? (
                                   <tr>
-                                    <td colSpan={selectedLayer.attributes.length} className="text-center">
+                                    <td 
+                                      colSpan={selectedLayer.attributes.length+1} 
+                                      className="text-center" 
+                                    >
                                       ไม่มีข้อมูล
                                     </td>
                                   </tr>
@@ -448,6 +448,7 @@ function MapProjectData(props) {
                                       key={`row_${i}`} className={`c-pointer ${i === selectedRow? 'row-active': ''}`} 
                                       onClick={e => onFilterMapData(e, i, d)} 
                                     >
+                                      <td className="text-center">{i+1}</td>
                                       {selectedLayer.attributes.map((k, j) => (
                                         <td key={`col_${i}_${j}`} className="ws-nowrap">
                                           {isNaN(d.properties[k.key])
@@ -462,6 +463,7 @@ function MapProjectData(props) {
                             </table>
                           </div>
                         ): (<></>)}
+
                       </div>
                     ): (<></>)}
 
