@@ -48,7 +48,6 @@ services:
             - 1900:1900
         depends_on:
             - server
-        command:  bash -c "npm i && npm run serve"
         restart: on-failure
 
     cdn:
@@ -64,7 +63,6 @@ services:
             - 1700:1700
         depends_on:
             - server
-        command:  bash -c "npm i && npm run serve"
         restart: on-failure
 
 volumes:
