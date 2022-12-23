@@ -422,7 +422,7 @@ function MapProjectData(props) {
                       <div className="grid sm-100">
 
                         {selectedLayer.type === 1? ( // Table
-                          <div className="graph-wrapper">
+                          <div className="graph-wrapper border-bottom-1 bcolor-fgray">
                             <table className="table header-sticky">
                               <thead>
                                 <tr>

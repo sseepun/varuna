@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "sseepun",
+    "password": "ABCtest123!",
+    "database": "varuna",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "varuna",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "varuna",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

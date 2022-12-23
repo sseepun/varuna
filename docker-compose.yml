@@ -1,0 +1,77 @@
+version: '3.8'
+services: 
+    db:
+        image: postgres
+        container_name: db
+        env_file: ./APIs/.env
+        environment: 
+            POSTGRES_PASSWORD: DgRqMKSswgj3ErYL
+            POSTGRES_USER: varuna
+            POSTGRES_DB: varuna 
+        ports:
+            - 5432:5432
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+
+    server:
+        build:
+            context: ./APIs/.
+        image: server
+        container_name: server
+        env_file: ./APIs/.env
+        volumes: 
+            - server:/app_server/
+            - server_node_modules:/app_server/node_modules
+        ports:
+            - 1800:1800
+        depends_on:
+            - db
+        command:  bash -c "npx sequelize db:migrate && npx sequelize db:seed:all && npm run serve"
+        restart: on-failure
+        environment: 
+            DB_HOST: db
+            DB_USER: varuna
+            DB_PASS: DgRqMKSswgj3ErYL
+            DB_DATABASE: varuna
+            DB_PORT: 5432
+
+    backend:
+        build:
+            context: ./Backend/.
+        image: backend
+        container_name: backend
+        env_file: ./Backend/.env
+        volumes: 
+            - backend:/backend/
+            - backend_node_modules:/backend/node_modules
+        ports:
+            - 1900:1900
+        depends_on:
+            - server
+        command:  bash -c "npm i && npm run serve"
+        restart: on-failure
+
+    cdn:
+        build:
+            context: ./CDN/.
+        image: cdn
+        container_name: cdn
+        env_file: ./CDN/.env
+        volumes: 
+            - cdn:/cdn/
+            - cdn_node_modules:/cdn/node_modules
+        ports:
+            - 1700:1700
+        depends_on:
+            - server
+        command:  bash -c "npm i && npm run serve"
+        restart: on-failure
+
+volumes:
+    pgdata:
+    server:
+    server_node_modules:
+    backend:
+    backend_node_modules:
+    cdn:
+    cdn_node_modules:
