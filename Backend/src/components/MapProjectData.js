@@ -9,6 +9,8 @@ import * as turf from '@turf/turf';
 import Map, { Source, Layer } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+import ReactECharts from 'echarts-for-react';
+
 import { connect } from 'react-redux';
 import {
   processClear, processList, processCreate, processRead, processUpdate, processDelete
@@ -131,9 +133,14 @@ function MapProjectData(props) {
   const onChangeLayer = (val) => {
     setDisplayData(mapData);
     setSelectedRow(-1);
-    let temp = [ ...props.layers ].filter(d => d._id === val);
-    if(temp.length) setSelectedLayer(temp[0]);
-    else setSelectedLayer(new MapLayerModel({}));
+    let temp = [ ...props.layers ].filter(d => d._id === Number(val));
+    if(temp.length){
+      temp = temp[0];
+      temp.initData(mapData);
+      setSelectedLayer(temp);
+    }else{
+      setSelectedLayer(new MapLayerModel({}));
+    }
   };
 
   const [selectedRow, setSelectedRow] = useState(-1);
@@ -420,15 +427,16 @@ function MapProjectData(props) {
 
                     {displayData && selectedLayer.isValid()? (
                       <div className="grid sm-100">
-
                         {selectedLayer.type === 1? ( // Table
-                          <div className="graph-wrapper border-bottom-1 bcolor-fgray">
+                          <div className="graph-wrapper bradius border-bottom-1 bcolor-fgray">
                             <table className="table header-sticky">
                               <thead>
                                 <tr>
                                   <th style={{ width: '3rem' }} className="text-center">ID</th>
                                   {selectedLayer.attributes.map((d, i) => (
-                                    <th key={`th_${i}`} className="ws-nowrap">{d.name}</th>
+                                    <th key={`th_${i}`} className="ws-nowrap">
+                                      {d.name} {d.unit? (<>({d.unit})</>): (<></>)}
+                                    </th>
                                   ))}
                                 </tr>
                               </thead>
@@ -451,9 +459,9 @@ function MapProjectData(props) {
                                       <td className="text-center">{i+1}</td>
                                       {selectedLayer.attributes.map((k, j) => (
                                         <td key={`col_${i}_${j}`} className="ws-nowrap">
-                                          {isNaN(d.properties[k.key])
-                                            ? d.properties[k.key]
-                                            : formatNumber(d.properties[k.key])} {k.unit}
+                                          {k.dataType === 2
+                                            ? (formatNumber(d.properties[k.key], k.digits? k.digits: 0))
+                                            : (d.properties[k.key])}
                                         </td>
                                       ))}
                                     </tr>
@@ -462,6 +470,159 @@ function MapProjectData(props) {
                               </tbody>
                             </table>
                           </div>
+                        ): selectedLayer.type === 2? ( // Vertical Bar Chart
+                          <div className="graph-wrapper bradius border-1 bcolor-fgray">
+                            <div className="p-4 pl-0">
+                              <ReactECharts 
+                                key={`g2_${selectedLayer.type}`} 
+                                option={{
+                                  grid: { top: 12, right: 0, bottom: 20, left: 80 },
+                                  xAxis: {
+                                    data: selectedLayer.chartDataX,
+                                    axisLine: {
+                                      lineStyle: { color: 'rgb(227, 226, 236, 0.8)' }
+                                    },
+                                    axisLabel: { fontSize: 13, color: '#777777' }
+                                  },
+                                  yAxis: {
+                                    max: selectedLayer.chartMaxY,
+                                    splitLine: {
+                                      lineStyle: { color: 'rgb(227, 226, 236, 0.8)' }
+                                    },
+                                    axisLine: {
+                                      lineStyle: { color: 'rgb(227, 226, 236, 0.8)' }
+                                    },
+                                    axisLabel: { fontSize: 10, color: '#777777' }
+                                  },
+                                  tooltip: {
+                                    show: true,
+                                    showContent: true,
+                                    alwaysShowContent: false,
+                                    triggerOn: 'mousemove',
+                                    trigger: 'axis',
+                                    axisPointer: {
+                                      label: { show: false }
+                                    }
+                                  },
+                                  series: [{
+                                    type: 'bar',
+                                    name: selectedLayer.chartAxisY && selectedLayer.chartAxisY.unit
+                                      ? selectedLayer.chartAxisY.unit: '',
+                                    data: selectedLayer.chartDataY
+                                  }],
+                                  color: [
+                                    selectedLayer.chartAxisY && selectedLayer.chartAxisY.color
+                                      ? selectedLayer.chartAxisY.color: ''
+                                  ]
+                                }} 
+                              />
+                            </div>
+                          </div>
+                        ): selectedLayer.type === 3? ( // Horizontal Bar Chart
+                          <div className="graph-wrapper bradius border-1 bcolor-fgray">
+                            <div className="p-4 pl-0">
+                              <ReactECharts 
+                                key={`g3_${selectedLayer.type}`} 
+                                option={{
+                                  grid: { top: 12, right: 0, bottom: 20, left: 80 },
+                                  yAxis: {
+                                    data: selectedLayer.chartDataY,
+                                    axisLine: {
+                                      lineStyle: { color: 'rgb(227, 226, 236, 0.8)' }
+                                    },
+                                    axisLabel: { fontSize: 13, color: '#777777' }
+                                  },
+                                  xAxis: {
+                                    max: selectedLayer.chartMaxX,
+                                    splitLine: {
+                                      lineStyle: { color: 'rgb(227, 226, 236, 0.8)' }
+                                    },
+                                    axisLine: {
+                                      lineStyle: { color: 'rgb(227, 226, 236, 0.8)' }
+                                    },
+                                    axisLabel: { fontSize: 10, color: '#777777' }
+                                  },
+                                  tooltip: {
+                                    show: true,
+                                    showContent: true,
+                                    alwaysShowContent: false,
+                                    triggerOn: 'mousemove',
+                                    trigger: 'axis',
+                                    axisPointer: {
+                                      label: { show: false }
+                                    }
+                                  },
+                                  series: [{
+                                    type: 'bar',
+                                    name: selectedLayer.chartAxisX && selectedLayer.chartAxisX.unit
+                                      ? selectedLayer.chartAxisX.unit: '',
+                                    data: selectedLayer.chartDataX
+                                  }],
+                                  color: [
+                                    selectedLayer.chartAxisX && selectedLayer.chartAxisX.color
+                                      ? selectedLayer.chartAxisX.color: ''
+                                  ]
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ): [4, 5].indexOf(selectedLayer.type) > -1? ( // Pie & Donut Chart
+                          <div className="graph-wrapper bradius border-1 bcolor-fgray">
+                            <div className="p-4 pt-0">
+                              <ReactECharts 
+                                key={`g4-5_${selectedLayer.type}`} 
+                                option={{
+                                  title: { text: '', subtext: '', x: 'center' },
+                                  tooltip: {
+                                    trigger: 'item',
+                                    formatter: (p => {
+                                      return `${p.data.name} = ${formatNumber(p.percent)}%<br />
+                                        ${formatNumber(p.data.value, p.data.digits)} ${p.data.unit}`;
+                                    })
+                                  },
+                                  legend: {
+                                    x: 'center', y: 'bottom',
+                                    data: selectedLayer.attributes.map(d => d.name),
+                                    textStyle: { color: '#555555' }
+                                  },
+                                  series: [{
+                                    name: '', type: 'pie',
+                                    radius: [selectedLayer.type === 5? 50: 0, 110],
+                                    center: ['50%', '46%'],
+                                    label: { show: false }, lableLine: { show: false },
+                                    emphasis: {
+                                      label: { show: false },
+                                      lableLine: { show: false }
+                                    },
+                                    data: selectedLayer.attributes.map(d => {
+                                      return {
+                                        value: selectedLayer.getDataTotal(mapData, d),
+                                        name: d.name,
+                                        unit: d.unit,
+                                        digits: d.digits? d.digits: 0,
+                                      };
+                                    }),
+                                  }],
+                                  color: selectedLayer.attributes.map(d => d.color),
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ): selectedLayer.type === 6? ( // Total Summary
+                          selectedLayer.attributes.map((d, i) => (
+                            <div key={`g7_${i}`} className="graph-wrapper bradius border-1 bcolor-fgray">
+                              <div className="text-center p-4 pt-5">
+                                <h6 className="fw-600">{d.name}</h6>
+                                <h4 className="fw-600 lh-xs mt-1" style={{ color: d.color }}>
+                                  {formatNumber(
+                                    selectedLayer.getDataTotal(mapData, d), d.digits? d.digits: 0
+                                  )} {d.unit? (
+                                    <span className="p fw-600 color-dark">{d.unit}</span>
+                                  ): (<></>)}
+                                </h4>
+                              </div>
+                            </div>
+                          ))
                         ): (<></>)}
 
                       </div>

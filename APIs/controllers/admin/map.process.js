@@ -8,7 +8,6 @@ module.exports = {
   mapLayerList : async (req, res) => {
     try {
       const { paginate, dataFilter } = req.body;
-      console.log(paginate)
 
       let condition = {};
       if(dataFilter){
@@ -31,7 +30,7 @@ module.exports = {
       if(!paginate){
         result = await db.MapLayer.findAll({
           where: condition,
-          order: [ [ 'isDeletable', 'ASC' ], [ 'createdAt', 'DESC' ] ]
+          order: [ [ 'isDeletable', 'ASC' ], [ 'order', 'ASC' ], [ 'createdAt', 'DESC' ] ]
         });
       }else{
         result = await db.MapLayer.findAll({
@@ -39,7 +38,7 @@ module.exports = {
           offset: (paginate.page - 1) * paginate.pp,
           limit : paginate.pp,
           subQuery: false,
-          order: [ [ 'isDeletable', 'ASC' ], [ 'createdAt', 'DESC' ] ]
+          order: [ [ 'isDeletable', 'ASC' ], [ 'order', 'ASC' ], [ 'createdAt', 'DESC' ] ]
         })
         paginate.total = await db.MapLayer.count({ where: condition });
       }

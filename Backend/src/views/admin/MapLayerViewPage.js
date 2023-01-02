@@ -110,7 +110,7 @@ function MapLayerViewPage(props) {
                 <div className="sep"></div>
                 <div className="grid lg-40 md-50 sm-100">
                   <div className="d-flex ai-center">
-                    <span className="fw-700">สี :</span>
+                    <span className="fw-700">สีบนแผนที่ :</span>
                     <span 
                       className="color-block ml-2" 
                       style={{ background: values.color, opacity: values.opacity/100 }} 

@@ -111,7 +111,7 @@ function MapLayerPage(props) {
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">
                 <div className="form-control">
-                  <label>สี <span className="color-danger">*</span></label>
+                  <label>สีบนแผนที่ <span className="color-danger">*</span></label>
                   <input 
                     type="color" disabled={process==='view'} required={true} 
                     value={values.color? values.color: ''} 
@@ -145,6 +145,7 @@ function MapLayerPage(props) {
                     <option value="3">Horizontal Bar Chart</option>
                     <option value="4">Pie Chart</option>
                     <option value="5">Donut Chart</option>
+                    <option value="6">Total Summary</option>
                   </select>
                 </div>
               </div>

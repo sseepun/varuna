@@ -135,13 +135,14 @@ function MapLayersPage(props) {
                   <th style={{ minWidth: 100, maxWidth: 100 }} className="text-center">ไอคอน</th>
                   <th style={{ minWidth: 180, width: '100%' }}>ชื่อเลเยอร์</th>
                   <th style={{ minWidth: 140 }} className="text-center">การแสดงผล</th>
+                  <th style={{ minWidth: 90 }} className="text-center">ลำดับ</th>
                   <th style={{ minWidth: 110 }} className="text-center">สถานะ</th>
                   <th style={{ minWidth: 110 }} className="text-center">การกระทำ</th>
                 </tr>
               </thead>
               <tbody>
                 {loading? (
-                  <tr><td colSpan={6} className="text-center">กำลังโหลดข้อมูล...</td></tr>
+                  <tr><td colSpan={7} className="text-center">กำลังโหลดข้อมูล...</td></tr>
                 ): (
                   props.list && props.list.length? (
                     props.list.map((d, i) => (
@@ -168,6 +169,7 @@ function MapLayersPage(props) {
                           </Link>
                         </td>
                         <td className="ws-nowrap text-center">{d.displayType()}</td>
+                        <td className="text-center">{d.order}</td>
                         <td className="text-center">{d.displayStatus()}</td>
                         <td className="text-center">
                           <Link to={`/admin/map-layer/view/${d._id}`} className="table-option color-info">
@@ -185,7 +187,7 @@ function MapLayersPage(props) {
                       </tr>
                     ))
                   ): (
-                    <tr><td colSpan={6} className="text-center">ไม่พบข้อมูลในระบบ</td></tr>
+                    <tr><td colSpan={7} className="text-center">ไม่พบข้อมูลในระบบ</td></tr>
                   )
                 )}
               </tbody>
