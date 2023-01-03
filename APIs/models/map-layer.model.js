@@ -29,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     image: { type: DataTypes.STRING },
     icon: { type: DataTypes.STRING },
 
-    color: { type: DataTypes.STRING, allowNull: false },
-    opacity: { type: DataTypes.INTEGER, defaultValue: 25 },
+    color: { type: DataTypes.STRING, defaultValue: '' },
+    opacity: { type: DataTypes.INTEGER, defaultValue: 0 },
     
     type: { type: DataTypes.INTEGER, defaultValue: 1 },
     attributes: { type: DataTypes.STRING, defaultValue: '[]' },

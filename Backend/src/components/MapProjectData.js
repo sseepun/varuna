@@ -129,6 +129,7 @@ function MapProjectData(props) {
 
 
   // START: Map Layer
+  const [mainLayer, setMainLayer] = useState(new MapLayerModel({}));
   const [selectedLayer, setSelectedLayer] = useState(new MapLayerModel({}));
   const onChangeLayer = (val) => {
     setDisplayData(mapData);
@@ -174,7 +175,10 @@ function MapProjectData(props) {
     if(mapProject.isValid()){
       props.processList('map-datas', { dataFilter: { mapProjectId: mapProject._id } });
       props.processList('map-layers', { dataFilter: { status: 1 } }).then(d => {
-        if(d && d.result && d.result.length) setSelectedLayer(d.result[0]);
+        if(d && d.result && d.result.length){
+          setSelectedLayer(d.result[0]);
+          setMainLayer(d.result[0]);
+        }
       });
     }
   }, []);
@@ -376,14 +380,14 @@ function MapProjectData(props) {
                       interactiveLayerIds={[ 'data' ]} 
                     >
                       <Source type="geojson" data={displayData}>
-                        {selectedLayer.isValid()? (
+                        {mainLayer.isValid()? (
                           <Layer 
                             {...{
                               id: 'data',
                               type: 'fill',
                               paint: {
-                                'fill-color': selectedLayer.color,
-                                'fill-opacity': selectedLayer.opacity/100,
+                                'fill-color': mainLayer.color,
+                                'fill-opacity': mainLayer.opacity/100,
                               }
                             }}
                           />

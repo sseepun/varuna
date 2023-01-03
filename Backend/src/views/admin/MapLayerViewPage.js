@@ -109,17 +109,19 @@ function MapLayerViewPage(props) {
                 </div>
                 <div className="sep"></div>
                 <div className="grid lg-40 md-50 sm-100">
-                  <div className="d-flex ai-center">
-                    <span className="fw-700">สีบนแผนที่ :</span>
-                    <span 
-                      className="color-block ml-2" 
-                      style={{ background: values.color, opacity: values.opacity/100 }} 
-                    ></span>
-                  </div>
-                </div>
-                <div className="grid lg-40 md-50 sm-100">
                   <span className="fw-700">การแสดงผล :</span> {values.displayType()}
                 </div>
+                {values.isDeletable === 0? (
+                  <div className="grid lg-40 md-50 sm-100">
+                    <div className="d-flex ai-center">
+                      <span className="fw-700">สีบนแผนที่ :</span>
+                      <span 
+                        className="color-block ml-2" 
+                        style={{ background: values.color, opacity: values.opacity/100 }} 
+                      ></span>
+                    </div>
+                  </div>
+                ): (<></>)}
               </div>
             </div>
           </div>

@@ -186,6 +186,11 @@ footer.footer{background:#ffffff; box-shadow:rgb(0 0 0 / 4%) 0px 7px 14px;}
 .avatar{border-color:#eeeeee;}
 
 
+/* Breadcrumb */
+.breadcrumb .icon{background:#ffffff; border-color:#787f88; color:#787f88;}
+.breadcrumb .icon:hover{border-color:var(--s-color); color:var(--s-color);}
+
+
 /* Image Uploader */
 .img-uploader{border-color:#cccccc;}
 .img-uploader > .btn-wrapper{background:#ffffff;}

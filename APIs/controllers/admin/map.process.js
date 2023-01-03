@@ -93,8 +93,6 @@ module.exports = {
       } = req.body;
 
       if(!name) error['name'] = 'name is required.';
-      if(!color) error['color'] = 'color is required.';
-      if(!opacity && opacity!==0) error['opacity'] = 'opacity is required.';
       if(!type) error['type'] = 'type is required.';
       if(!order) error['order'] = 'order is required.';
       if([0, 1].indexOf(status) < 0) error['status'] = 'status is required.';
@@ -102,8 +100,8 @@ module.exports = {
 
       let updateInput = {
         name: name,
-        color: color,
-        opacity: opacity,
+        color: color? color: '',
+        opacity: opacity? opacity: 0,
         type: type,
         order: order,
         status: status,
@@ -128,8 +126,6 @@ module.exports = {
 
       if(!_id) error['_id'] = '_id is required.';
       if(!name) error['name'] = 'name is required.';
-      if(!color) error['color'] = 'color is required.';
-      if(!opacity && opacity!==0) error['opacity'] = 'opacity is required.';
       if(!type) error['type'] = 'type is required.';
       if(!order) error['order'] = 'order is required.';
       if([0, 1].indexOf(status) < 0) error['status'] = 'status is required.';
@@ -143,8 +139,8 @@ module.exports = {
 
       let updateInput = {
         name: name,
-        color: color,
-        opacity: opacity,
+        color: color? color: '',
+        opacity: opacity? opacity: 0,
         type: type,
         order: order,
         status: status,

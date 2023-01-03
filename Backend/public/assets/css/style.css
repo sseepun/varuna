@@ -318,6 +318,11 @@ fieldset{width:100%; padding:0; margin:0; border:0;}
 }
 .breadcrumb .title{text-transform:capitalize;}
 .breadcrumb .structure{display:flex; align-items:center; font-size:.875rem; font-weight:400;}
+.breadcrumb .icon{
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  width:1.75rem; height:1.75rem; font-size:.75rem; margin:0;
+  border-radius:var(--bradius); border:1px solid transparent; transition:all .25s;
+}
 @media screen and (max-width:767.98px){
 	.breadcrumb .structure{width:100%;;}
 }
@@ -396,6 +401,7 @@ fieldset{width:100%; padding:0; margin:0; border:0;}
 	overflow:hidden; border-radius:var(--bradius);
 }
 .map-container > .wrapper{display:block; width:100%; height:100%;}
+.map-container .mapboxgl-canvas{width:100%!important;}
 .map-container .btn-container{position:absolute; top:.5rem; left:.5rem; z-index:1;}
 @media screen and (max-width:991.98px){
 	.map-container{height:21rem;}

@@ -108,28 +108,32 @@ function MapLayerPage(props) {
                 </div>
               </div>
               
-              <div className="sep"></div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>สีบนแผนที่ <span className="color-danger">*</span></label>
-                  <input 
-                    type="color" disabled={process==='view'} required={true} 
-                    value={values.color? values.color: ''} 
-                    onChange={e => onChangeInput('color', e.target.value)} 
-                  />
-                </div>
-              </div>
-              <div className="grid sm-50 md-50 lg-40 xl-1-3">
-                <div className="form-control">
-                  <label>ความเข้มของสี (%) <span className="color-danger">*</span></label>
-                  <input 
-                    type="number" disabled={process==='view'} required={true} 
-                    min={0} max={100} step={1} 
-                    value={values.opacity || values.opacity===0? values.opacity: ''} 
-                    onChange={e => onChangeInput('opacity', e.target.value, true)} 
-                  />
-                </div>
-              </div>
+              {process === 'update' && values.isDeletable === 0? (
+                <>
+                  <div className="sep"></div>
+                  <div className="grid sm-50 md-50 lg-40 xl-1-3">
+                    <div className="form-control">
+                      <label>สีบนแผนที่ <span className="color-danger">*</span></label>
+                      <input 
+                        type="color" disabled={process==='view'} required={true} 
+                        value={values.color? values.color: ''} 
+                        onChange={e => onChangeInput('color', e.target.value)} 
+                      />
+                    </div>
+                  </div>
+                  <div className="grid sm-50 md-50 lg-40 xl-1-3">
+                    <div className="form-control">
+                      <label>ความเข้มของสี (%) <span className="color-danger">*</span></label>
+                      <input 
+                        type="number" disabled={process==='view'} required={true} 
+                        min={0} max={100} step={1} 
+                        value={values.opacity || values.opacity===0? values.opacity: ''} 
+                        onChange={e => onChangeInput('opacity', e.target.value, true)} 
+                      />
+                    </div>
+                  </div>
+                </>
+              ): (<></>)}
 
               <div className="sep"></div>
               <div className="grid sm-50 md-50 lg-40 xl-1-3">

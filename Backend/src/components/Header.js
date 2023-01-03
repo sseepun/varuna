@@ -75,7 +75,6 @@ function Header(props) {
               children: [
                 { title: 'เลเยอร์แผนที่', to: '/admin/map-layers', activeIndex: 21, icon: 'fa-solid fa-layer-group' },
                 { title: 'โครงการแผนที่', to: '/admin/map-projects', activeIndex: 22, icon: 'fa-solid fa-map' },
-                { title: 'การแสดงข้อมูลแผนที่', to: '/admin/visualization', activeIndex: 23, icon: 'fa-solid fa-globe' },
               ]
             },
           ];
