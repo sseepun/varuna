@@ -29,12 +29,12 @@ module.exports = {
       },
       
       color: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.TEXT,
       },
       opacity: {
         type: Sequelize.INTEGER,
-        defaultValue: 25
+        defaultValue: 0
       },
       
       type: {
@@ -66,7 +66,8 @@ module.exports = {
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+        // defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },

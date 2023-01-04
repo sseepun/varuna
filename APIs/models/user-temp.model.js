@@ -6,7 +6,12 @@ module.exports = (sequelize, DataTypes) => {
 
   };
   UserTemp.init({
-    _id: { type: DataTypes.INTEGER, primaryKey: true },
+    _id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    
     userId: { type: DataTypes.INTEGER, allowNull: false },
     action: { type: DataTypes.STRING, allowNull: false },
     token: { type: DataTypes.STRING, allowNull: false },

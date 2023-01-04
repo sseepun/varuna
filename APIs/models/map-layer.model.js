@@ -21,7 +21,11 @@ module.exports = (sequelize, DataTypes) => {
 
   };
   MapLayer.init({
-    _id: { type: DataTypes.INTEGER, primaryKey: true },
+    _id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
 
     name: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.STRING },

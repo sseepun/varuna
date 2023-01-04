@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     
   };
   MapPermission.init({
-    _id: { type: DataTypes.INTEGER, primaryKey: true },
+    _id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
 
     mapProjectId: { type: DataTypes.INTEGER, allowNull: false },
     userId: { type: DataTypes.INTEGER, allowNull: false },

@@ -6,7 +6,12 @@ module.exports = (sequelize, DataTypes) => {
 
   };
   Setting.init({
-    _id: { type: DataTypes.INTEGER, primaryKey: true },
+    _id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    
     name: { type: DataTypes.STRING, allowNull: false },
     value: { type: DataTypes.STRING },
   }, {

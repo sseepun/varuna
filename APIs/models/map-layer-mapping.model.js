@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     
   };
   MapLayerMapping.init({
-    _id: { type: DataTypes.INTEGER, primaryKey: true },
+    _id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
 
     mapLayerId: { type: DataTypes.INTEGER, allowNull: false },
     mapDataId: { type: DataTypes.INTEGER, allowNull: false },

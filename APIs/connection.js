@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
     process.env.DB_PASS, {
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
-        dialect: 'mysql',
+        dialect: process.env.DB_DIALECT,
         logging: false
     }
 );
@@ -23,7 +23,7 @@ const testConnectig = async () => {
 const Database = async () => {
     try {
         await testConnectig()
-        console.log('MySQL database connected...');
+        console.log('Database connected successfully.');
     } catch (err) {
         console.error(err);
         process.exit(1);

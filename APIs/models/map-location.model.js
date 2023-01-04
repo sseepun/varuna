@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     
   };
   MapLocation.init({
-    _id: { type: DataTypes.INTEGER, primaryKey: true },
+    _id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
 
     address: { type: DataTypes.STRING },
     subdistrict: { type: DataTypes.STRING },

@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
 
   };
   MapProject.init({
-    _id: { type: DataTypes.INTEGER, primaryKey: true },
+    _id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
 
     mapLocationId: { type: DataTypes.INTEGER, allowNull: false },
 
