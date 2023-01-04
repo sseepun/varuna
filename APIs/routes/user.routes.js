@@ -12,6 +12,7 @@ module.exports = function(app) {
   });
 
 
+  // START: User
   router.patch(
     '/signout',
     [ authJwt.verifyToken ],
@@ -59,6 +60,43 @@ module.exports = function(app) {
     [ authJwt.verifyToken ],
     UserController.robotDelete
   );
+  // END: User
+
+
+  // START: Map
+  router.post(
+    '/map-layers',
+    [ authJwt.verifyToken, authJwt.isUser ],
+    UserController.mapLayerList
+  );
+  router.get(
+    '/map-layer',
+    [ authJwt.verifyToken, authJwt.isUser ],
+    UserController.mapLayerRead
+  );
+  
+  router.post(
+    '/map-projects',
+    [ authJwt.verifyToken, authJwt.isUser ],
+    UserController.mapProjectList
+  );
+  router.get(
+    '/map-project',
+    [ authJwt.verifyToken, authJwt.isUser ],
+    UserController.mapProjectRead
+  );
+  
+  router.post(
+    '/map-datas',
+    [ authJwt.verifyToken, authJwt.isUser ],
+    UserController.mapDataList
+  );
+  router.get(
+    '/map-data',
+    [ authJwt.verifyToken, authJwt.isUser ],
+    UserController.mapDataRead
+  );
+  // END: Map
 
 
   app.use('/user', router);

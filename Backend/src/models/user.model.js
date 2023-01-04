@@ -50,8 +50,7 @@ export class UserModel {
   path() {
     if(this.isSignedIn()){
       if(this.isAdmin()) return '/admin';
-      else if(this.isPartner()) return '/partner';
-      else if(this.isSalesManager()) return '/sales-manager';
+      else if(this.isUser()) return '/user';
       else return '';
     }else{
       return '';

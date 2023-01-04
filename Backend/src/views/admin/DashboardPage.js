@@ -21,6 +21,7 @@ function DashboardPage(props) {
   const [project, setProject] = useState(new MapProjectModel({}));
   const [mapDatas, setMapDatas] = useState([]);
 
+  const [mapStyle, setMapStyle] = useState('satellite-v9');
   const [mapData, setMapData] = useState(new MapDataModel({}));
   const [geoData, setGeoData] = useState(null);
   const [displayData, setDisplayData] = useState(null);
@@ -196,8 +197,7 @@ function DashboardPage(props) {
                             zoom: 11.75,
                           }} 
                           style={{ width: '100%', height: '100%' }} 
-                          // mapStyle={`mapbox://styles/mapbox/${mapStyle}`} 
-                          mapStyle={`mapbox://styles/mapbox/satellite-v9`} 
+                          mapStyle={`mapbox://styles/mapbox/${mapStyle}`} 
                           mapboxAccessToken={MAPBOX_KEY} 
                           interactiveLayerIds={[ 'data' ]} 
                         >
@@ -218,7 +218,7 @@ function DashboardPage(props) {
                         </Map>
                       ): (<></>)}
                     </div>
-                    <div className="options">
+                    <div className="options jc-space-between">
                       <div className="form-group">
                         <select 
                           value={mapData.isValid()? mapData._id: ''} 
@@ -227,6 +227,18 @@ function DashboardPage(props) {
                           {mapDatas.map((d, i) => (
                             <option key={`md_${i}`} value={d._id}>{d.name}</option>
                           ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <select 
+                          value={mapStyle? mapStyle: ''} 
+                          onChange={e => setMapStyle(e.target.value)} 
+                        >
+                          <option value="satellite-v9">Satellite</option>
+                          <option value="light-v10">Light</option>
+                          <option value="dark-v10">Dark</option>
+                          <option value="streets-v11">Streets</option>
+                          <option value="outdoors-v11">Outdoors</option>
                         </select>
                       </div>
                     </div>
@@ -299,7 +311,7 @@ function DashboardPage(props) {
                             <div className="wrapper">
                               <ReactECharts 
                                 option={{
-                                  grid: { top: 12, right: 24, bottom: 20, left: 80 },
+                                  grid: { top: 12, right: 24, bottom: 20, left: layer.chartSpaceY },
                                   xAxis: {
                                     data: layer.chartDataX,
                                     axisLine: {
@@ -365,7 +377,7 @@ function DashboardPage(props) {
                             <div className="wrapper">
                               <ReactECharts 
                                 option={{
-                                  grid: { top: 12, right: 24, bottom: 20, left: 200 },
+                                  grid: { top: 12, right: 24, bottom: 20, left: layer.chartSpaceY },
                                   yAxis: {
                                     data: layer.chartDataY,
                                     axisLine: {

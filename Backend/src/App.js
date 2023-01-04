@@ -91,6 +91,25 @@ function App() {
               element={<ProtectedRoute auth={GuardAdmin()} 
               element={lazy(() => import('./views/admin/MapProjectPage'))} />} />
             {/* END: Admin ***************************************************************** */}
+            
+
+            {/* START: User **************************************************************** */}
+            {/* User */}
+            <Route path="/user" 
+              element={<ProtectedRoute auth={GuardUser()} 
+              element={lazy(() => import('./views/user/DashboardPage'))} />} />
+            <Route path="/user/dashboard" 
+              element={<ProtectedRoute auth={GuardUser()} 
+              element={lazy(() => import('./views/user/DashboardPage'))} />} />
+
+            {/* Personal */}
+            <Route path="/user/profile" 
+              element={<ProtectedRoute auth={GuardUser()} 
+              element={lazy(() => import('./views/user/ProfileViewPage'))} />} />
+            <Route path="/user/profile/update" 
+              element={<ProtectedRoute auth={GuardUser()} 
+              element={lazy(() => import('./views/user/ProfilePage'))} />} />
+            {/* END: User ****************************************************************** */}
 
 
             <Route path="/admin/coming-soon/*" element={<AuthComingSoonPage />} />
@@ -154,8 +173,7 @@ const NotSignedInRoute = ({ element: Element }) => {
   if(!user.isSignedIn()) return <Element />;
 
   if(user.isAdmin()) return <Navigate replace to="/admin" />;
-  else if(user.isPartner()) return <Navigate replace to="/partner" />;
-  else if(user.isSalesManager()) return <Navigate replace to="/sales-manager" />;
+  else if(user.isUser()) return <Navigate replace to="/user" />;
   else return <Navigate replace to="/no-permission" />;
 };
 
@@ -179,15 +197,15 @@ const GuardAdmin = () => {
   }
   return true;
 };
-// const GuardUser = () => {
-//   let user = localStorage.getItem(`${APP_PREFIX}_USER`);
-//   if(!user) return false;
-//   user = new UserModel(JSON.parse(user));
-//   if(!user.isUser()) {
-//     return false;
-//   }
-//   return true;
-// };
+const GuardUser = () => {
+  let user = localStorage.getItem(`${APP_PREFIX}_USER`);
+  if(!user) return false;
+  user = new UserModel(JSON.parse(user));
+  if(!user.isUser()) {
+    return false;
+  }
+  return true;
+};
 
 
 export default App;

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { appLogo } from '../helpers/frontend';
 
@@ -79,7 +79,17 @@ function Header(props) {
             },
           ];
         }else if(u.isUser()){
-          
+          temp = [
+            {
+              title: 'สำหรับผู้ใช้งาน',
+              activeIndexes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+              children: [
+                { title: 'ข้อมูลแผนที่', to: '/user', activeIndex: 1, icon: 'fa-solid fa-chart-simple' },
+                { title: 'ข้อมูลส่วนตัว', to: '/user/profile', activeIndex: 2, icon: 'fa-solid fa-user' },
+                { title: 'ออกจากระบบ', isSignout: 1, icon: 'fa-solid fa-right-to-bracket' },
+              ]
+            },
+          ];
         }
       }
       setMenu(temp);
@@ -172,13 +182,21 @@ function Header(props) {
                 {d.children && d.children.length? (
                   <div className="menu-container">
                     {d.children.map((k, j) => (
-                    <Link 
-                      to={k.to} key={`submenu_${i}_${j}`} 
-                      className={`menu ${props.sidenavActiveIndex===k.activeIndex? 'active': ''}`} 
-                    >
-                      <div className="icon"><em className={k.icon}></em></div>
-                      <span className="label">{k.title}</span>
-                    </Link>
+                      <Fragment key={`submenu_${i}_${j}`}>
+                        {k.isSignout? (
+                          <div className="menu c-pointer" onClick={onSignout}>
+                            <div className="icon"><em className={k.icon}></em></div>
+                            <span className="label">{k.title}</span>
+                          </div>
+                        ): (
+                          <Link to={k.to} 
+                            className={`menu ${props.sidenavActiveIndex===k.activeIndex? 'active': ''}`} 
+                          >
+                            <div className="icon"><em className={k.icon}></em></div>
+                            <span className="label">{k.title}</span>
+                          </Link>
+                        )}
+                      </Fragment>
                     ))}
                   </div>
                 ): (<></>)}

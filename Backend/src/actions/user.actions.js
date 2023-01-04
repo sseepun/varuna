@@ -1,13 +1,15 @@
-import { API_URL } from './variables';
-import {
-  USER_SIGNIN, USER_SIGNOUT, USER_UPDATE, USER_PERMISSIONS
-} from './types';
+import CryptoJS from 'crypto-js';
+
 import { alertChange, alertLoading } from './alert.actions';
 import { apiHeader, apiHeaderFormData } from '../helpers/header';
-
-import CryptoJS from 'crypto-js';
-import { CDN_URL, TOKEN_KEY, REFRESH_KEY } from '../actions/variables';
-import { FileModel } from '../models';
+import { API_URL, CDN_URL, TOKEN_KEY, REFRESH_KEY } from './variables';
+import {
+  USER_SIGNIN, USER_SIGNOUT, USER_UPDATE, USER_PERMISSIONS,
+  APP_MAP_LAYERS, APP_MAP_PROJECTS, APP_MAP_DATAS
+} from './types';
+import {
+  FileModel, PaginateModel, MapLayerModel, MapProjectModel, MapDataModel
+} from '../models';
 
 
 export const userFileUpload = (file, loading=false, path='', resize=0) => async (dispatch) => {
@@ -187,26 +189,57 @@ export const userPermission = () => async (dispatch) => {
 };
 
 
-export const customerSignup = (input={}, loading=false) => async (dispatch) => {
+
+export const processClear = (type) => (dispatch) => {
+  if(type === 'map-layers') dispatch({ type: APP_MAP_LAYERS, payload: [] });
+  else if(type === 'map-projects') dispatch({ type: APP_MAP_PROJECTS, payload: [] });
+  else if(type === 'map-datas') dispatch({ type: APP_MAP_DATAS, payload: [] });
+};
+
+export const processList = (type, input={}, loading=false) => async (dispatch) => {
   return new Promise(async (resolve, reject) => {
+    let isExport = type.includes('export-');
     if(loading) dispatch(alertLoading(true));
     try {
-      const fetch1 = await fetch(`${API_URL}auth/customer-signup`, {
+      const fetch1 = await fetch(`${API_URL}user/${type}`, {
         method: 'POST',
         headers: apiHeader(),
         body: JSON.stringify(input)
       });
       const data1 = await fetch1.json();
       if(!fetch1.ok || fetch1.status !== 200){
-        if(loading) dispatch(alertChange('Warning', data1.message, data1.error? data1.error: []));
+        if(loading) dispatch(alertLoading(false));
         reject(data1); return false;
       }
-      
-      if(loading) dispatch(alertChange('Info', data1.message));
-      resolve(data1); return true;
+
+      let res = {
+        paginate: new PaginateModel(data1.data.paginate? data1.data.paginate: {}),
+        dataFilter: data1.data.dataFilter? data1.data.dataFilter: {},
+        result: []
+      };
+      if(type === 'map-layers'){
+        res.result = data1.data.result.map(d => new MapLayerModel(d));
+        dispatch({ type: APP_MAP_LAYERS, payload: res.result });
+      }else if(type === 'map-projects'){
+        res.result = data1.data.result.map(d => new MapProjectModel(d));
+        dispatch({ type: APP_MAP_PROJECTS, payload: res.result });
+      }else if(type === 'map-datas'){
+        res.result = data1.data.result.map(d => new MapDataModel(d));
+        dispatch({ type: APP_MAP_DATAS, payload: res.result });
+      }else if(isExport){
+        if(data1.data.fileName){
+          res.result = `${API_URL}frontend/download/${data1.data.fileName}`;
+          window.open(res.result);
+        }
+      }else{
+        res.result = data1.data.result;
+      }
+
+      if(loading) dispatch(alertLoading(false));
+      resolve(res); return true;
     } catch (err) {
       console.log(err);
-      if(loading) dispatch(alertChange('Danger', 'Internal server error.'));
+      if(loading) dispatch(alertLoading(false));
       reject(err); return false;
     }
   });

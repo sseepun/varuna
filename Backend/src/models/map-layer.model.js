@@ -53,6 +53,7 @@ export class MapLayerModel {
     this.chartAxisY = null;
     this.chartDataX = [];
     this.chartDataY = [];
+    this.chartSpaceY = 0;
   }
 
   isValid() { return this._id? true: false; }
@@ -120,6 +121,7 @@ export class MapLayerModel {
     this.chartDataY = [];
     this.chartMaxX = 0;
     this.chartMaxY = 0;
+    this.chartSpaceY = 0;
     if(mapData && mapData.features){
 
       if([2, 3].indexOf(this.type) > -1){
@@ -172,6 +174,9 @@ export class MapLayerModel {
             this.chartDataX = this.chartDataY.map(d => obj[d]);
             this.chartMaxX = Math.max(...this.chartDataX);
           }
+          
+          this.chartSpaceY = (this.type === 2? 8.25: 6.75) 
+            * Math.max(...this.chartDataY.map(d => d.toString().length));
         }
       }
 
