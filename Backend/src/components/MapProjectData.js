@@ -32,7 +32,7 @@ function MapProjectData(props) {
   const [uploadStatus, setUploadStatus] = useState(0);
   const [uploadPercent, setUploadPercent] = useState(0);
   const [uploadMessage, setUploadMessage] = useState('');
-  const onChangeFile = async (e) => {
+  const onChangeFile = async (e, i='') => {
     e.preventDefault();
     if(uploadStatus === 0){
       setUploadStatus(1);
@@ -50,16 +50,19 @@ function MapProjectData(props) {
       }).then(res => {
         setUploadStatus(2);
         setUploadPercent(1);
-        setUploadMessage('Upload GeoJSON successfully.');
-        onChangeInput('data', res.data.data.file);
+        setUploadMessage('อัพโหลดไฟล์ GeoJSON สำเร็จ');
+        onChangeInput(`data${i}`, res.data.data.file);
+        setTimeout(() => {
+          setUploadStatus(0);
+        }, 300);
       }).catch(function (err) {
         setUploadStatus(-1);
         if(err.response){
-          setUploadMessage(`Failed to upload with status code ${err.response.status}.`);
+          setUploadMessage(`เกิดข้อผิดพลาด ${err.response.status}.`);
         }else if(err.request){
-          setUploadMessage(`Failed to upload with reason : ${err.request}.`);
+          setUploadMessage(`เกิดข้อผิดพลาด ${err.request}.`);
         }else{
-          setUploadMessage(`Failed to upload with reason : ${err.message}.`);
+          setUploadMessage(`เกิดข้อผิดพลาด ${err.message}.`);
         }
       });
     }
@@ -192,12 +195,9 @@ function MapProjectData(props) {
             <div className="grid lg-1-3 sm-50" key={`card_${i}`}>
               <div className="ss-card ss-card-03 bradius">
                 <div className="wrapper">
-                  <div className="title h-color-p" onClick={e => onProcess(e, 'read', d)}>
+                  <div className="title p lg h-color-p" onClick={e => onProcess(e, 'read', d)}>
                     <span className="fw-500">ชื่อข้อมูล :</span> {d.name}
                   </div>
-                  <p className="sm mt-1">
-                    <span className="fw-500">ช่วงเวลา :</span> 01/2565 - 12/2565
-                  </p>
                   <div className="options">
                     {d.displayStatus()}
                     <div className="d-flex ai-center">
@@ -281,17 +281,41 @@ function MapProjectData(props) {
                     </div>
                   </div>
                   <div className="grid sm-100">
-                    <div className="form-control">
-                      <label>
-                        ไฟล์ GeoJSON{' '}
-                        {process === 'create'? (<span className="color-danger">*</span>): (<></>)}
-                      </label>
-                      <input 
-                        key={`file_${randomKey}`} 
-                        type="file" accept=".geojson" 
-                        required={process === 'create'} 
-                        onChange={onChangeFile} 
-                      />
+                    <div className="pr-4" style={{ maxHeight: '14.75rem', overflowX: 'hidden', overflowY: 'auto' }}>
+                      <div className="form-control">
+                        <label>
+                          ไฟล์ GeoJSON {process === 'create'? (
+                            <span className="color-danger">*</span>
+                          ): selectedData.data && selectedData.data.path? (
+                            <>- <a className="color-p" href={selectedData.data.path} target="_blank" rel="noreferrer">
+                              ไฟล์ในระบบ
+                            </a></>
+                          ): (<></>)}
+                        </label>
+                        <input 
+                          key={`file_${randomKey}`} 
+                          type="file" accept=".geojson" 
+                          required={process === 'create'} 
+                          onChange={onChangeFile} 
+                        />
+                      </div>
+                      {[2,3,4,5,6,7,8,9,10].map(d => (
+                        <div key={`file_${d}`} className="form-control mt-4">
+                          <label>
+                            ไฟล์ GeoJSON {d} {process === 'update' 
+                            && selectedData[`data${d}`] && selectedData[`data${d}`].path? (
+                              <>- <a className="color-p" href={selectedData[`data${d}`].path} target="_blank" rel="noreferrer">
+                                ไฟล์ในระบบ
+                              </a></>
+                            ): (<></>)}
+                          </label>
+                          <input 
+                            key={`file_${randomKey}_${d}`} 
+                            type="file" accept=".geojson" 
+                            onChange={e => onChangeFile(e, d)} 
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -653,8 +677,7 @@ function MapProjectData(props) {
           <div className="popup-box">
             <div className="popup-header">
               <h6 className="fw-600 lh-xs">
-                {uploadStatus === 1
-                  ? 'Uploading GeoJSON': 'Upload GeoJSON successfully'}
+                {uploadStatus === 1? 'กำลังอัพโหลดไฟล์ GeoJSON': 'อัพโหลดไฟล์ GeoJSON สำเร็จ'}
               </h6>
             </div>
             <div className="popup-body">
@@ -669,16 +692,6 @@ function MapProjectData(props) {
                 </div>
               </div>
             </div>
-            <div className="popup-footer">
-              <div className="btns mt-0">
-                <button 
-                  type="button" onClick={e => { e.preventDefault(); setUploadStatus(0); }}
-                  className={`btn btn-action btn-disabled ${uploadStatus < 2? 'op-50 pe-none': ''}`} 
-                >
-                  Close
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -687,7 +700,7 @@ function MapProjectData(props) {
           <div className="popup-box">
             <div className="popup-header">
               <h6 className="fw-600 lh-xs">
-                Failed to upload GeoJSON
+                อัพโหลดไฟล์ GeoJSON ไม่สำเร็จ
               </h6>
             </div>
             <div className="popup-body">
@@ -701,7 +714,7 @@ function MapProjectData(props) {
                   type="button" onClick={e => { e.preventDefault(); setUploadStatus(0); }}
                   className={`btn btn-action btn-disabled`} 
                 >
-                  Close
+                  ปิด
                 </button>
               </div>
             </div>

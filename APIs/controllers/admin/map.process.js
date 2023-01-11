@@ -301,7 +301,7 @@ module.exports = {
       delete mapLocation['_id'];
       const address = await db.MapLocation.create(mapLocation, { isNewRecord: true });
       let updateInput = {
-        mapLocationId: address['null'],
+        mapLocationId: address._id,
         name: name,
         status: status,
       };
@@ -310,7 +310,7 @@ module.exports = {
       if(gallery!==undefined) updateInput['gallery'] = JSON.stringify(gallery);
       const mapProject = await db.MapProject.create(updateInput);
       
-      return resProcess['200'](res, mapProject['null']);
+      return resProcess['200'](res, mapProject._id);
     } catch(err) {
       return resProcess['500'](res, err);
     }
@@ -429,6 +429,15 @@ module.exports = {
           return {
             ...d.dataValues,
             data: formater.cleanFile(d.data),
+            data2: d.data2? formater.cleanFile(d.data2): null,
+            data3: d.data3? formater.cleanFile(d.data3): null,
+            data4: d.data4? formater.cleanFile(d.data4): null,
+            data5: d.data5? formater.cleanFile(d.data5): null,
+            data6: d.data6? formater.cleanFile(d.data6): null,
+            data7: d.data7? formater.cleanFile(d.data7): null,
+            data8: d.data8? formater.cleanFile(d.data8): null,
+            data9: d.data9? formater.cleanFile(d.data9): null,
+            data10: d.data10? formater.cleanFile(d.data10): null,
             mapProject: mapProject? {
               ...mapProject,
               image: formater.cleanFile(mapProject.image),
@@ -460,6 +469,15 @@ module.exports = {
         result: {
           ...mapData.dataValues,
           data: formater.cleanFile(mapData.data),
+          data2: mapData.data2? formater.cleanFile(mapData.data2): null,
+          data3: mapData.data3? formater.cleanFile(mapData.data3): null,
+          data4: mapData.data4? formater.cleanFile(mapData.data4): null,
+          data5: mapData.data5? formater.cleanFile(mapData.data5): null,
+          data6: mapData.data6? formater.cleanFile(mapData.data6): null,
+          data7: mapData.data7? formater.cleanFile(mapData.data7): null,
+          data8: mapData.data8? formater.cleanFile(mapData.data8): null,
+          data9: mapData.data9? formater.cleanFile(mapData.data9): null,
+          data10: mapData.data10? formater.cleanFile(mapData.data10): null,
           mapProject: mapProject? {
             ...mapProject,
             image: formater.cleanFile(mapProject.image),
@@ -474,7 +492,11 @@ module.exports = {
   mapDataCreate : async (req, res) => {
     try {
       var error = {};
-      const { mapProjectId, name, data, startAt, endAt, status } = req.body;
+      const {
+        mapProjectId, name, data,
+        data2, data3, data4, data5, data6, data7, data8, data9, data10,
+        startAt, endAt, status
+      } = req.body;
 
       if(!mapProjectId) error['mapProjectId'] = 'mapProjectId is required.';
       if(!name) error['name'] = 'name is required.';
@@ -496,9 +518,18 @@ module.exports = {
         endAt: endAt? new Date(endAt): null,
         status: status,
       };
+      if(data2 && data2.path) updateInput['data2'] = JSON.stringify(data2);
+      if(data3 && data3.path) updateInput['data3'] = JSON.stringify(data3);
+      if(data4 && data4.path) updateInput['data4'] = JSON.stringify(data4);
+      if(data5 && data5.path) updateInput['data5'] = JSON.stringify(data5);
+      if(data6 && data6.path) updateInput['data6'] = JSON.stringify(data6);
+      if(data7 && data7.path) updateInput['data7'] = JSON.stringify(data7);
+      if(data8 && data8.path) updateInput['data8'] = JSON.stringify(data8);
+      if(data9 && data9.path) updateInput['data9'] = JSON.stringify(data9);
+      if(data10 && data10.path) updateInput['data10'] = JSON.stringify(data10);
       const mapData = await db.MapData.create(updateInput);
       
-      return resProcess['200'](res, mapData['null']);
+      return resProcess['200'](res, mapData._id);
     } catch(err) {
       return resProcess['500'](res, err);
     }
@@ -506,7 +537,11 @@ module.exports = {
   mapDataUpdate : async (req, res) => {
     try {
       var error = {};
-      const { _id, name, data, startAt, endAt, status } = req.body;
+      const {
+        _id, name, data,
+        data2, data3, data4, data5, data6, data7, data8, data9, data10,
+        startAt, endAt, status
+      } = req.body;
 
       if(!_id) error['_id'] = '_id is required.';
       if(!name) error['name'] = 'name is required.';
@@ -524,6 +559,15 @@ module.exports = {
         status: status,
       };
       if(data!==undefined) updateInput['data'] = JSON.stringify(data);
+      if(data2!==undefined) updateInput['data2'] = JSON.stringify(data2);
+      if(data3!==undefined) updateInput['data3'] = JSON.stringify(data3);
+      if(data4!==undefined) updateInput['data4'] = JSON.stringify(data4);
+      if(data5!==undefined) updateInput['data5'] = JSON.stringify(data5);
+      if(data6!==undefined) updateInput['data6'] = JSON.stringify(data6);
+      if(data7!==undefined) updateInput['data7'] = JSON.stringify(data7);
+      if(data8!==undefined) updateInput['data8'] = JSON.stringify(data8);
+      if(data9!==undefined) updateInput['data9'] = JSON.stringify(data9);
+      if(data10!==undefined) updateInput['data10'] = JSON.stringify(data10);
       if(startAt!==undefined) updateInput['startAt'] = new Date(startAt);
       if(endAt!==undefined) updateInput['endAt'] = new Date(endAt);
       await mapData.update(updateInput);

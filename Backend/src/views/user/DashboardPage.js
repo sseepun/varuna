@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { onMounted, formatNumber } from '../../helpers/frontend';
 import Breadcrumb from '../../components/Breadcrumb';
 import Footer from '../../components/Footer';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import * as turf from '@turf/turf';
 import Map, { Source, Layer } from 'react-map-gl';
@@ -18,7 +19,9 @@ import { MapProjectModel, MapDataModel, MapLayerModel } from '../../models';
 import { MAPBOX_KEY } from '../../actions/variables';
 
 function DashboardPage(props) {
-  const [loading, setLoading] = useState(true); 
+  const [isInit, setIsInit] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const [project, setProject] = useState(new MapProjectModel({}));
   const [mapDatas, setMapDatas] = useState([]);
 
@@ -34,46 +37,53 @@ function DashboardPage(props) {
 
   const onChangeProject = async (e=null, d=null) => {
     if(e) e.preventDefault();
-    setMapDatas([]);
-    setSelectedRow(-1);
-    if(d){
-      let res = await props.processList('map-datas', {
-        dataFilter: { mapProjectId: d._id, status: 1 }
-      }, true);
-      if(res && res.result && res.result.length){
-        setMapDatas(res.result);
-        await onChangeMapData(res.result[0]._id, res.result[0]);
+    if(!loading){
+      setLoading(true);
+      setMapDatas([]);
+      setSelectedRow(-1);
+      if(d){
+        let res = await props.processList('map-datas', {
+          dataFilter: { mapProjectId: d._id, status: 1 }
+        }, true);
+        if(res && res.result && res.result.length){
+          setMapDatas(res.result);
+          await onChangeMapData(res.result[0]._id, res.result[0]);
+        }
+        setProject(d);
+      }else{
+        setProject(new MapProjectModel({}));
       }
-      setProject(d);
-    }else{
-      setProject(new MapProjectModel({}));
+      setLoading(false);
     }
   };
-
   const onChangeMapData = async (val=null, d=null) => {
-    setMapData(new MapDataModel({}));
-    setGeoData(null);
-    setDisplayData(null);
-    setMapCenter([100.5018, 13.7563]);
-    setSelectedRow(-1);
-    if(val){
-      let temp = d? [d]: mapDatas.filter(k => k._id === Number(val));
-      if(temp.length){
-        temp = temp[0];
-        let temp2 = await temp.getData();
-        let temp3 = turf.center(temp2);
-        
-        setMapData(temp);
-        setGeoData(temp2);
-        setDisplayData(temp2);
-        setMapCenter(temp3.geometry.coordinates);
+    if(!loading){
+      setLoading(true);
+      setMapData(new MapDataModel({}));
+      setGeoData(null);
+      setDisplayData(null);
+      setMapCenter([100.5018, 13.7563]);
+      setSelectedRow(-1);
+      if(val){
+        let temp = d? [d]: mapDatas.filter(k => k._id === Number(val));
+        if(temp.length){
+          temp = temp[0];
+          let temp2 = await temp.getData();
+          let temp3 = turf.center(temp2);
+          
+          setMapData(temp);
+          setGeoData(temp2);
+          setDisplayData(temp2);
+          setMapCenter(temp3.geometry.coordinates);
 
-        let temp4 = [ ...props.layers ].map(d => {
-          d.initData(temp2);
-          return d;
-        });
-        setLayers(temp4);
+          let temp4 = [ ...props.layers ].map(d => {
+            d.initData(temp2);
+            return d;
+          });
+          setLayers(temp4);
+        }
       }
+      setLoading(false);
     }
   };
   
@@ -113,7 +123,7 @@ function DashboardPage(props) {
           await onChangeProject(null, temp);
         }
       }
-      setLoading(false);
+      setIsInit(false);
     };
     loadData();
   }, []);
@@ -125,7 +135,7 @@ function DashboardPage(props) {
 
   return (
     <div className="app-container">
-      {!loading? (
+      {!isInit? (
         !project.isValid()? (
           <>
             <Breadcrumb 
@@ -154,9 +164,9 @@ function DashboardPage(props) {
                       </div>
                       <div className="text-container p-4">
                         <h6 className="title fw-600">{d.name}</h6>
-                        {d.description? (
-                          <p className="desc xs mt-1">{d.description}</p>
-                        ): (<></>)}
+                        <p className="desc xs mt-1" style={{ minHeight: '4.1875rem' }}>
+                          {d.description? (d.description): (<></>)}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -507,6 +517,18 @@ function DashboardPage(props) {
           </>
         )
       ): (<></>)}
+      
+      <div className={`global-loader ${loading? 'active': ''}`} style={{ background: 'rgba(0,0,0,.45)' }}>
+        <div className="loader color-p">
+          <div className="text-center">
+            <CircularProgress color="inherit" size={60} thickness={4} />
+            <p className="sm fw-500 color-white mt-3" style={{ letterSpacing: '.04rem' }}>
+              กำลังโหลดข้อมูล
+            </p>
+          </div>
+        </div>
+			</div>
+
       <Footer />
     </div>
   );

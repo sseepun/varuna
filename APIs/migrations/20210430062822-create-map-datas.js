@@ -26,6 +26,51 @@ module.exports = {
         type: Sequelize.TEXT,
         defaultValue: ''
       },
+      data2: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: ''
+      },
+      data3: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: ''
+      },
+      data4: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: ''
+      },
+      data5: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: ''
+      },
+      data6: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: ''
+      },
+      data7: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: ''
+      },
+      data8: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: ''
+      },
+      data9: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: ''
+      },
+      data10: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: ''
+      },
       
       startAt: {
         type: Sequelize.DATE,
